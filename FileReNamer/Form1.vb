@@ -159,7 +159,7 @@ Public Class Form1
                         Me.Refresh()
 
                         Try
-                            My.Computer.FileSystem.RenameDirectory(Dir, addMovieYear(Dir.Remove(0, Dir.LastIndexOf("\") + 1)))
+                            My.Computer.FileSystem.RenameDirectory(Dir, addMovieYear(Dir.Remove(0, Dir.LastIndexOf("\") + 1), ""))
                         Catch ex As Exception
                             Dim a = ex.Message
                         End Try
@@ -200,28 +200,57 @@ Public Class Form1
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
                 Dim Dir As String = Dirs(i)
-
+                Dim bUpdateFolderName As Boolean = False
                 Dim MovieName As String = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
+                Dim movieyear As String = Dir.Remove(0, Dir.LastIndexOf("(") + 1)
+                movieyear = movieyear.Remove(4, movieyear.Length - 4)
                 Dim iPos = MovieName.LastIndexOf(")") + 1
+                If iPos < MovieName.Length Then bUpdateFolderName = True Else bUpdateFolderName = False
                 MovieName = MovieName.Remove(iPos, MovieName.Length - iPos)
-
-                Dim pMovieInfo As MovieInfo = getMovieInfo(MovieName)
-
-                Try
-                    My.Computer.FileSystem.RenameDirectory(Dir, addMovieYear(Dir.Remove(0, Dir.LastIndexOf("\") + 1)))
-                Catch ex As Exception
-                    Dim a = ex.Message
-                End Try
+                Dim shortMovieName As String = MovieName.Remove(MovieName.LastIndexOf(" ("), 7)
+                Dim pMovieInfo As MovieInfo = getMovieInfo(shortMovieName, movieyear)
 
                 'ToDo: Rename Files Before Folder
+                Dim fileEntries As String() = Directory.GetFiles(Dir)
+                ' Process the list of files found in the directory.
+                Dim fileName As String
+                If fileEntries.Count > 0 Then
+                    For Each fileName In fileEntries
+                        Dim x As FileInfo = New FileInfo(fileName)
+                        If UCase(x.Extension.ToString()) = UCase(".mp4") Or UCase(x.Extension.ToString()) = UCase(".avi") Or UCase(x.Extension.ToString()) = UCase(".mkv") Or UCase(x.Extension.ToString()) = UCase(".srt") Then
+
+                            Dim tmpFileName As String = fileName.Remove(0, fileName.LastIndexOf("\") + 1)
+                            Dim iPos1 As Integer = tmpFileName.LastIndexOf(pMovieInfo.ReleaseYear) - 1
+                            Dim iPos2 As Integer = tmpFileName.LastIndexOf(".")
+                            If iPos1 > 0 Then
+                                Dim tmpfile2 As String = Mid(tmpFileName, 1, iPos1).Replace(".", " ") & Microsoft.VisualBasic.Right(tmpFileName, tmpFileName.Length - iPos2)
+
+                                Try
+                                    My.Computer.FileSystem.RenameFile(fileName, tmpfile2)
+                                Catch ex As Exception
+                                    Dim a = ex.Message
+                                End Try
+                            End If
+                        Else
+                            Dim a As String = ""
+                        End If
+
+                    Next fileName
+
+                End If
+
+                If bUpdateFolderName Then
+                    'Rename Folder
+                    Try
+                        My.Computer.FileSystem.RenameDirectory(Dir, MovieName)
+                    Catch ex As Exception
+                        Dim a = ex.Message
+                    End Try
+                End If
 
 
-                'Rename Folder
-                Try
-                    My.Computer.FileSystem.RenameDirectory(Dir, MovieName)
-                Catch ex As Exception
-                    Dim a = ex.Message
-                End Try
+                'ToDo: use genres to move file to filal folder.
+
 
                 LblMessage.Text = MovieName
                 LblMessage.ForeColor = Color.OrangeRed
@@ -237,7 +266,7 @@ Public Class Form1
 
         Catch ex As Exception
             LblMessage.Text = ex.Message
-        LblMessage.ForeColor = Color.OrangeRed
+            LblMessage.ForeColor = Color.OrangeRed
         End Try
 
     End Sub
@@ -287,8 +316,8 @@ Public Class Form1
     End Function
 
 
-    Private Function addMovieYear(ByVal pFolderPath As String) As String
-        Dim pMovieInfo As MovieInfo = getMovieInfo(Dir.Remove(0, pFolderPath.LastIndexOf("\") + 1))
+    Private Function addMovieYear(ByVal pFolderPath As String, ByVal pMovieYear As String) As String
+        Dim pMovieInfo As MovieInfo = getMovieInfo(Dir.Remove(0, pFolderPath.LastIndexOf("\") + 1), pMovieYear)
 
         If IsDate(pMovieInfo.ReleaseDate) Then
             If CkBxUseParens.Checked = True Then
@@ -315,15 +344,27 @@ Public Class Form1
     'End Function
 
 
-    Private Function getMovieInfo(ByVal pMovieName As String) As MovieInfo
+    Private Function getMovieInfo(ByVal pMovieName As String, ByVal pMovieYear As String) As MovieInfo
         Dim dateyear As String = ""
         Dim webClient As New System.Net.WebClient
+        Dim sDate As String = "1800"
         Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & pMovieName.Replace(" ", "+"))
+        If pMovieYear <> "" Then
+            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+            While pMovieYear <> Year(sDate)
+                sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                If Year(sDate) <> pMovieYear Then
+                    result = result.Remove(0, result.IndexOf("view_more"))
+                End If
+            End While
+        Else
+            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+        End If
+
         Dim pMovieInfo As New MovieInfo
         Dim sMovieID As String = Mid(result, result.IndexOf("class=""title result"" href=""/movie/") + 35, 20)
         pMovieInfo.MovieID = Mid(sMovieID, 1, InStr(sMovieID, Chr(34)) - 1)
         pMovieInfo.Rating = Mid(result, result.IndexOf("<span class=""vote_average"">") + 28, 3)
-        Dim sDate As String = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
         If IsDate(sDate) Then
             pMovieInfo.ReleaseDate = sDate
             pMovieInfo.ReleaseYear = DateAndTime.Year(sDate)
