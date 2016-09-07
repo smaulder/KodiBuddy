@@ -7,15 +7,17 @@ Public Class Form1
 #Region "Options"
 
     Private Sub BtnSelectFolder_Click(sender As Object, e As EventArgs)
-        FolderBrowserDialog1.RootFolder = My.Settings.MoviePath
+        FolderBrowserDialog1.SelectedPath = My.Settings.MoviePath
         FolderBrowserDialog1.ShowDialog()
         txtFolderPath.Text = FolderBrowserDialog1.SelectedPath
+        My.Settings.MoviePath = FolderBrowserDialog1.SelectedPath
     End Sub
 
     Private Sub BtnSelectImportFolder_Click(sender As Object, e As EventArgs) Handles BtnSelectImportFolder.Click
-        FolderBrowserDialog1.RootFolder = My.Settings.ImportPath
+        FolderBrowserDialog1.SelectedPath = My.Settings.ImportPath
         FolderBrowserDialog1.ShowDialog()
         TxtImportFolder.Text = FolderBrowserDialog1.SelectedPath
+        My.Settings.ImportPath = FolderBrowserDialog1.SelectedPath
     End Sub
 
     Private Sub CkBxUseBracket_CheckedChanged(sender As Object, e As EventArgs)
@@ -249,7 +251,7 @@ Public Class Form1
                 End If
 
 
-                'ToDo: use genres to move file to filal folder.
+                'ToDo: use genres to move file to final folder.
 
 
                 LblMessage.Text = MovieName
