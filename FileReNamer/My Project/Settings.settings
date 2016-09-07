@@ -8,7 +8,7 @@
     <Setting Name="MoviePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">V:\</Value>
     </Setting>
-    <Setting Name="ImportPath" Type="System.String" Scope="User">
+    <Setting Name="ImportPath2" Type="System.String" Scope="User">
       <Value Profile="(Default)">V:\Video</Value>
     </Setting>
   </Settings>

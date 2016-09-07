@@ -81,12 +81,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("V:\Video")>  _
-        Public Property ImportPath() As String
+        Public Property ImportPath2() As String
             Get
-                Return CType(Me("ImportPath"),String)
+                Return CType(Me("ImportPath2"),String)
             End Get
             Set
-                Me("ImportPath") = value
+                Me("ImportPath2") = value
             End Set
         End Property
     End Class
