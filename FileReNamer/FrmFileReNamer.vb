@@ -204,7 +204,7 @@ Public Class FrmFileReNamer
 
             Dirs = getAllFolders(TxtImportFolder.Text)
 
-            TxtMessageDisplay.Text += "Starting processing on " & Dirs.Count & " folders to import."
+            TxtMessageDisplay.Text = "Starting processing on " & Dirs.Count & " folders to import." & vbCrLf
             Me.Refresh()
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
@@ -215,8 +215,10 @@ Public Class FrmFileReNamer
                 'movieyear = movieyear.Remove(4, movieyear.Length - 4)
                 Dim iPos = MovieName.LastIndexOf(")") + 1
                 If iPos < MovieName.Length Then bUpdateFolderName = True Else bUpdateFolderName = False
-                MovieName = MovieName.Remove(iPos, MovieName.Length - iPos)
-                Dim shortMovieName As String = MovieName.Remove(MovieName.LastIndexOf(" ("), 7)
+                If Not MovieName.Length = iPos Then
+                    MovieName = MovieName.Remove(iPos, MovieName.Length - iPos)
+                End If
+                Dim shortMovieName As String = MovieName.Remove(MovieName.LastIndexOf("("), MovieName.LastIndexOf(")") - MovieName.LastIndexOf("(") + 1).Trim()
                 Dim pMovieInfo As MovieInfo = getMovieInfo(shortMovieName, movieyear)
 
                 If pMovieInfo.Success Then
@@ -401,11 +403,26 @@ Public Class FrmFileReNamer
         Try
             If pMovieYear <> "" Then
                 sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
-                While pMovieYear <> Year(sDate)
-                    sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
-                    If Year(sDate) <> pMovieYear Then
-                        result = result.Remove(0, result.IndexOf("view_more"))
+                While sDate = "" OrElse pMovieYear <> Year(sDate)
+                    sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10) '
+                    If Not IsDate(sDate) Then
+                        result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 29)
+                        sDate = ""
+                        If result.IndexOf("<span class=""release_date"">") > 0 Then
+                            'continue on
+                        Else
+                            bError = True
+                            TxtMessageDisplay.Text += "Date Not Found for - " & pMovieName & " Verify that the date on the folder is correct." & vbCrLf
+                            TxtMessageDisplay.ForeColor = Color.Red
+                            Exit While
+                        End If
+                    Else
+
+                            If Year(sDate) <> pMovieYear Then
+                            result = result.Remove(0, result.IndexOf("view_more") + 9)
+                        End If
                     End If
+
                 End While
             Else
                 sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
@@ -445,6 +462,10 @@ Public Class FrmFileReNamer
 
         getMovieInfo = pMovieInfo
     End Function
+
+    Private Sub BtnCancel_Click_1(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        End
+    End Sub
 
 #End Region
 
