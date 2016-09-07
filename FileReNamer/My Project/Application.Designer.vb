@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.FileReNamer.Form1
+            Me.MainForm = Global.FileReNamer.FrmFileReNamer
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _

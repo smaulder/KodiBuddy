@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class FrmFileReNamer
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,56 +22,54 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.FolderBrowserDialog = New System.Windows.Forms.FolderBrowserDialog()
+        Me.TabControl = New System.Windows.Forms.TabControl()
+        Me.TabExecute = New System.Windows.Forms.TabPage()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
         Me.BtnVideoImport = New System.Windows.Forms.Button()
         Me.BtnCancel = New System.Windows.Forms.Button()
         Me.BtnIMDB = New System.Windows.Forms.Button()
         Me.BtnStart = New System.Windows.Forms.Button()
-        Me.LblMessage = New System.Windows.Forms.Label()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.TabOptions = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.TxtImportFolder = New System.Windows.Forms.TextBox()
         Me.BtnSelectImportFolder = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.LblImportFolder = New System.Windows.Forms.Label()
         Me.CkBxUseParens = New System.Windows.Forms.CheckBox()
         Me.CkBxUseBracket = New System.Windows.Forms.CheckBox()
         Me.txtFolderPath = New System.Windows.Forms.TextBox()
         Me.BtnSelectFolder = New System.Windows.Forms.Button()
         Me.LblRecordCount = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
+        Me.LblMovieFolder = New System.Windows.Forms.Label()
+        Me.LblFolderCount = New System.Windows.Forms.Label()
+        Me.TabControl.SuspendLayout()
+        Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
+        Me.TabOptions.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'TabControl1
+        'TabControl
         '
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 13)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(790, 278)
-        Me.TabControl1.TabIndex = 15
+        Me.TabControl.Controls.Add(Me.TabExecute)
+        Me.TabControl.Controls.Add(Me.TabOptions)
+        Me.TabControl.Location = New System.Drawing.Point(12, 13)
+        Me.TabControl.Name = "TabControl"
+        Me.TabControl.SelectedIndex = 0
+        Me.TabControl.Size = New System.Drawing.Size(790, 278)
+        Me.TabControl.TabIndex = 15
         '
-        'TabPage1
+        'TabExecute
         '
-        Me.TabPage1.Controls.Add(Me.Panel2)
-        Me.TabPage1.Controls.Add(Me.LblMessage)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(782, 252)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "FileReNamer"
-        Me.TabPage1.UseVisualStyleBackColor = True
+        Me.TabExecute.Controls.Add(Me.Panel2)
+        Me.TabExecute.Location = New System.Drawing.Point(4, 22)
+        Me.TabExecute.Name = "TabExecute"
+        Me.TabExecute.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabExecute.Size = New System.Drawing.Size(782, 252)
+        Me.TabExecute.TabIndex = 0
+        Me.TabExecute.Text = "FileReNamer"
+        Me.TabExecute.UseVisualStyleBackColor = True
         '
         'Panel2
         '
@@ -84,6 +82,15 @@ Partial Class Form1
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(769, 242)
         Me.Panel2.TabIndex = 19
+        '
+        'TxtMessageDisplay
+        '
+        Me.TxtMessageDisplay.Location = New System.Drawing.Point(159, 5)
+        Me.TxtMessageDisplay.Multiline = True
+        Me.TxtMessageDisplay.Name = "TxtMessageDisplay"
+        Me.TxtMessageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TxtMessageDisplay.Size = New System.Drawing.Size(607, 234)
+        Me.TxtMessageDisplay.TabIndex = 22
         '
         'BtnVideoImport
         '
@@ -121,37 +128,29 @@ Partial Class Form1
         Me.BtnStart.Text = "Change Date Brackets"
         Me.BtnStart.UseVisualStyleBackColor = True
         '
-        'LblMessage
+        'TabOptions
         '
-        Me.LblMessage.AutoSize = True
-        Me.LblMessage.Location = New System.Drawing.Point(136, 132)
-        Me.LblMessage.Name = "LblMessage"
-        Me.LblMessage.Size = New System.Drawing.Size(0, 13)
-        Me.LblMessage.TabIndex = 18
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.Panel1)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(782, 252)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Options"
-        Me.TabPage2.UseVisualStyleBackColor = True
+        Me.TabOptions.Controls.Add(Me.Panel1)
+        Me.TabOptions.Location = New System.Drawing.Point(4, 22)
+        Me.TabOptions.Name = "TabOptions"
+        Me.TabOptions.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabOptions.Size = New System.Drawing.Size(782, 252)
+        Me.TabOptions.TabIndex = 1
+        Me.TabOptions.Text = "Options"
+        Me.TabOptions.UseVisualStyleBackColor = True
         '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.TxtImportFolder)
         Me.Panel1.Controls.Add(Me.BtnSelectImportFolder)
-        Me.Panel1.Controls.Add(Me.Label3)
+        Me.Panel1.Controls.Add(Me.LblImportFolder)
         Me.Panel1.Controls.Add(Me.CkBxUseParens)
         Me.Panel1.Controls.Add(Me.CkBxUseBracket)
         Me.Panel1.Controls.Add(Me.txtFolderPath)
         Me.Panel1.Controls.Add(Me.BtnSelectFolder)
         Me.Panel1.Controls.Add(Me.LblRecordCount)
-        Me.Panel1.Controls.Add(Me.Label1)
-        Me.Panel1.Controls.Add(Me.Label2)
+        Me.Panel1.Controls.Add(Me.LblMovieFolder)
+        Me.Panel1.Controls.Add(Me.LblFolderCount)
         Me.Panel1.Location = New System.Drawing.Point(7, 7)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(769, 239)
@@ -173,14 +172,14 @@ Partial Class Form1
         Me.BtnSelectImportFolder.Text = "..."
         Me.BtnSelectImportFolder.UseVisualStyleBackColor = True
         '
-        'Label3
+        'LblImportFolder
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(6, 52)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(71, 13)
-        Me.Label3.TabIndex = 30
-        Me.Label3.Text = "Import Folder:"
+        Me.LblImportFolder.AutoSize = True
+        Me.LblImportFolder.Location = New System.Drawing.Point(6, 52)
+        Me.LblImportFolder.Name = "LblImportFolder"
+        Me.LblImportFolder.Size = New System.Drawing.Size(71, 13)
+        Me.LblImportFolder.TabIndex = 30
+        Me.LblImportFolder.Text = "Import Folder:"
         '
         'CkBxUseParens
         '
@@ -226,57 +225,46 @@ Partial Class Form1
         Me.LblRecordCount.Size = New System.Drawing.Size(0, 13)
         Me.LblRecordCount.TabIndex = 25
         '
-        'Label1
+        'LblMovieFolder
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 12)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(71, 13)
-        Me.Label1.TabIndex = 23
-        Me.Label1.Text = "Movie Folder:"
+        Me.LblMovieFolder.AutoSize = True
+        Me.LblMovieFolder.Location = New System.Drawing.Point(6, 12)
+        Me.LblMovieFolder.Name = "LblMovieFolder"
+        Me.LblMovieFolder.Size = New System.Drawing.Size(71, 13)
+        Me.LblMovieFolder.TabIndex = 23
+        Me.LblMovieFolder.Text = "Movie Folder:"
         '
-        'Label2
+        'LblFolderCount
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(76, 94)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(70, 13)
-        Me.Label2.TabIndex = 24
-        Me.Label2.Text = "Folder Count:"
+        Me.LblFolderCount.AutoSize = True
+        Me.LblFolderCount.Location = New System.Drawing.Point(76, 94)
+        Me.LblFolderCount.Name = "LblFolderCount"
+        Me.LblFolderCount.Size = New System.Drawing.Size(70, 13)
+        Me.LblFolderCount.TabIndex = 24
+        Me.LblFolderCount.Text = "Folder Count:"
         '
-        'TxtMessageDisplay
-        '
-        Me.TxtMessageDisplay.Location = New System.Drawing.Point(159, 5)
-        Me.TxtMessageDisplay.Multiline = True
-        Me.TxtMessageDisplay.Name = "TxtMessageDisplay"
-        Me.TxtMessageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TxtMessageDisplay.Size = New System.Drawing.Size(607, 234)
-        Me.TxtMessageDisplay.TabIndex = 22
-        '
-        'Form1
+        'FrmFileReNamer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(814, 303)
-        Me.Controls.Add(Me.TabControl1)
-        Me.Name = "Form1"
+        Me.Controls.Add(Me.TabControl)
+        Me.Name = "FrmFileReNamer"
         Me.Text = "Movie Folder Cleaner"
-        Me.TabControl1.ResumeLayout(False)
-        Me.TabPage1.ResumeLayout(False)
-        Me.TabPage1.PerformLayout()
+        Me.TabControl.ResumeLayout(False)
+        Me.TabExecute.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
-        Me.TabPage2.ResumeLayout(False)
+        Me.TabOptions.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
-    Friend WithEvents TabControl1 As TabControl
-    Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents LblMessage As Label
-    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents FolderBrowserDialog As FolderBrowserDialog
+    Friend WithEvents TabControl As TabControl
+    Friend WithEvents TabExecute As TabPage
+    Friend WithEvents TabOptions As TabPage
     Friend WithEvents Panel2 As Panel
     Friend WithEvents BtnVideoImport As Button
     Friend WithEvents BtnCancel As Button
@@ -285,13 +273,13 @@ Partial Class Form1
     Friend WithEvents Panel1 As Panel
     Friend WithEvents TxtImportFolder As TextBox
     Friend WithEvents BtnSelectImportFolder As Button
-    Friend WithEvents Label3 As Label
+    Friend WithEvents LblImportFolder As Label
     Friend WithEvents CkBxUseParens As CheckBox
     Friend WithEvents CkBxUseBracket As CheckBox
     Friend WithEvents txtFolderPath As TextBox
     Friend WithEvents BtnSelectFolder As Button
     Friend WithEvents LblRecordCount As Label
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
+    Friend WithEvents LblMovieFolder As Label
+    Friend WithEvents LblFolderCount As Label
     Friend WithEvents TxtMessageDisplay As TextBox
 End Class

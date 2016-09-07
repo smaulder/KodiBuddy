@@ -1,23 +1,23 @@
 ﻿Imports System.IO
 
 
-Public Class Form1
+Public Class FrmFileReNamer
     Public Dirs() As String
 
 #Region "Options"
 
     Private Sub BtnSelectFolder_Click(sender As Object, e As EventArgs)
-        FolderBrowserDialog1.SelectedPath = My.Settings.MoviePath
-        FolderBrowserDialog1.ShowDialog()
-        txtFolderPath.Text = FolderBrowserDialog1.SelectedPath
-        My.Settings.MoviePath = FolderBrowserDialog1.SelectedPath
+        FolderBrowserDialog.SelectedPath = My.Settings.MoviePath
+        FolderBrowserDialog.ShowDialog()
+        txtFolderPath.Text = FolderBrowserDialog.SelectedPath
+        My.Settings.MoviePath = FolderBrowserDialog.SelectedPath
     End Sub
 
     Private Sub BtnSelectImportFolder_Click(sender As Object, e As EventArgs) Handles BtnSelectImportFolder.Click
-        FolderBrowserDialog1.SelectedPath = My.Settings.ImportPath
-        FolderBrowserDialog1.ShowDialog()
-        TxtImportFolder.Text = FolderBrowserDialog1.SelectedPath
-        My.Settings.ImportPath = FolderBrowserDialog1.SelectedPath
+        FolderBrowserDialog.SelectedPath = My.Settings.ImportPath
+        FolderBrowserDialog.ShowDialog()
+        TxtImportFolder.Text = FolderBrowserDialog.SelectedPath
+        My.Settings.ImportPath = FolderBrowserDialog.SelectedPath
     End Sub
 
     Private Sub CkBxUseBracket_CheckedChanged(sender As Object, e As EventArgs)
@@ -45,7 +45,8 @@ Public Class Form1
 
 
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FrmFileReNamer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Load settings from settings in app.config 
         txtFolderPath.Text = My.Settings.MoviePath
         TxtImportFolder.Text = My.Settings.ImportPath
         If My.Settings.BracketsParens = 2 Then
@@ -53,8 +54,8 @@ Public Class Form1
         Else
             CkBxUseBracket.Checked = True
         End If
-        'LblRecordCount.Text = Dirs.Count
     End Sub
+
 
 #Region "Functions"
     Private Sub BtnStart_Click(sender As Object, e As EventArgs)
@@ -68,22 +69,20 @@ Public Class Form1
             Dim DirList As New ArrayList
             Dim ResultName As String = ""
 
-            LblMessage.Text = "Starting processing"
-            LblMessage.ForeColor = Color.Black
+            TxtMessageDisplay.Text += "Starting processing" & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Black
             Me.Refresh()
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
                 Dim Dir As String = Dirs(i)
                 If CkBxUseParens.Checked = True And (Dir.Remove(0, Dir.LastIndexOf("\") + 1).LastIndexOf("[") > 0 Or Dir.Remove(0, Dir.LastIndexOf("\") + 1).LastIndexOf("]") > 0) Then
                     ResultName = Dir.Remove(0, Dir.LastIndexOf("\") + 1).Replace("[", "(").Replace("]", ")")
-                    LblMessage.Text = Dir
-                    LblMessage.ForeColor = Color.Black
+                    TxtMessageDisplay.Text += Dir & vbCrLf
                     My.Computer.FileSystem.RenameDirectory(Dir, ResultName)
                     Me.Refresh()
                 ElseIf CkBxUseBracket.Checked = True And (Dir.Remove(0, Dir.LastIndexOf("\") + 1).LastIndexOf("(") > 0 Or Dir.Remove(0, Dir.LastIndexOf("\") + 1).LastIndexOf(")") > 0) Then
                     ResultName = Dir.Remove(0, Dir.LastIndexOf("\") + 1).Replace("(", "[").Replace(")", "]")
-                    LblMessage.Text = Dir
-                    LblMessage.ForeColor = Color.Black
+                    TxtMessageDisplay.Text += Dir & vbCrLf
                     My.Computer.FileSystem.RenameDirectory(Dir, ResultName)
                     Me.Refresh()
                 End If
@@ -92,20 +91,21 @@ Public Class Form1
             BtnStart.Text = "Start"
             BtnStart.Enabled = True
 
-            LblMessage.Text = "Processing done on " & Dirs.Count & " Directories."
-            LblMessage.ForeColor = Color.Black
+            TxtMessageDisplay.Text += "Processing done on " & Dirs.Count & " Directories." & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Green
             Me.Refresh()
 
             'Reload Folders
             Dirs = getAllFolders(txtFolderPath.Text)
 
         Catch ex As Exception
-            LblMessage.Text = ex.Message
-            LblMessage.ForeColor = Color.OrangeRed
+            TxtMessageDisplay.Text += ex.Message & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.OrangeRed
         End Try
 
 
     End Sub
+
 
     Private Sub BtnIMDB_Click(sender As Object, e As EventArgs)
         Try
@@ -119,8 +119,8 @@ Public Class Form1
             Dim ResultName As String = ""
             Dim Resultant As String = ""
 
-            LblMessage.Text = "Starting processing"
-            LblMessage.ForeColor = Color.Black
+            TxtMessageDisplay.Text += "Starting processing" & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Black
             Me.Refresh()
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
@@ -156,8 +156,8 @@ Public Class Form1
                         ResultName.ToUpper() <> UCase("Apocalyptic") And
                         ResultName.ToUpper() <> UCase("Action-Adventure") Then
 
-                        LblMessage.Text = Dir
-                        LblMessage.ForeColor = Color.OrangeRed
+                        TxtMessageDisplay.Text += Dir & vbCrLf
+                        TxtMessageDisplay.ForeColor = Color.OrangeRed
                         Me.Refresh()
 
                         Try
@@ -172,16 +172,16 @@ Public Class Form1
             BtnStart.Text = "Start"
             BtnStart.Enabled = True
 
-            LblMessage.Text = "Processing done on " & Dirs.Count & " Directories."
-            LblMessage.ForeColor = Color.Black
+            TxtMessageDisplay.Text += "Processing done on " & Dirs.Count & " Directories." & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Black
             Me.Refresh()
 
             'Reload Folders
             Dirs = getAllFolders(txtFolderPath.Text)
 
         Catch ex As Exception
-            LblMessage.Text = ex.Message
-            LblMessage.ForeColor = Color.OrangeRed
+            TxtMessageDisplay.Text += ex.Message & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Red
         End Try
     End Sub
 
@@ -191,13 +191,13 @@ Public Class Form1
         Dim ResultName As String = ""
         Dim Resultant As String = ""
         Try
-            BtnStart.Text = "Processing"
-            BtnStart.Enabled = False
+            BtnVideoImport.Text = "Processing"
+            BtnVideoImport.Enabled = False
             Me.Refresh()
 
             Dirs = getAllFolders(TxtImportFolder.Text)
 
-            LblMessage.Text = "Starting processing"
+            TxtMessageDisplay.Text = "Starting processing"
             Me.Refresh()
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
@@ -212,7 +212,7 @@ Public Class Form1
                 Dim shortMovieName As String = MovieName.Remove(MovieName.LastIndexOf(" ("), 7)
                 Dim pMovieInfo As MovieInfo = getMovieInfo(shortMovieName, movieyear)
 
-                'ToDo: Rename Files Before Folder
+                'Rename Files Before Folder
                 Dim fileEntries As String() = Directory.GetFiles(Dir)
                 ' Process the list of files found in the directory.
                 Dim fileName As String
@@ -241,34 +241,81 @@ Public Class Form1
 
                 End If
 
+                'Rename Folder
                 If bUpdateFolderName Then
-                    'Rename Folder
                     Try
                         My.Computer.FileSystem.RenameDirectory(Dir, MovieName)
                     Catch ex As Exception
-                        Dim a = ex.Message
+                        TxtMessageDisplay.Text += ex.Message & vbCrLf
                     End Try
                 End If
 
 
-                'ToDo: use genres to move file to final folder.
+                'ToDo: Use genres to move file to final folder.
+                Dim Genres() As String = Split(pMovieInfo.Genres, ",")
+                Dim DestFolder As String = ""
+                Dim SourceFolder As String = ""
+                For Each Genre As String In Genres
+                    DestFolder = DestFolder & "-" & Genre.Trim()
+                Next
+                If Microsoft.VisualBasic.Right(txtFolderPath.Text, 1) = "\" Then
+                    DestFolder = txtFolderPath.Text & DestFolder.Remove(0, 1)
+                Else
+                    DestFolder = txtFolderPath.Text & "\" & DestFolder.Remove(0, 1)
+                End If
 
+                'Create Destination Directory if missing 
+                If Not Directory.Exists(DestFolder) Then
+                    Try
+                        Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
+                    Catch e2 As Exception
+                        TxtMessageDisplay.Text += e2.Message & vbCrLf
+                    End Try
+                End If
 
-                LblMessage.Text = MovieName
-                LblMessage.ForeColor = Color.OrangeRed
+                If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
+                    DestFolder = DestFolder & MovieName
+                Else
+                    DestFolder = DestFolder & "\" & MovieName
+                End If
+
+                If Microsoft.VisualBasic.Right(TxtImportFolder.Text, 1) = "\" Then
+                    SourceFolder = TxtImportFolder.Text & MovieName
+                Else
+                    SourceFolder = TxtImportFolder.Text & "\" & MovieName
+                End If
+
+                If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(SourceFolder) Then
+                    Try
+                        Directory.Move(SourceFolder, DestFolder)
+                    Catch e2 As Exception
+                        TxtMessageDisplay.Text += e2.Message & vbCrLf
+                    End Try
+                Else
+                    'Message folder not found.
+                    If Directory.Exists(DestFolder) Then
+                        TxtMessageDisplay.Text += "Duplicate folder exists. - " & DestFolder & vbCrLf
+                    End If
+                    If Not Directory.Exists(SourceFolder) Then
+                        TxtMessageDisplay.Text += "Source folder not found. - " & SourceFolder & vbCrLf
+                    End If
+                End If
+
+                    TxtMessageDisplay.Text += MovieName & vbCrLf
+                TxtMessageDisplay.ForeColor = Color.OrangeRed
                 Me.Refresh()
             Next i
 
-            BtnStart.Text = "Start"
-            BtnStart.Enabled = True
+            BtnVideoImport.Text = "Start"
+            BtnVideoImport.Enabled = True
 
-            LblMessage.Text = "Processing done on " & Dirs.Count & " Directories."
-            LblMessage.ForeColor = Color.Black
+            TxtMessageDisplay.Text += "Processing done on " & Dirs.Count & " Folders." & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Green
             Me.Refresh()
 
         Catch ex As Exception
-            LblMessage.Text = ex.Message
-            LblMessage.ForeColor = Color.OrangeRed
+            TxtMessageDisplay.Text += ex.Message & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Red
         End Try
 
     End Sub
@@ -310,8 +357,8 @@ Public Class Form1
                 End If
             Next
         Catch ex As Exception
-            LblMessage.Text = ex.Message
-            LblMessage.ForeColor = Color.OrangeRed
+            TxtMessageDisplay.Text += ex.Message & vbCrLf
+            TxtMessageDisplay.ForeColor = Color.Red
         End Try
 
         Return path
@@ -331,19 +378,6 @@ Public Class Form1
             Return pFolderPath
         End If
     End Function
-
-
-    'Private Function getMovieYear(ByVal pFolderPath As String) As String
-    '    Dim dateyear As String = ""
-    '    Dim webClient As New System.Net.WebClient
-    '    Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & Dir.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace(" ", "+"))
-    '    Dim sDate As String = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
-
-    '    If IsDate(sDate) Then
-    '        dateyear = Year(sDate)
-    '    End If
-    '    getMovieYear = dateyear
-    'End Function
 
 
     Private Function getMovieInfo(ByVal pMovieName As String, ByVal pMovieYear As String) As MovieInfo
