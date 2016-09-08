@@ -362,10 +362,6 @@ Public Class FrmFileReNamer
     End Sub
 
 
-    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
-        End
-    End Sub
-
     Private Sub BtnFileReName_Click(sender As Object, e As EventArgs) Handles BtnFileReName.Click
         Dim DirList As New ArrayList
         Dim ResultName As String = ""
@@ -433,6 +429,7 @@ Public Class FrmFileReNamer
         BtnFileReName.Enabled = True
     End Sub
 
+
     Private Sub BtnRemap_Click(sender As Object, e As EventArgs) Handles BtnRemap.Click
         Dim DirList As New ArrayList
         Dim ResultName As String = ""
@@ -449,36 +446,73 @@ Public Class FrmFileReNamer
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
                 Dim Dir As String = Dirs(i)
+                TxtMessageDisplay.Text = i & " Starting on directory " & Dir & vbCrLf & TxtMessageDisplay.Text
+
                 Dim fileEntries As String() = Directory.GetFiles(Dir)
                 If fileEntries.Count > 0 Then
 
                     Dim bUpdateFolderName As Boolean = False
-                    Dim MovieName As String = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
-                    Dim movieyear As String = Dir.Remove(0, Dir.LastIndexOf("(") + 1).Trim().Remove(4)
-                    Dim iPos = MovieName.LastIndexOf(")") + 1
-                    If iPos < MovieName.Length Then bUpdateFolderName = True Else bUpdateFolderName = False
-                    If Not MovieName.Length = iPos Then
-                        MovieName = MovieName.Remove(iPos, MovieName.Length - iPos)
-                    End If
-                    Dim shortMovieName As String = MovieName.Remove(MovieName.LastIndexOf("("), MovieName.LastIndexOf(")") - MovieName.LastIndexOf("(") + 1).Trim()
-                    Dim pMovieInfo As MovieInfo = getMovieInfo(Dir, movieyear)
+                    Dim MovieName As String = ""
+                    Dim movieyear As String = ""
+                    Dim iPos As Integer = 0
+                    Try
+                        MovieName = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
+                    Catch ex As Exception
+                        TxtMessageDisplay.Text = "Error at 1"
+                    End Try
+                    Try
+                        movieyear = Dir.Remove(0, Dir.LastIndexOf("(") + 1).Trim().Remove(4)
+                    Catch ex As Exception
+                        TxtMessageDisplay.Text = "Error at 2"
+                    End Try
+                    Try
+                        iPos = MovieName.LastIndexOf(")") + 1
+                    Catch ex As Exception
+                        TxtMessageDisplay.Text = "Error at 3"
+                    End Try
+                    Try
+                        If iPos <> 0 AndAlso iPos < MovieName.Length Then bUpdateFolderName = True Else bUpdateFolderName = False
+                        If Not iPos = 0 AndAlso Not MovieName.Length = iPos Then
+                            MovieName = MovieName.Remove(iPos, MovieName.Length - iPos)
+                        End If
+                    Catch ex As Exception
+                        TxtMessageDisplay.Text = "Error at 4"
+                    End Try
+                    Dim shortMovieName As String = ""
+                    Try
+                        'this is where the error hit on folder john adams Part 7
+                        shortMovieName = MovieName.Remove(MovieName.LastIndexOf("("), MovieName.LastIndexOf(")") - MovieName.LastIndexOf("(") + 1).Trim()
+                    Catch ex As Exception
+                        shortMovieName = MovieName
+                    End Try
+                    Dim pMovieInfo As MovieInfo = Nothing
+                    Try
+                        pMovieInfo = getMovieInfo(Dir, movieyear)
+                    Catch ex As Exception
+                        TxtMessageDisplay.Text = "Error at 6"
+                    End Try
 
                     If pMovieInfo.Success Then
                         TxtMessageDisplay.Text = "Folder - " & MovieName & vbCrLf & TxtMessageDisplay.Text
                         Me.Refresh()
 
-                        'Use genres to move file to final folder.
-                        Dim Genres() As String = Split(pMovieInfo.Genres, ",")
+                        Dim Genres() As String = Nothing
                         Dim DestFolder As String = ""
-                        'Dim SourceFolder As String = ""
                         Dim iCnt As Integer = 0
-                        For Each Genre As String In Genres
-                            DestFolder = DestFolder & "-" & Genre.Trim()
-                            iCnt = iCnt + 1
-                            If iCnt >= CInt(My.Settings.NoOfGenres) Then
-                                Exit For
-                            End If
-                        Next
+                        Try
+                            'Use genres to move file to final folder.
+                            Genres = Split(pMovieInfo.Genres, ",")
+                            For Each Genre As String In Genres
+                                DestFolder = DestFolder & "-" & Genre.Trim()
+                                iCnt = iCnt + 1
+                                If iCnt >= CInt(My.Settings.NoOfGenres) Then
+                                    Exit For
+                                End If
+                            Next
+                        Catch ex As Exception
+                            TxtMessageDisplay.Text = "Error at 7"
+                        End Try
+
                         If DestFolder = "-" Then
                             If Microsoft.VisualBasic.Right(txtFolderPath.Text, 1) = "\" Then
                                 DestFolder = txtFolderPath.Text & "Other"
@@ -508,26 +542,12 @@ Public Class FrmFileReNamer
                             DestFolder = DestFolder & "\" & MovieName
                         End If
 
-                        'If Microsoft.VisualBasic.Right(TxtImportFolder.Text, 1) = "\" Then
-                        '    SourceFolder = txtFolderPath.Text & MovieName
-                        'Else
-                        '    SourceFolder = txtFolderPath.Text & "\" & MovieName
-                        'End If
-
                         If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(Dir) Then
                             Try
                                 Directory.Move(Dir, DestFolder)
                             Catch e2 As Exception
                                 TxtMessageDisplay.Text += e2.Message & vbCrLf
                             End Try
-                        Else
-                            ''Message folder not found.
-                            'If Directory.Exists(DestFolder) Then
-                            '    TxtMessageDisplay.Text += "Duplicate folder exists. - " & DestFolder & vbCrLf
-                            'End If
-                            'If Not Directory.Exists(Dir) Then
-                            '    TxtMessageDisplay.Text += "Source folder not found. - " & Dir & vbCrLf
-                            'End If
                         End If
 
                         TxtMessageDisplay.Text += MovieName & vbCrLf
@@ -548,6 +568,10 @@ Public Class FrmFileReNamer
 
     End Sub
 
+
+    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        End
+    End Sub
 
 #End Region
 
