@@ -89,6 +89,18 @@ Namespace My
                 Me("ImportPath2") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
+        Public Property NoOfGenres() As String
+            Get
+                Return CType(Me("NoOfGenres"),String)
+            End Get
+            Set
+                Me("NoOfGenres") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

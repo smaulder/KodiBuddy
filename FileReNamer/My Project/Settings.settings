@@ -11,5 +11,8 @@
     <Setting Name="ImportPath2" Type="System.String" Scope="User">
       <Value Profile="(Default)">V:\Video</Value>
     </Setting>
+    <Setting Name="NoOfGenres" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

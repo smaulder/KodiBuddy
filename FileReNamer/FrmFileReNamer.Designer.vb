@@ -26,6 +26,8 @@ Partial Class FrmFileReNamer
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabExecute = New System.Windows.Forms.TabPage()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.BtnRemap = New System.Windows.Forms.Button()
+        Me.BtnFileReName = New System.Windows.Forms.Button()
         Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
         Me.BtnVideoImport = New System.Windows.Forms.Button()
         Me.BtnCancel = New System.Windows.Forms.Button()
@@ -33,6 +35,8 @@ Partial Class FrmFileReNamer
         Me.BtnStart = New System.Windows.Forms.Button()
         Me.TabOptions = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.CbxGenres = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.TxtImportFolder = New System.Windows.Forms.TextBox()
         Me.BtnSelectImportFolder = New System.Windows.Forms.Button()
         Me.LblImportFolder = New System.Windows.Forms.Label()
@@ -73,6 +77,8 @@ Partial Class FrmFileReNamer
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.BtnRemap)
+        Me.Panel2.Controls.Add(Me.BtnFileReName)
         Me.Panel2.Controls.Add(Me.TxtMessageDisplay)
         Me.Panel2.Controls.Add(Me.BtnVideoImport)
         Me.Panel2.Controls.Add(Me.BtnCancel)
@@ -82,6 +88,24 @@ Partial Class FrmFileReNamer
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(769, 242)
         Me.Panel2.TabIndex = 19
+        '
+        'BtnRemap
+        '
+        Me.BtnRemap.Location = New System.Drawing.Point(18, 136)
+        Me.BtnRemap.Name = "BtnRemap"
+        Me.BtnRemap.Size = New System.Drawing.Size(122, 23)
+        Me.BtnRemap.TabIndex = 24
+        Me.BtnRemap.Text = "ReMap Folders"
+        Me.BtnRemap.UseVisualStyleBackColor = True
+        '
+        'BtnFileReName
+        '
+        Me.BtnFileReName.Location = New System.Drawing.Point(17, 104)
+        Me.BtnFileReName.Name = "BtnFileReName"
+        Me.BtnFileReName.Size = New System.Drawing.Size(122, 23)
+        Me.BtnFileReName.TabIndex = 23
+        Me.BtnFileReName.Text = "FileReName"
+        Me.BtnFileReName.UseVisualStyleBackColor = True
         '
         'TxtMessageDisplay
         '
@@ -94,34 +118,34 @@ Partial Class FrmFileReNamer
         '
         'BtnVideoImport
         '
-        Me.BtnVideoImport.Location = New System.Drawing.Point(53, 62)
+        Me.BtnVideoImport.Location = New System.Drawing.Point(17, 75)
         Me.BtnVideoImport.Name = "BtnVideoImport"
-        Me.BtnVideoImport.Size = New System.Drawing.Size(75, 23)
+        Me.BtnVideoImport.Size = New System.Drawing.Size(122, 23)
         Me.BtnVideoImport.TabIndex = 21
         Me.BtnVideoImport.Text = "Video Import"
         Me.BtnVideoImport.UseVisualStyleBackColor = True
         '
         'BtnCancel
         '
-        Me.BtnCancel.Location = New System.Drawing.Point(54, 104)
+        Me.BtnCancel.Location = New System.Drawing.Point(17, 165)
         Me.BtnCancel.Name = "BtnCancel"
-        Me.BtnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.BtnCancel.Size = New System.Drawing.Size(122, 23)
         Me.BtnCancel.TabIndex = 20
-        Me.BtnCancel.Text = "Cancel"
+        Me.BtnCancel.Text = "Exit"
         Me.BtnCancel.UseVisualStyleBackColor = True
         '
         'BtnIMDB
         '
-        Me.BtnIMDB.Location = New System.Drawing.Point(45, 32)
+        Me.BtnIMDB.Location = New System.Drawing.Point(17, 45)
         Me.BtnIMDB.Name = "BtnIMDB"
-        Me.BtnIMDB.Size = New System.Drawing.Size(84, 23)
+        Me.BtnIMDB.Size = New System.Drawing.Size(123, 23)
         Me.BtnIMDB.TabIndex = 19
-        Me.BtnIMDB.Text = "IMDB Update"
+        Me.BtnIMDB.Text = "The Movie DB Update"
         Me.BtnIMDB.UseVisualStyleBackColor = True
         '
         'BtnStart
         '
-        Me.BtnStart.Location = New System.Drawing.Point(6, 3)
+        Me.BtnStart.Location = New System.Drawing.Point(17, 16)
         Me.BtnStart.Name = "BtnStart"
         Me.BtnStart.Size = New System.Drawing.Size(123, 23)
         Me.BtnStart.TabIndex = 18
@@ -141,6 +165,8 @@ Partial Class FrmFileReNamer
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.CbxGenres)
+        Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.TxtImportFolder)
         Me.Panel1.Controls.Add(Me.BtnSelectImportFolder)
         Me.Panel1.Controls.Add(Me.LblImportFolder)
@@ -155,6 +181,24 @@ Partial Class FrmFileReNamer
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(769, 239)
         Me.Panel1.TabIndex = 0
+        '
+        'CbxGenres
+        '
+        Me.CbxGenres.AutoCompleteCustomSource.AddRange(New String() {"1", "2", "3", "4"})
+        Me.CbxGenres.FormattingEnabled = True
+        Me.CbxGenres.Location = New System.Drawing.Point(231, 172)
+        Me.CbxGenres.Name = "CbxGenres"
+        Me.CbxGenres.Size = New System.Drawing.Size(121, 21)
+        Me.CbxGenres.TabIndex = 32
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 172)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(218, 13)
+        Me.Label1.TabIndex = 31
+        Me.Label1.Text = "Number of Genres to build folder names with:"
         '
         'TxtImportFolder
         '
@@ -282,4 +326,8 @@ Partial Class FrmFileReNamer
     Friend WithEvents LblMovieFolder As Label
     Friend WithEvents LblFolderCount As Label
     Friend WithEvents TxtMessageDisplay As TextBox
+    Friend WithEvents BtnFileReName As Button
+    Friend WithEvents BtnRemap As Button
+    Friend WithEvents CbxGenres As ComboBox
+    Friend WithEvents Label1 As Label
 End Class
