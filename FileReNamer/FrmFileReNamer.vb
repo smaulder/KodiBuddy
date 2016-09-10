@@ -228,9 +228,10 @@ Public Class FrmFileReNamer
                 Dim bUpdateFolderName As Boolean = False
                 Dim MovieName As String = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
                 Dim movieyear As String = Dir.Remove(0, Dir.LastIndexOf("(") + 1).Trim().Remove(4)
+                If Not IsDate(movieyear) Then movieyear = ""
                 Dim iPos = MovieName.LastIndexOf(")") + 1
-                If iPos < MovieName.Length Then bUpdateFolderName = True Else bUpdateFolderName = False
-                If Not MovieName.Length = iPos Then
+                If iPos > 0 AndAlso iPos < MovieName.Length Then bUpdateFolderName = True Else bUpdateFolderName = False
+                If iPos > 0 AndAlso Not MovieName.Length = iPos Then
                     MovieName = MovieName.Remove(iPos, MovieName.Length - iPos)
                 End If
                 Dim shortMovieName As String = MovieName.Remove(MovieName.LastIndexOf("("), MovieName.LastIndexOf(")") - MovieName.LastIndexOf("(") + 1).Trim()
@@ -632,13 +633,19 @@ Public Class FrmFileReNamer
 
     Private Function getMovieInfo(ByVal pFolderPath As String, ByVal pMovieYear As String) As MovieInfo
         Dim pMovieName As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1)
+        'Get the position of the end of the date
+        Dim iPos = pMovieName.LastIndexOf(")") + 1
+        'Trim anything
+        If Not pMovieName.Length = iPos Then
+            pMovieName = pMovieName.Remove(iPos, pMovieName.Length - iPos)
+        End If
+
         Dim shortMovieName As String
         If pMovieName.LastIndexOf("(") > 0 Then
             shortMovieName = pMovieName.Remove(pMovieName.LastIndexOf("("), pMovieName.LastIndexOf(")") - pMovieName.LastIndexOf("(") + 1).Trim()
         Else
             shortMovieName = pMovieName
         End If
-
 
         Dim dateyear As String = ""
         Dim webClient As New System.Net.WebClient
