@@ -47,6 +47,8 @@ Partial Class FrmFileReNamer
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
         Me.LblFolderCount = New System.Windows.Forms.Label()
+        Me.CbxUseYear = New System.Windows.Forms.CheckBox()
+        Me.CbxUseGenres = New System.Windows.Forms.CheckBox()
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -165,6 +167,8 @@ Partial Class FrmFileReNamer
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.CbxUseYear)
+        Me.Panel1.Controls.Add(Me.CbxUseGenres)
         Me.Panel1.Controls.Add(Me.CbxGenres)
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.TxtImportFolder)
@@ -186,7 +190,7 @@ Partial Class FrmFileReNamer
         '
         Me.CbxGenres.AutoCompleteCustomSource.AddRange(New String() {"1", "2", "3", "4"})
         Me.CbxGenres.FormattingEnabled = True
-        Me.CbxGenres.Location = New System.Drawing.Point(231, 172)
+        Me.CbxGenres.Location = New System.Drawing.Point(228, 178)
         Me.CbxGenres.Name = "CbxGenres"
         Me.CbxGenres.Size = New System.Drawing.Size(121, 21)
         Me.CbxGenres.TabIndex = 32
@@ -194,11 +198,11 @@ Partial Class FrmFileReNamer
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 172)
+        Me.Label1.Location = New System.Drawing.Point(77, 181)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(218, 13)
+        Me.Label1.Size = New System.Drawing.Size(128, 13)
         Me.Label1.TabIndex = 31
-        Me.Label1.Text = "Number of Genres to build folder names with:"
+        Me.Label1.Text = "Number of Genres to use:"
         '
         'TxtImportFolder
         '
@@ -287,6 +291,26 @@ Partial Class FrmFileReNamer
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
+        'CbxUseYear
+        '
+        Me.CbxUseYear.AutoSize = True
+        Me.CbxUseYear.Location = New System.Drawing.Point(79, 206)
+        Me.CbxUseYear.Name = "CbxUseYear"
+        Me.CbxUseYear.Size = New System.Drawing.Size(70, 17)
+        Me.CbxUseYear.TabIndex = 34
+        Me.CbxUseYear.Text = "Use Year"
+        Me.CbxUseYear.UseVisualStyleBackColor = True
+        '
+        'CbxUseGenres
+        '
+        Me.CbxUseGenres.AutoSize = True
+        Me.CbxUseGenres.Location = New System.Drawing.Point(79, 155)
+        Me.CbxUseGenres.Name = "CbxUseGenres"
+        Me.CbxUseGenres.Size = New System.Drawing.Size(82, 17)
+        Me.CbxUseGenres.TabIndex = 33
+        Me.CbxUseGenres.Text = "Use Genres"
+        Me.CbxUseGenres.UseVisualStyleBackColor = True
+        '
         'FrmFileReNamer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -330,4 +354,6 @@ Partial Class FrmFileReNamer
     Friend WithEvents BtnRemap As Button
     Friend WithEvents CbxGenres As ComboBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents CbxUseYear As CheckBox
+    Friend WithEvents CbxUseGenres As CheckBox
 End Class

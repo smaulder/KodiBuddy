@@ -9,11 +9,12 @@ Public Class FrmFileReNamer
 
 #Region "Options"
 
-    Private Sub BtnSelectFolder_Click(sender As Object, e As EventArgs)
+    Private Sub BtnSelectFolder_Click(sender As Object, e As EventArgs) Handles BtnSelectFolder.Click
         FolderBrowserDialog.SelectedPath = My.Settings.MoviePath
         FolderBrowserDialog.ShowDialog()
         txtFolderPath.Text = FolderBrowserDialog.SelectedPath
         My.Settings.MoviePath = FolderBrowserDialog.SelectedPath
+        My.Settings.Save()
     End Sub
 
 
@@ -22,6 +23,7 @@ Public Class FrmFileReNamer
         FolderBrowserDialog.ShowDialog()
         TxtImportFolder.Text = FolderBrowserDialog.SelectedPath
         My.Settings.ImportPath2 = FolderBrowserDialog.SelectedPath
+        My.Settings.Save()
     End Sub
 
 
@@ -29,6 +31,7 @@ Public Class FrmFileReNamer
         If CkBxUseParens.Checked And CkBxUseBracket.Checked Then
             CkBxUseParens.Checked = False
             My.Settings.BracketsParens = "1"
+            My.Settings.Save()
         End If
     End Sub
 
@@ -37,6 +40,7 @@ Public Class FrmFileReNamer
         If CkBxUseParens.Checked And CkBxUseBracket.Checked Then
             CkBxUseBracket.Checked = False
             My.Settings.BracketsParens = "2"
+            My.Settings.Save()
         End If
     End Sub
 
@@ -44,6 +48,7 @@ Public Class FrmFileReNamer
     Private Sub txtFolderPath_TextChanged(sender As Object, e As EventArgs) Handles txtFolderPath.TextChanged
         If My.Settings.MoviePath <> txtFolderPath.Text Then
             My.Settings.MoviePath = txtFolderPath.Text
+            My.Settings.Save()
         End If
     End Sub
 
@@ -51,13 +56,33 @@ Public Class FrmFileReNamer
     Private Sub TxtImportFolder_TextChanged(sender As Object, e As EventArgs) Handles TxtImportFolder.TextChanged
         If My.Settings.ImportPath2 = txtFolderPath.Text Then
             My.Settings.ImportPath2 = txtFolderPath.Text
+            My.Settings.Save()
         End If
     End Sub
 
 
     Private Sub CbxGenres_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CbxGenres.SelectedIndexChanged
         My.Settings.NoOfGenres = CType(CbxGenres.SelectedItem, String)
+        My.Settings.Save()
     End Sub
+
+    Private Sub CbxUseGenres_CheckedChanged(sender As Object, e As EventArgs) Handles CbxUseGenres.CheckedChanged
+        If CbxUseGenres.Checked And CbxUseYear.Checked Then
+            CbxUseYear.Checked = False
+            My.Settings.GenreOrYear = "1"
+            My.Settings.Save()
+        End If
+    End Sub
+
+    Private Sub CbxUseYear_CheckedChanged(sender As Object, e As EventArgs) Handles CbxUseYear.CheckedChanged
+        If CbxUseGenres.Checked And CbxUseYear.Checked Then
+            CbxUseGenres.Checked = False
+            My.Settings.GenreOrYear = "2"
+            My.Settings.Save()
+        End If
+
+    End Sub
+
 
 #End Region
 
@@ -77,6 +102,11 @@ Public Class FrmFileReNamer
         CbxGenres.Items.Add("3")
         CbxGenres.Items.Add("4")
         CbxGenres.SelectedItem = My.Settings.NoOfGenres
+        If My.Settings.GenreOrYear = "2" Then
+            CbxUseYear.Checked = True
+        Else
+            CbxUseGenres.Checked = True
+        End If
     End Sub
 
 
@@ -290,60 +320,69 @@ Public Class FrmFileReNamer
                             Exit For
                         End If
                     Next
-                    If DestFolder = "-" Then
-                        If Microsoft.VisualBasic.Right(txtFolderPath.Text, 1) = "\" Then
-                            DestFolder = txtFolderPath.Text & "Other"
+                    If My.Settings.GenreOrYear = "1" Then
+                        If DestFolder = "-" Then
+                            If Microsoft.VisualBasic.Right(txtFolderPath.Text, 1) = "\" Then
+                                DestFolder = txtFolderPath.Text & "Other"
+                            Else
+                                DestFolder = txtFolderPath.Text & "\" & "Other"
+                            End If
                         Else
-                            DestFolder = txtFolderPath.Text & "\" & "Other"
+                            If Microsoft.VisualBasic.Right(txtFolderPath.Text, 1) = "\" Then
+                                DestFolder = txtFolderPath.Text & DestFolder.Remove(0, 1)
+                            Else
+                                DestFolder = txtFolderPath.Text & "\" & DestFolder.Remove(0, 1)
+                            End If
                         End If
                     Else
                         If Microsoft.VisualBasic.Right(txtFolderPath.Text, 1) = "\" Then
-                            DestFolder = txtFolderPath.Text & DestFolder.Remove(0, 1)
+                            DestFolder = txtFolderPath.Text & pMovieInfo.ReleaseYear
                         Else
-                            DestFolder = txtFolderPath.Text & "\" & DestFolder.Remove(0, 1)
+                            DestFolder = txtFolderPath.Text & "\" & pMovieInfo.ReleaseYear
                         End If
                     End If
+
                     'Create Destination Directory if missing 
                     If Not Directory.Exists(DestFolder) Then
-                        Try
-                            Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
-                        Catch e2 As Exception
-                            TxtMessageDisplay.Text += e2.Message & vbCrLf
-                        End Try
-                    End If
-
-                    If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
-                        DestFolder = DestFolder & MovieName
-                    Else
-                        DestFolder = DestFolder & "\" & MovieName
-                    End If
-
-                    If Microsoft.VisualBasic.Right(TxtImportFolder.Text, 1) = "\" Then
-                        SourceFolder = TxtImportFolder.Text & MovieName
-                    Else
-                        SourceFolder = TxtImportFolder.Text & "\" & MovieName
-                    End If
-
-                    If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(SourceFolder) Then
-                        Try
-                            Directory.Move(SourceFolder, DestFolder)
-                        Catch e2 As Exception
-                            TxtMessageDisplay.Text += e2.Message & vbCrLf
-                        End Try
-                    Else
-                        'Message folder not found.
-                        If Directory.Exists(DestFolder) Then
-                            TxtMessageDisplay.Text += "Duplicate folder exists. - " & DestFolder & vbCrLf
+                            Try
+                                Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
+                            Catch e2 As Exception
+                                TxtMessageDisplay.Text += e2.Message & vbCrLf
+                            End Try
                         End If
-                        If Not Directory.Exists(SourceFolder) Then
-                            TxtMessageDisplay.Text += "Source folder not found. - " & SourceFolder & vbCrLf
-                        End If
-                    End If
 
-                    TxtMessageDisplay.Text += MovieName & vbCrLf
-                    Me.Refresh()
-                Else
-                    TxtMessageDisplay.Text += "Failed to load Movie info for - " & MovieName & vbCrLf
+                        If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
+                            DestFolder = DestFolder & MovieName
+                        Else
+                            DestFolder = DestFolder & "\" & MovieName
+                        End If
+
+                        If Microsoft.VisualBasic.Right(TxtImportFolder.Text, 1) = "\" Then
+                            SourceFolder = TxtImportFolder.Text & MovieName
+                        Else
+                            SourceFolder = TxtImportFolder.Text & "\" & MovieName
+                        End If
+
+                        If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(SourceFolder) Then
+                            Try
+                                Directory.Move(SourceFolder, DestFolder)
+                            Catch e2 As Exception
+                                TxtMessageDisplay.Text += e2.Message & vbCrLf
+                            End Try
+                        Else
+                            'Message folder not found.
+                            If Directory.Exists(DestFolder) Then
+                                TxtMessageDisplay.Text += "Duplicate folder exists. - " & DestFolder & vbCrLf
+                            End If
+                            If Not Directory.Exists(SourceFolder) Then
+                                TxtMessageDisplay.Text += "Source folder not found. - " & SourceFolder & vbCrLf
+                            End If
+                        End If
+
+                        TxtMessageDisplay.Text += MovieName & vbCrLf
+                        Me.Refresh()
+                    Else
+                        TxtMessageDisplay.Text += "Failed to load Movie info for - " & MovieName & vbCrLf
                     TxtMessageDisplay.ForeColor = Color.Red
                     Me.Refresh()
                 End If
