@@ -26,6 +26,7 @@ Partial Class FrmFileReNamer
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabExecute = New System.Windows.Forms.TabPage()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.LblCurrentDir = New System.Windows.Forms.Label()
         Me.BtnRemap = New System.Windows.Forms.Button()
         Me.BtnFileReName = New System.Windows.Forms.Button()
         Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
@@ -79,6 +80,7 @@ Partial Class FrmFileReNamer
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.LblCurrentDir)
         Me.Panel2.Controls.Add(Me.BtnRemap)
         Me.Panel2.Controls.Add(Me.BtnFileReName)
         Me.Panel2.Controls.Add(Me.TxtMessageDisplay)
@@ -90,6 +92,14 @@ Partial Class FrmFileReNamer
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(769, 242)
         Me.Panel2.TabIndex = 19
+        '
+        'LblCurrentDir
+        '
+        Me.LblCurrentDir.AutoSize = True
+        Me.LblCurrentDir.Location = New System.Drawing.Point(156, 214)
+        Me.LblCurrentDir.Name = "LblCurrentDir"
+        Me.LblCurrentDir.Size = New System.Drawing.Size(0, 13)
+        Me.LblCurrentDir.TabIndex = 25
         '
         'BtnRemap
         '
@@ -115,7 +125,7 @@ Partial Class FrmFileReNamer
         Me.TxtMessageDisplay.Multiline = True
         Me.TxtMessageDisplay.Name = "TxtMessageDisplay"
         Me.TxtMessageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TxtMessageDisplay.Size = New System.Drawing.Size(607, 234)
+        Me.TxtMessageDisplay.Size = New System.Drawing.Size(607, 206)
         Me.TxtMessageDisplay.TabIndex = 22
         '
         'BtnVideoImport
@@ -356,4 +366,5 @@ Partial Class FrmFileReNamer
     Friend WithEvents Label1 As Label
     Friend WithEvents CbxUseYear As CheckBox
     Friend WithEvents CbxUseGenres As CheckBox
+    Friend WithEvents LblCurrentDir As Label
 End Class

@@ -629,14 +629,16 @@ Public Class FrmFileReNamer
 
             Dirs = getAllFolders(txtFolderPath.Text)
 
-            TxtMessageDisplay.Text = "Starting processing on " & Dirs.Count & " Rename." & vbCrLf
+            TxtMessageDisplay.Text = Dirs.Count & vbCrLf
             Me.Refresh()
 
             For i As Integer = Dirs.Count - 1 To 0 Step -1
                 Dim MovieName As String = ""
                 Dim movieyear As String = ""
                 Dim Dir As String = Dirs(i)
-                'TxtMessageDisplay.Text = i & " Starting on directory " & Dir & vbCrLf & TxtMessageDisplay.Text
+                LblCurrentDir.Text = i & Dir & vbCrLf
+                Me.Refresh()
+
                 Try
                     MovieName = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
                 Catch ex As Exception
@@ -657,25 +659,49 @@ Public Class FrmFileReNamer
 
                 Dim fileEntries As String() = Directory.GetFiles(Dir)
                 If pMovieInfo.Success Then
-                    TxtMessageDisplay.Text = "Folder - " & MovieName & vbCrLf & TxtMessageDisplay.Text
-                    Me.Refresh()
+                    'TxtMessageDisplay.Text = "Folder - " & MovieName & vbCrLf & TxtMessageDisplay.Text
+                    'Me.Refresh()
 
                     'Get Files in Folder
                     ' Process the list of files found in the directory.
                     Dim fileName As String
                     For Each fileName In fileEntries
                         Dim x As FileInfo = New FileInfo(fileName)
+                        Dim tmpFileName As String = ""
                         If UCase(x.Name.Remove(x.Name.LastIndexOf("."))) <> UCase(MovieName) AndAlso (UCase(x.Extension.ToString()) = UCase(".mp4") Or UCase(x.Extension.ToString()) = UCase(".avi") Or UCase(x.Extension.ToString()) = UCase(".mkv") Or UCase(x.Extension.ToString()) = UCase(".srt") Or UCase(x.Extension.ToString()) = UCase(".idx") Or UCase(x.Extension.ToString()) = UCase(".sub")) Then
-                            Dim tmpFileName As String = MovieName & x.Extension.ToString()
+                            If fileName.IndexOf("\") > 0 Then
+                                Dim poststr As String = fileName.Remove(0, fileName.LastIndexOf("\") + 1)
+                                If poststr.IndexOf(".") > 0 Then
+                                    poststr = poststr.Remove(poststr.LastIndexOf("."))
+                                    If poststr.IndexOf(")") > 0 Then
+                                        poststr = poststr.Remove(0, poststr.LastIndexOf(")") + 1)
+                                        If poststr.Length <> 0 Then
+                                            tmpFileName = MovieName & poststr & x.Extension.ToString()
+                                        Else
+                                            tmpFileName = MovieName & x.Extension.ToString()
+                                        End If
+                                    Else
+                                        tmpFileName = MovieName & x.Extension.ToString()
+                                    End If
+                                Else
+                                    tmpFileName = MovieName & x.Extension.ToString()
+                                End If
+                            Else
+                                tmpFileName = MovieName & x.Extension.ToString()
+                            End If
+
                             Try
-                                My.Computer.FileSystem.RenameFile(fileName, tmpFileName)
-                                TxtMessageDisplay.Text = "Changed - " & fileName & " to " & tmpFileName & vbCrLf & TxtMessageDisplay.Text
-                                Me.Refresh()
-                            Catch ex As Exception
-                                TxtMessageDisplay.Text = ex.Message & " - " & MovieName & vbCrLf & TxtMessageDisplay.Text
-                                Me.Refresh()
-                            End Try
-                        End If
+                                    If fileName.Remove(0, fileName.LastIndexOf("\") + 1) <> tmpFileName Then
+                                        My.Computer.FileSystem.RenameFile(fileName, tmpFileName)
+                                        TxtMessageDisplay.Text = "Changed - " & fileName & " to " & tmpFileName & vbCrLf & TxtMessageDisplay.Text
+                                        Me.Refresh()
+                                    End If
+
+                                Catch ex As Exception
+                                    TxtMessageDisplay.Text = ex.Message & " - " & MovieName & vbCrLf & TxtMessageDisplay.Text
+                                    Me.Refresh()
+                                End Try
+                            End If
                     Next fileName
                 End If
             Next
@@ -683,7 +709,7 @@ Public Class FrmFileReNamer
             TxtMessageDisplay.Text += ex.Message & vbCrLf
             TxtMessageDisplay.ForeColor = Color.Red
         End Try
-        BtnMovieDBUpdate.Text = "ReMap Files"
+        BtnMovieDBUpdate.Text = "The Movie DB Update"
         BtnMovieDBUpdate.Enabled = True
     End Sub
 
@@ -749,6 +775,7 @@ Public Class FrmFileReNamer
 
 
     Private Function getMovieInfo(ByVal pFolderPath As String, ByVal pMovieYear As String) As MovieInfo
+        Dim pMovieInfo As New MovieInfo
         Dim pMovieName As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1)
         'Get the position of the end of the date
         Dim iPos = pMovieName.LastIndexOf(")") + 1
@@ -770,7 +797,7 @@ Public Class FrmFileReNamer
         Dim bError As Boolean = False
         Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & shortMovieName.Replace(" ", "+"))
         Try
-            If pMovieYear <> "" Then
+            If pMovieYear <> "" And IsDate(pMovieYear) Then
                 sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
                 If Not IsDate(sDate) Then
                     sDate = ""
@@ -802,14 +829,19 @@ Public Class FrmFileReNamer
 
                 End While
             Else
-                sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)) Then
+                    sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                Else
+                    TxtMessageDisplay.Text = pFolderPath & " Invalidate year - " & pMovieYear & vbCrLf & TxtMessageDisplay.Text
+                    bError = True
+                    pMovieInfo.Success = False
+                End If
             End If
         Catch ex As Exception
             bError = True
             TxtMessageDisplay.Text += ex.Message & vbCrLf
             TxtMessageDisplay.ForeColor = Color.Red
         End Try
-        Dim pMovieInfo As New MovieInfo
         If Not bError Then
             Try
                 Dim sMovieID As String = Mid(result, result.IndexOf("class=""title result"" href=""/movie/") + 35, 20)
