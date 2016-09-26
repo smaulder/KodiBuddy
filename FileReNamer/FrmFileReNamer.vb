@@ -659,8 +659,6 @@ Public Class FrmFileReNamer
 
                 Dim fileEntries As String() = Directory.GetFiles(Dir)
                 If pMovieInfo.Success Then
-                    'TxtMessageDisplay.Text = "Folder - " & MovieName & vbCrLf & TxtMessageDisplay.Text
-                    'Me.Refresh()
 
                     'Get Files in Folder
                     ' Process the list of files found in the directory.
@@ -832,11 +830,15 @@ Public Class FrmFileReNamer
                 If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)) Then
                     sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
                 Else
-                    TxtMessageDisplay.Text = pFolderPath & " Invalidate year - " & pMovieYear & vbCrLf & TxtMessageDisplay.Text
+                    If IsDate(pMovieYear) Then
+                        TxtMessageDisplay.Text = "Unable to find movie in TheMovieDB for - " & pFolderPath & vbCrLf & TxtMessageDisplay.Text
+                    Else
+                        TxtMessageDisplay.Text = "Skipping Folder " & pFolderPath & vbCrLf & TxtMessageDisplay.Text
+                    End If
                     bError = True
                     pMovieInfo.Success = False
+                    End If
                 End If
-            End If
         Catch ex As Exception
             bError = True
             TxtMessageDisplay.Text += ex.Message & vbCrLf
