@@ -31,10 +31,12 @@ Partial Class FrmFileReNamer
         Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
         Me.BtnVideoImport = New System.Windows.Forms.Button()
         Me.BtnCancel = New System.Windows.Forms.Button()
-        Me.BtnIMDB = New System.Windows.Forms.Button()
+        Me.BtnMovieDBUpdate = New System.Windows.Forms.Button()
         Me.BtnStart = New System.Windows.Forms.Button()
         Me.TabOptions = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.CbxUseYear = New System.Windows.Forms.CheckBox()
+        Me.CbxUseGenres = New System.Windows.Forms.CheckBox()
         Me.CbxGenres = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TxtImportFolder = New System.Windows.Forms.TextBox()
@@ -47,8 +49,6 @@ Partial Class FrmFileReNamer
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
         Me.LblFolderCount = New System.Windows.Forms.Label()
-        Me.CbxUseYear = New System.Windows.Forms.CheckBox()
-        Me.CbxUseGenres = New System.Windows.Forms.CheckBox()
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -84,7 +84,7 @@ Partial Class FrmFileReNamer
         Me.Panel2.Controls.Add(Me.TxtMessageDisplay)
         Me.Panel2.Controls.Add(Me.BtnVideoImport)
         Me.Panel2.Controls.Add(Me.BtnCancel)
-        Me.Panel2.Controls.Add(Me.BtnIMDB)
+        Me.Panel2.Controls.Add(Me.BtnMovieDBUpdate)
         Me.Panel2.Controls.Add(Me.BtnStart)
         Me.Panel2.Location = New System.Drawing.Point(7, 7)
         Me.Panel2.Name = "Panel2"
@@ -136,14 +136,14 @@ Partial Class FrmFileReNamer
         Me.BtnCancel.Text = "Exit"
         Me.BtnCancel.UseVisualStyleBackColor = True
         '
-        'BtnIMDB
+        'BtnMovieDBUpdate
         '
-        Me.BtnIMDB.Location = New System.Drawing.Point(17, 45)
-        Me.BtnIMDB.Name = "BtnIMDB"
-        Me.BtnIMDB.Size = New System.Drawing.Size(123, 23)
-        Me.BtnIMDB.TabIndex = 19
-        Me.BtnIMDB.Text = "The Movie DB Update"
-        Me.BtnIMDB.UseVisualStyleBackColor = True
+        Me.BtnMovieDBUpdate.Location = New System.Drawing.Point(17, 45)
+        Me.BtnMovieDBUpdate.Name = "BtnMovieDBUpdate"
+        Me.BtnMovieDBUpdate.Size = New System.Drawing.Size(123, 23)
+        Me.BtnMovieDBUpdate.TabIndex = 19
+        Me.BtnMovieDBUpdate.Text = "The Movie DB Update"
+        Me.BtnMovieDBUpdate.UseVisualStyleBackColor = True
         '
         'BtnStart
         '
@@ -185,6 +185,26 @@ Partial Class FrmFileReNamer
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(769, 239)
         Me.Panel1.TabIndex = 0
+        '
+        'CbxUseYear
+        '
+        Me.CbxUseYear.AutoSize = True
+        Me.CbxUseYear.Location = New System.Drawing.Point(79, 206)
+        Me.CbxUseYear.Name = "CbxUseYear"
+        Me.CbxUseYear.Size = New System.Drawing.Size(70, 17)
+        Me.CbxUseYear.TabIndex = 34
+        Me.CbxUseYear.Text = "Use Year"
+        Me.CbxUseYear.UseVisualStyleBackColor = True
+        '
+        'CbxUseGenres
+        '
+        Me.CbxUseGenres.AutoSize = True
+        Me.CbxUseGenres.Location = New System.Drawing.Point(79, 155)
+        Me.CbxUseGenres.Name = "CbxUseGenres"
+        Me.CbxUseGenres.Size = New System.Drawing.Size(82, 17)
+        Me.CbxUseGenres.TabIndex = 33
+        Me.CbxUseGenres.Text = "Use Genres"
+        Me.CbxUseGenres.UseVisualStyleBackColor = True
         '
         'CbxGenres
         '
@@ -291,26 +311,6 @@ Partial Class FrmFileReNamer
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
-        'CbxUseYear
-        '
-        Me.CbxUseYear.AutoSize = True
-        Me.CbxUseYear.Location = New System.Drawing.Point(79, 206)
-        Me.CbxUseYear.Name = "CbxUseYear"
-        Me.CbxUseYear.Size = New System.Drawing.Size(70, 17)
-        Me.CbxUseYear.TabIndex = 34
-        Me.CbxUseYear.Text = "Use Year"
-        Me.CbxUseYear.UseVisualStyleBackColor = True
-        '
-        'CbxUseGenres
-        '
-        Me.CbxUseGenres.AutoSize = True
-        Me.CbxUseGenres.Location = New System.Drawing.Point(79, 155)
-        Me.CbxUseGenres.Name = "CbxUseGenres"
-        Me.CbxUseGenres.Size = New System.Drawing.Size(82, 17)
-        Me.CbxUseGenres.TabIndex = 33
-        Me.CbxUseGenres.Text = "Use Genres"
-        Me.CbxUseGenres.UseVisualStyleBackColor = True
-        '
         'FrmFileReNamer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -336,7 +336,7 @@ Partial Class FrmFileReNamer
     Friend WithEvents Panel2 As Panel
     Friend WithEvents BtnVideoImport As Button
     Friend WithEvents BtnCancel As Button
-    Friend WithEvents BtnIMDB As Button
+    Friend WithEvents BtnMovieDBUpdate As Button
     Friend WithEvents BtnStart As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents TxtImportFolder As TextBox
