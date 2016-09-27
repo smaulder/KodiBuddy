@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.KodiBuddy.Form1
+            Me.MainForm = Global.KodiBuddy.FrmKodiBuddy
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
