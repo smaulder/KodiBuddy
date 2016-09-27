@@ -9,11 +9,11 @@ The Movie DB Update - Rename video files to match the folder name.
 
 Video Import - Imports video files into your video repository and creates folders if they are missing.
 
-FileReName - 
+FileReName - You can use it to add the movie year to folder names.
 
 ReMap Folders - Use this to rearrange the movies into genre folder structures.
 
 Options - use this tab to set the paths to your library and the path to the folder you use to import your video files.
 
-You can use it to add the movie year to folder names, 
+ 
  
