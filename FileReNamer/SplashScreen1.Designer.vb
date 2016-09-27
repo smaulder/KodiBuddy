@@ -101,7 +101,7 @@ Partial Class SplashScreen1
         Me.ApplicationTitle.Name = "ApplicationTitle"
         Me.ApplicationTitle.Size = New System.Drawing.Size(247, 212)
         Me.ApplicationTitle.TabIndex = 0
-        Me.ApplicationTitle.Text = "FileReNamer"
+        Me.ApplicationTitle.Text = "KodiBuddy"
         Me.ApplicationTitle.TextAlign = System.Drawing.ContentAlignment.BottomLeft
         '
         'SplashScreen1

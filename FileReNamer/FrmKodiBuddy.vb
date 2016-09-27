@@ -4,7 +4,7 @@ Option Strict On
 Imports System.IO
 
 
-Public Class FrmFileReNamer
+Public Class FrmKodiBuddy
     Public Dirs() As String
 
 #Region "Options"
@@ -88,7 +88,7 @@ Public Class FrmFileReNamer
 
 
 
-    Private Sub FrmFileReNamer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FrmKodiBuddy_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Load settings from settings in app.config 
         TxtImportFolder.Text = My.Settings.ImportPath2
         txtFolderPath.Text = My.Settings.MoviePath
@@ -344,45 +344,45 @@ Public Class FrmFileReNamer
 
                     'Create Destination Directory if missing 
                     If Not Directory.Exists(DestFolder) Then
-                            Try
-                                Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
-                            Catch e2 As Exception
-                                TxtMessageDisplay.Text += e2.Message & vbCrLf
-                            End Try
-                        End If
+                        Try
+                            Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
+                        Catch e2 As Exception
+                            TxtMessageDisplay.Text += e2.Message & vbCrLf
+                        End Try
+                    End If
 
-                        If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
-                            DestFolder = DestFolder & MovieName
-                        Else
-                            DestFolder = DestFolder & "\" & MovieName
-                        End If
-
-                        If Microsoft.VisualBasic.Right(TxtImportFolder.Text, 1) = "\" Then
-                            SourceFolder = TxtImportFolder.Text & MovieName
-                        Else
-                            SourceFolder = TxtImportFolder.Text & "\" & MovieName
-                        End If
-
-                        If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(SourceFolder) Then
-                            Try
-                                Directory.Move(SourceFolder, DestFolder)
-                            Catch e2 As Exception
-                                TxtMessageDisplay.Text += e2.Message & vbCrLf
-                            End Try
-                        Else
-                            'Message folder not found.
-                            If Directory.Exists(DestFolder) Then
-                                TxtMessageDisplay.Text += "Duplicate folder exists. - " & DestFolder & vbCrLf
-                            End If
-                            If Not Directory.Exists(SourceFolder) Then
-                                TxtMessageDisplay.Text += "Source folder not found. - " & SourceFolder & vbCrLf
-                            End If
-                        End If
-
-                        TxtMessageDisplay.Text += MovieName & vbCrLf
-                        Me.Refresh()
+                    If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
+                        DestFolder = DestFolder & MovieName
                     Else
-                        TxtMessageDisplay.Text += "Failed to load Movie info for - " & MovieName & vbCrLf
+                        DestFolder = DestFolder & "\" & MovieName
+                    End If
+
+                    If Microsoft.VisualBasic.Right(TxtImportFolder.Text, 1) = "\" Then
+                        SourceFolder = TxtImportFolder.Text & MovieName
+                    Else
+                        SourceFolder = TxtImportFolder.Text & "\" & MovieName
+                    End If
+
+                    If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(SourceFolder) Then
+                        Try
+                            Directory.Move(SourceFolder, DestFolder)
+                        Catch e2 As Exception
+                            TxtMessageDisplay.Text += e2.Message & vbCrLf
+                        End Try
+                    Else
+                        'Message folder not found.
+                        If Directory.Exists(DestFolder) Then
+                            TxtMessageDisplay.Text += "Duplicate folder exists. - " & DestFolder & vbCrLf
+                        End If
+                        If Not Directory.Exists(SourceFolder) Then
+                            TxtMessageDisplay.Text += "Source folder not found. - " & SourceFolder & vbCrLf
+                        End If
+                    End If
+
+                    TxtMessageDisplay.Text += MovieName & vbCrLf
+                    Me.Refresh()
+                Else
+                    TxtMessageDisplay.Text += "Failed to load Movie info for - " & MovieName & vbCrLf
                     TxtMessageDisplay.ForeColor = Color.Red
                     Me.Refresh()
                 End If
@@ -578,31 +578,31 @@ Public Class FrmFileReNamer
 
                         'Create Destination Directory if missing 
                         If Not Directory.Exists(DestFolder) Then
-                                Try
-                                    Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
-                                Catch e2 As Exception
-                                    TxtMessageDisplay.Text += e2.Message & vbCrLf
-                                End Try
-                            End If
-
-                            If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
-                                DestFolder = DestFolder & MovieName
-                            Else
-                                DestFolder = DestFolder & "\" & MovieName
-                            End If
-
-                            If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(Dir) Then
-                                Try
-                                    Directory.Move(Dir, DestFolder)
-                                Catch e2 As Exception
-                                    TxtMessageDisplay.Text += e2.Message & vbCrLf
-                                End Try
-                            End If
-
-                            TxtMessageDisplay.Text += MovieName & vbCrLf
-                            Me.Refresh()
+                            Try
+                                Dim di As DirectoryInfo = Directory.CreateDirectory(DestFolder)
+                            Catch e2 As Exception
+                                TxtMessageDisplay.Text += e2.Message & vbCrLf
+                            End Try
                         End If
+
+                        If Microsoft.VisualBasic.Right(DestFolder, 1) = "\" Then
+                            DestFolder = DestFolder & MovieName
+                        Else
+                            DestFolder = DestFolder & "\" & MovieName
+                        End If
+
+                        If Not Directory.Exists(DestFolder) AndAlso Directory.Exists(Dir) Then
+                            Try
+                                Directory.Move(Dir, DestFolder)
+                            Catch e2 As Exception
+                                TxtMessageDisplay.Text += e2.Message & vbCrLf
+                            End Try
+                        End If
+
+                        TxtMessageDisplay.Text += MovieName & vbCrLf
+                        Me.Refresh()
                     End If
+                End If
             Next i
 
             TxtMessageDisplay.Text += "Processing done on " & Dirs.Count & " Folders." & vbCrLf
@@ -689,17 +689,17 @@ Public Class FrmFileReNamer
                             End If
 
                             Try
-                                    If fileName.Remove(0, fileName.LastIndexOf("\") + 1) <> tmpFileName Then
-                                        My.Computer.FileSystem.RenameFile(fileName, tmpFileName)
-                                        TxtMessageDisplay.Text = "Changed - " & fileName & " to " & tmpFileName & vbCrLf & TxtMessageDisplay.Text
-                                        Me.Refresh()
-                                    End If
-
-                                Catch ex As Exception
-                                    TxtMessageDisplay.Text = ex.Message & " - " & MovieName & vbCrLf & TxtMessageDisplay.Text
+                                If fileName.Remove(0, fileName.LastIndexOf("\") + 1) <> tmpFileName Then
+                                    My.Computer.FileSystem.RenameFile(fileName, tmpFileName)
+                                    TxtMessageDisplay.Text = "Changed - " & fileName & " to " & tmpFileName & vbCrLf & TxtMessageDisplay.Text
                                     Me.Refresh()
-                                End Try
-                            End If
+                                End If
+
+                            Catch ex As Exception
+                                TxtMessageDisplay.Text = ex.Message & " - " & MovieName & vbCrLf & TxtMessageDisplay.Text
+                                Me.Refresh()
+                            End Try
+                        End If
                     Next fileName
                 End If
             Next
@@ -837,8 +837,8 @@ Public Class FrmFileReNamer
                     End If
                     bError = True
                     pMovieInfo.Success = False
-                    End If
                 End If
+            End If
         Catch ex As Exception
             bError = True
             TxtMessageDisplay.Text += ex.Message & vbCrLf

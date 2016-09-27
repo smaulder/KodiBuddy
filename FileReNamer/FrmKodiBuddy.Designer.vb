@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class FrmFileReNamer
+Partial Class FrmKodiBuddy
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -75,7 +75,7 @@ Partial Class FrmFileReNamer
         Me.TabExecute.Padding = New System.Windows.Forms.Padding(3)
         Me.TabExecute.Size = New System.Drawing.Size(782, 252)
         Me.TabExecute.TabIndex = 0
-        Me.TabExecute.Text = "FileReNamer"
+        Me.TabExecute.Text = "KodiBuddy"
         Me.TabExecute.UseVisualStyleBackColor = True
         '
         'Panel2
@@ -321,13 +321,13 @@ Partial Class FrmFileReNamer
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
-        'FrmFileReNamer
+        'FrmKodiBuddy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(814, 303)
         Me.Controls.Add(Me.TabControl)
-        Me.Name = "FrmFileReNamer"
+        Me.Name = "FrmKodiBuddy"
         Me.Text = "Movie Folder Cleaner"
         Me.TabControl.ResumeLayout(False)
         Me.TabExecute.ResumeLayout(False)

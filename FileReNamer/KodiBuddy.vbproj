@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D7605541-CE8F-4C68-AB05-3958E5661E85}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>FileReNamer.My.MyApplication</StartupObject>
-    <RootNamespace>FileReNamer</RootNamespace>
-    <AssemblyName>FileReNamer</AssemblyName>
+    <StartupObject>KodiBuddy.My.MyApplication</StartupObject>
+    <RootNamespace>KodiBuddy</RootNamespace>
+    <AssemblyName>KodiBuddy</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -21,7 +21,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>FileReNamer.xml</DocumentationFile>
+    <DocumentationFile>KodiBuddy.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -31,7 +31,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>FileReNamer.xml</DocumentationFile>
+    <DocumentationFile>KodiBuddy.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -92,11 +92,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmFileReNamer.vb">
+    <Compile Include="FrmKodiBuddy.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmFileReNamer.Designer.vb">
-      <DependentUpon>FrmFileReNamer.vb</DependentUpon>
+    <Compile Include="FrmKodiBuddy.Designer.vb">
+      <DependentUpon>FrmKodiBuddy.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -122,8 +122,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FrmFileReNamer.resx">
-      <DependentUpon>FrmFileReNamer.vb</DependentUpon>
+    <EmbeddedResource Include="FrmKodiBuddy.resx">
+      <DependentUpon>FrmKodiBuddy.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

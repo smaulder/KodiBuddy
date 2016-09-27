@@ -32,12 +32,12 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.FileReNamer.FrmFileReNamer
+            Me.MainForm = Global.KodiBuddy.Form1
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateSplashScreen()
-            Me.SplashScreen = Global.FileReNamer.SplashScreen1
+            Me.SplashScreen = Global.KodiBuddy.SplashScreen1
         End Sub
     End Class
 End Namespace

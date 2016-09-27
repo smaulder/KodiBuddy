@@ -124,9 +124,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.FileReNamer.My.MySettings
+        Friend ReadOnly Property Settings() As Global.KodiBuddy.My.MySettings
             Get
-                Return Global.FileReNamer.My.MySettings.Default
+                Return Global.KodiBuddy.My.MySettings.Default
             End Get
         End Property
     End Module
