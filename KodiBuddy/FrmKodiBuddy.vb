@@ -617,6 +617,7 @@ Public Class FrmKodiBuddy
 
     End Sub
 
+
     'this renames the movie files to match the folders.  folders need to have dates in the name first.
     Private Sub BtnMovieDBUpdate_Click(sender As Object, e As EventArgs) Handles BtnMovieDBUpdate.Click
         Dim DirList As New ArrayList

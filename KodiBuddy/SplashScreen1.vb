@@ -35,4 +35,8 @@
     Private Sub ApplicationTitle_Click(sender As Object, e As EventArgs) Handles ApplicationTitle.Click
 
     End Sub
+
+    Private Sub Copyright_Click(sender As Object, e As EventArgs) Handles Copyright.Click
+
+    End Sub
 End Class
