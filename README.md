@@ -15,5 +15,10 @@ ReMap Folders - Use this to rearrange the movies into genre folder structures.
 
 Options - use this tab to set the paths to your library and the path to the folder you use to import your video files.
 
+
+Future Developments will include: 
+     Merging the existing individual functions into one overarching process.
+     Adding simular functionality in for TV shows and Music.
+
  
  
