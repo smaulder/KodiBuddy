@@ -9,7 +9,8 @@ Options Tab - use this tab to set the paths to your library, the path to the fol
 
 KodiBuddy Tab - functions include:
 
-      Change Date Brackets - Use this to change what encloses the folder names year.  Options are parentheses or brackets.
+      Change Date Brackets - Use this to change what encloses the folder names year.  
+            Options are parentheses or brackets.
 
       The Movie DB Update - Rename video files to match the folder name.
 
