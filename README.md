@@ -21,7 +21,9 @@ KodiBuddy Tab - functions include:
 
 
 Future Developments will include: 
+
      Merging the existing individual functions into one overarching process.
+     
      Adding simular functionality in for TV shows and Music.
 
  
