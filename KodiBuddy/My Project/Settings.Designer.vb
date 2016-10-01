@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("V:\")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Movie Testing\output")>  _
         Public Property MoviePath() As String
             Get
                 Return CType(Me("MoviePath"),String)
@@ -80,19 +80,19 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("V:\Video")>  _
-        Public Property ImportPath2() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Movie Testing\import")>  _
+        Public Property MovieImportPath() As String
             Get
-                Return CType(Me("ImportPath2"),String)
+                Return CType(Me("MovieImportPath"),String)
             End Get
             Set
-                Me("ImportPath2") = value
+                Me("MovieImportPath") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
         Public Property NoOfGenres() As String
             Get
                 Return CType(Me("NoOfGenres"),String)
@@ -111,6 +111,30 @@ Namespace My
             End Get
             Set
                 Me("GenreOrYear") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\TV Testing\output")>  _
+        Public Property TVPath() As String
+            Get
+                Return CType(Me("TVPath"),String)
+            End Get
+            Set
+                Me("TVPath") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\TV Testing\Import")>  _
+        Public Property TVImportPath() As String
+            Get
+                Return CType(Me("TVImportPath"),String)
+            End Get
+            Set
+                Me("TVImportPath") = value
             End Set
         End Property
     End Class

@@ -26,10 +26,15 @@ Partial Class FrmKodiBuddy
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabExecute = New System.Windows.Forms.TabPage()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.LblFolderCounts = New System.Windows.Forms.Label()
+        Me.ErrorTabControl = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.TxtErrorMessage = New System.Windows.Forms.TextBox()
         Me.LblCurrentDir = New System.Windows.Forms.Label()
         Me.BtnRemap = New System.Windows.Forms.Button()
         Me.BtnFileReName = New System.Windows.Forms.Button()
-        Me.TxtMessageDisplay = New System.Windows.Forms.TextBox()
         Me.BtnVideoImport = New System.Windows.Forms.Button()
         Me.BtnCancel = New System.Windows.Forms.Button()
         Me.BtnMovieDBUpdate = New System.Windows.Forms.Button()
@@ -53,6 +58,9 @@ Partial Class FrmKodiBuddy
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
+        Me.ErrorTabControl.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.TabOptions.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -80,10 +88,11 @@ Partial Class FrmKodiBuddy
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.LblFolderCounts)
+        Me.Panel2.Controls.Add(Me.ErrorTabControl)
         Me.Panel2.Controls.Add(Me.LblCurrentDir)
         Me.Panel2.Controls.Add(Me.BtnRemap)
         Me.Panel2.Controls.Add(Me.BtnFileReName)
-        Me.Panel2.Controls.Add(Me.TxtMessageDisplay)
         Me.Panel2.Controls.Add(Me.BtnVideoImport)
         Me.Panel2.Controls.Add(Me.BtnCancel)
         Me.Panel2.Controls.Add(Me.BtnMovieDBUpdate)
@@ -92,6 +101,64 @@ Partial Class FrmKodiBuddy
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(769, 242)
         Me.Panel2.TabIndex = 19
+        '
+        'LblFolderCounts
+        '
+        Me.LblFolderCounts.AutoSize = True
+        Me.LblFolderCounts.Location = New System.Drawing.Point(169, 17)
+        Me.LblFolderCounts.Name = "LblFolderCounts"
+        Me.LblFolderCounts.Size = New System.Drawing.Size(0, 13)
+        Me.LblFolderCounts.TabIndex = 27
+        '
+        'ErrorTabControl
+        '
+        Me.ErrorTabControl.Controls.Add(Me.TabPage1)
+        Me.ErrorTabControl.Controls.Add(Me.TabPage2)
+        Me.ErrorTabControl.Location = New System.Drawing.Point(147, 36)
+        Me.ErrorTabControl.Name = "ErrorTabControl"
+        Me.ErrorTabControl.SelectedIndex = 0
+        Me.ErrorTabControl.Size = New System.Drawing.Size(619, 206)
+        Me.ErrorTabControl.TabIndex = 26
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.TxtMessageDisplay)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(611, 180)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Processed"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TxtMessageDisplay
+        '
+        Me.TxtMessageDisplay.Location = New System.Drawing.Point(2, 2)
+        Me.TxtMessageDisplay.Multiline = True
+        Me.TxtMessageDisplay.Name = "TxtMessageDisplay"
+        Me.TxtMessageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TxtMessageDisplay.Size = New System.Drawing.Size(607, 178)
+        Me.TxtMessageDisplay.TabIndex = 23
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.TxtErrorMessage)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(611, 180)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Errors"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'TxtErrorMessage
+        '
+        Me.TxtErrorMessage.Location = New System.Drawing.Point(2, 2)
+        Me.TxtErrorMessage.Multiline = True
+        Me.TxtErrorMessage.Name = "TxtErrorMessage"
+        Me.TxtErrorMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TxtErrorMessage.Size = New System.Drawing.Size(607, 175)
+        Me.TxtErrorMessage.TabIndex = 23
         '
         'LblCurrentDir
         '
@@ -118,15 +185,6 @@ Partial Class FrmKodiBuddy
         Me.BtnFileReName.TabIndex = 23
         Me.BtnFileReName.Text = "FileReName"
         Me.BtnFileReName.UseVisualStyleBackColor = True
-        '
-        'TxtMessageDisplay
-        '
-        Me.TxtMessageDisplay.Location = New System.Drawing.Point(159, 5)
-        Me.TxtMessageDisplay.Multiline = True
-        Me.TxtMessageDisplay.Name = "TxtMessageDisplay"
-        Me.TxtMessageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TxtMessageDisplay.Size = New System.Drawing.Size(607, 206)
-        Me.TxtMessageDisplay.TabIndex = 22
         '
         'BtnVideoImport
         '
@@ -325,7 +383,7 @@ Partial Class FrmKodiBuddy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(814, 303)
+        Me.ClientSize = New System.Drawing.Size(814, 343)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "FrmKodiBuddy"
         Me.Text = "Movie Folder Cleaner"
@@ -333,6 +391,11 @@ Partial Class FrmKodiBuddy
         Me.TabExecute.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        Me.ErrorTabControl.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.TabOptions.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
@@ -359,7 +422,6 @@ Partial Class FrmKodiBuddy
     Friend WithEvents LblRecordCount As Label
     Friend WithEvents LblMovieFolder As Label
     Friend WithEvents LblFolderCount As Label
-    Friend WithEvents TxtMessageDisplay As TextBox
     Friend WithEvents BtnFileReName As Button
     Friend WithEvents BtnRemap As Button
     Friend WithEvents CbxGenres As ComboBox
@@ -367,4 +429,10 @@ Partial Class FrmKodiBuddy
     Friend WithEvents CbxUseYear As CheckBox
     Friend WithEvents CbxUseGenres As CheckBox
     Friend WithEvents LblCurrentDir As Label
+    Friend WithEvents ErrorTabControl As TabControl
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents TxtMessageDisplay As TextBox
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents TxtErrorMessage As TextBox
+    Friend WithEvents LblFolderCounts As Label
 End Class
