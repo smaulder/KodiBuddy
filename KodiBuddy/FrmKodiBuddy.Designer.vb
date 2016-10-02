@@ -53,6 +53,7 @@ Partial Class FrmKodiBuddy
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
         Me.LblFolderCount = New System.Windows.Forms.Label()
+        Me.LblDescription = New System.Windows.Forms.Label()
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -70,7 +71,7 @@ Partial Class FrmKodiBuddy
         Me.TabControl.Location = New System.Drawing.Point(12, 13)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(790, 278)
+        Me.TabControl.Size = New System.Drawing.Size(790, 318)
         Me.TabControl.TabIndex = 15
         '
         'TabExecute
@@ -79,13 +80,14 @@ Partial Class FrmKodiBuddy
         Me.TabExecute.Location = New System.Drawing.Point(4, 22)
         Me.TabExecute.Name = "TabExecute"
         Me.TabExecute.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabExecute.Size = New System.Drawing.Size(782, 252)
+        Me.TabExecute.Size = New System.Drawing.Size(782, 292)
         Me.TabExecute.TabIndex = 0
         Me.TabExecute.Text = "Movies"
         Me.TabExecute.UseVisualStyleBackColor = True
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.LblDescription)
         Me.Panel2.Controls.Add(Me.LblFolderCounts)
         Me.Panel2.Controls.Add(Me.ErrorTabControl)
         Me.Panel2.Controls.Add(Me.LblCurrentDir)
@@ -95,7 +97,7 @@ Partial Class FrmKodiBuddy
         Me.Panel2.Controls.Add(Me.BtnCancel)
         Me.Panel2.Location = New System.Drawing.Point(7, 7)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(769, 242)
+        Me.Panel2.Size = New System.Drawing.Size(769, 279)
         Me.Panel2.TabIndex = 19
         '
         'LblFolderCounts
@@ -361,6 +363,14 @@ Partial Class FrmKodiBuddy
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
+        'LblDescription
+        '
+        Me.LblDescription.AutoSize = True
+        Me.LblDescription.Location = New System.Drawing.Point(151, 249)
+        Me.LblDescription.Name = "LblDescription"
+        Me.LblDescription.Size = New System.Drawing.Size(0, 13)
+        Me.LblDescription.TabIndex = 28
+        '
         'FrmKodiBuddy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -415,4 +425,5 @@ Partial Class FrmKodiBuddy
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents TxtErrorMessage As TextBox
     Friend WithEvents LblFolderCounts As Label
+    Friend WithEvents LblDescription As Label
 End Class
