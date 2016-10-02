@@ -33,12 +33,10 @@ Partial Class FrmKodiBuddy
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TxtErrorMessage = New System.Windows.Forms.TextBox()
         Me.LblCurrentDir = New System.Windows.Forms.Label()
-        Me.BtnRemap = New System.Windows.Forms.Button()
+        Me.BtnRemapFolders = New System.Windows.Forms.Button()
         Me.BtnFileReName = New System.Windows.Forms.Button()
         Me.BtnVideoImport = New System.Windows.Forms.Button()
         Me.BtnCancel = New System.Windows.Forms.Button()
-        Me.BtnMovieDBUpdate = New System.Windows.Forms.Button()
-        Me.BtnStart = New System.Windows.Forms.Button()
         Me.TabOptions = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.CbxUseYear = New System.Windows.Forms.CheckBox()
@@ -83,7 +81,7 @@ Partial Class FrmKodiBuddy
         Me.TabExecute.Padding = New System.Windows.Forms.Padding(3)
         Me.TabExecute.Size = New System.Drawing.Size(782, 252)
         Me.TabExecute.TabIndex = 0
-        Me.TabExecute.Text = "KodiBuddy"
+        Me.TabExecute.Text = "Movies"
         Me.TabExecute.UseVisualStyleBackColor = True
         '
         'Panel2
@@ -91,12 +89,10 @@ Partial Class FrmKodiBuddy
         Me.Panel2.Controls.Add(Me.LblFolderCounts)
         Me.Panel2.Controls.Add(Me.ErrorTabControl)
         Me.Panel2.Controls.Add(Me.LblCurrentDir)
-        Me.Panel2.Controls.Add(Me.BtnRemap)
+        Me.Panel2.Controls.Add(Me.BtnRemapFolders)
         Me.Panel2.Controls.Add(Me.BtnFileReName)
         Me.Panel2.Controls.Add(Me.BtnVideoImport)
         Me.Panel2.Controls.Add(Me.BtnCancel)
-        Me.Panel2.Controls.Add(Me.BtnMovieDBUpdate)
-        Me.Panel2.Controls.Add(Me.BtnStart)
         Me.Panel2.Location = New System.Drawing.Point(7, 7)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(769, 242)
@@ -105,7 +101,7 @@ Partial Class FrmKodiBuddy
         'LblFolderCounts
         '
         Me.LblFolderCounts.AutoSize = True
-        Me.LblFolderCounts.Location = New System.Drawing.Point(169, 17)
+        Me.LblFolderCounts.Location = New System.Drawing.Point(149, 216)
         Me.LblFolderCounts.Name = "LblFolderCounts"
         Me.LblFolderCounts.Size = New System.Drawing.Size(0, 13)
         Me.LblFolderCounts.TabIndex = 27
@@ -114,10 +110,10 @@ Partial Class FrmKodiBuddy
         '
         Me.ErrorTabControl.Controls.Add(Me.TabPage1)
         Me.ErrorTabControl.Controls.Add(Me.TabPage2)
-        Me.ErrorTabControl.Location = New System.Drawing.Point(147, 36)
+        Me.ErrorTabControl.Location = New System.Drawing.Point(147, 3)
         Me.ErrorTabControl.Name = "ErrorTabControl"
         Me.ErrorTabControl.SelectedIndex = 0
-        Me.ErrorTabControl.Size = New System.Drawing.Size(619, 206)
+        Me.ErrorTabControl.Size = New System.Drawing.Size(619, 210)
         Me.ErrorTabControl.TabIndex = 26
         '
         'TabPage1
@@ -126,14 +122,14 @@ Partial Class FrmKodiBuddy
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(611, 180)
+        Me.TabPage1.Size = New System.Drawing.Size(611, 184)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Processed"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'TxtMessageDisplay
         '
-        Me.TxtMessageDisplay.Location = New System.Drawing.Point(2, 2)
+        Me.TxtMessageDisplay.Location = New System.Drawing.Point(1, 3)
         Me.TxtMessageDisplay.Multiline = True
         Me.TxtMessageDisplay.Name = "TxtMessageDisplay"
         Me.TxtMessageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Both
@@ -146,7 +142,7 @@ Partial Class FrmKodiBuddy
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(611, 180)
+        Me.TabPage2.Size = New System.Drawing.Size(611, 184)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Errors"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -168,18 +164,18 @@ Partial Class FrmKodiBuddy
         Me.LblCurrentDir.Size = New System.Drawing.Size(0, 13)
         Me.LblCurrentDir.TabIndex = 25
         '
-        'BtnRemap
+        'BtnRemapFolders
         '
-        Me.BtnRemap.Location = New System.Drawing.Point(18, 136)
-        Me.BtnRemap.Name = "BtnRemap"
-        Me.BtnRemap.Size = New System.Drawing.Size(122, 23)
-        Me.BtnRemap.TabIndex = 24
-        Me.BtnRemap.Text = "ReMap Folders"
-        Me.BtnRemap.UseVisualStyleBackColor = True
+        Me.BtnRemapFolders.Location = New System.Drawing.Point(17, 54)
+        Me.BtnRemapFolders.Name = "BtnRemapFolders"
+        Me.BtnRemapFolders.Size = New System.Drawing.Size(122, 23)
+        Me.BtnRemapFolders.TabIndex = 24
+        Me.BtnRemapFolders.Text = "ReMap Folders"
+        Me.BtnRemapFolders.UseVisualStyleBackColor = True
         '
         'BtnFileReName
         '
-        Me.BtnFileReName.Location = New System.Drawing.Point(17, 104)
+        Me.BtnFileReName.Location = New System.Drawing.Point(17, 83)
         Me.BtnFileReName.Name = "BtnFileReName"
         Me.BtnFileReName.Size = New System.Drawing.Size(122, 23)
         Me.BtnFileReName.TabIndex = 23
@@ -188,7 +184,7 @@ Partial Class FrmKodiBuddy
         '
         'BtnVideoImport
         '
-        Me.BtnVideoImport.Location = New System.Drawing.Point(17, 75)
+        Me.BtnVideoImport.Location = New System.Drawing.Point(17, 25)
         Me.BtnVideoImport.Name = "BtnVideoImport"
         Me.BtnVideoImport.Size = New System.Drawing.Size(122, 23)
         Me.BtnVideoImport.TabIndex = 21
@@ -197,30 +193,12 @@ Partial Class FrmKodiBuddy
         '
         'BtnCancel
         '
-        Me.BtnCancel.Location = New System.Drawing.Point(17, 165)
+        Me.BtnCancel.Location = New System.Drawing.Point(17, 112)
         Me.BtnCancel.Name = "BtnCancel"
         Me.BtnCancel.Size = New System.Drawing.Size(122, 23)
         Me.BtnCancel.TabIndex = 20
         Me.BtnCancel.Text = "Exit"
         Me.BtnCancel.UseVisualStyleBackColor = True
-        '
-        'BtnMovieDBUpdate
-        '
-        Me.BtnMovieDBUpdate.Location = New System.Drawing.Point(17, 45)
-        Me.BtnMovieDBUpdate.Name = "BtnMovieDBUpdate"
-        Me.BtnMovieDBUpdate.Size = New System.Drawing.Size(123, 23)
-        Me.BtnMovieDBUpdate.TabIndex = 19
-        Me.BtnMovieDBUpdate.Text = "The Movie DB Update"
-        Me.BtnMovieDBUpdate.UseVisualStyleBackColor = True
-        '
-        'BtnStart
-        '
-        Me.BtnStart.Location = New System.Drawing.Point(17, 16)
-        Me.BtnStart.Name = "BtnStart"
-        Me.BtnStart.Size = New System.Drawing.Size(123, 23)
-        Me.BtnStart.TabIndex = 18
-        Me.BtnStart.Text = "Change Date Brackets"
-        Me.BtnStart.UseVisualStyleBackColor = True
         '
         'TabOptions
         '
@@ -257,7 +235,7 @@ Partial Class FrmKodiBuddy
         'CbxUseYear
         '
         Me.CbxUseYear.AutoSize = True
-        Me.CbxUseYear.Location = New System.Drawing.Point(79, 206)
+        Me.CbxUseYear.Location = New System.Drawing.Point(79, 171)
         Me.CbxUseYear.Name = "CbxUseYear"
         Me.CbxUseYear.Size = New System.Drawing.Size(70, 17)
         Me.CbxUseYear.TabIndex = 34
@@ -267,7 +245,7 @@ Partial Class FrmKodiBuddy
         'CbxUseGenres
         '
         Me.CbxUseGenres.AutoSize = True
-        Me.CbxUseGenres.Location = New System.Drawing.Point(79, 155)
+        Me.CbxUseGenres.Location = New System.Drawing.Point(79, 120)
         Me.CbxUseGenres.Name = "CbxUseGenres"
         Me.CbxUseGenres.Size = New System.Drawing.Size(82, 17)
         Me.CbxUseGenres.TabIndex = 33
@@ -278,7 +256,7 @@ Partial Class FrmKodiBuddy
         '
         Me.CbxGenres.AutoCompleteCustomSource.AddRange(New String() {"1", "2", "3", "4"})
         Me.CbxGenres.FormattingEnabled = True
-        Me.CbxGenres.Location = New System.Drawing.Point(228, 178)
+        Me.CbxGenres.Location = New System.Drawing.Point(228, 143)
         Me.CbxGenres.Name = "CbxGenres"
         Me.CbxGenres.Size = New System.Drawing.Size(121, 21)
         Me.CbxGenres.TabIndex = 32
@@ -286,7 +264,7 @@ Partial Class FrmKodiBuddy
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(77, 181)
+        Me.Label1.Location = New System.Drawing.Point(77, 146)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(128, 13)
         Me.Label1.TabIndex = 31
@@ -320,22 +298,26 @@ Partial Class FrmKodiBuddy
         'CkBxUseParens
         '
         Me.CkBxUseParens.AutoSize = True
-        Me.CkBxUseParens.Location = New System.Drawing.Point(166, 132)
+        Me.CkBxUseParens.Enabled = False
+        Me.CkBxUseParens.Location = New System.Drawing.Point(528, 206)
         Me.CkBxUseParens.Name = "CkBxUseParens"
         Me.CkBxUseParens.Size = New System.Drawing.Size(77, 17)
         Me.CkBxUseParens.TabIndex = 27
         Me.CkBxUseParens.Text = "Use (Date)"
         Me.CkBxUseParens.UseVisualStyleBackColor = True
+        Me.CkBxUseParens.Visible = False
         '
         'CkBxUseBracket
         '
         Me.CkBxUseBracket.AutoSize = True
-        Me.CkBxUseBracket.Location = New System.Drawing.Point(80, 132)
+        Me.CkBxUseBracket.Enabled = False
+        Me.CkBxUseBracket.Location = New System.Drawing.Point(442, 206)
         Me.CkBxUseBracket.Name = "CkBxUseBracket"
         Me.CkBxUseBracket.Size = New System.Drawing.Size(77, 17)
         Me.CkBxUseBracket.TabIndex = 26
         Me.CkBxUseBracket.Text = "Use [Date]"
         Me.CkBxUseBracket.UseVisualStyleBackColor = True
+        Me.CkBxUseBracket.Visible = False
         '
         'txtFolderPath
         '
@@ -386,7 +368,7 @@ Partial Class FrmKodiBuddy
         Me.ClientSize = New System.Drawing.Size(814, 343)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "FrmKodiBuddy"
-        Me.Text = "Movie Folder Cleaner"
+        Me.Text = "KodiBuddy"
         Me.TabControl.ResumeLayout(False)
         Me.TabExecute.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
@@ -409,8 +391,6 @@ Partial Class FrmKodiBuddy
     Friend WithEvents Panel2 As Panel
     Friend WithEvents BtnVideoImport As Button
     Friend WithEvents BtnCancel As Button
-    Friend WithEvents BtnMovieDBUpdate As Button
-    Friend WithEvents BtnStart As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents TxtImportFolder As TextBox
     Friend WithEvents BtnSelectImportFolder As Button
@@ -423,7 +403,7 @@ Partial Class FrmKodiBuddy
     Friend WithEvents LblMovieFolder As Label
     Friend WithEvents LblFolderCount As Label
     Friend WithEvents BtnFileReName As Button
-    Friend WithEvents BtnRemap As Button
+    Friend WithEvents BtnRemapFolders As Button
     Friend WithEvents CbxGenres As ComboBox
     Friend WithEvents Label1 As Label
     Friend WithEvents CbxUseYear As CheckBox
