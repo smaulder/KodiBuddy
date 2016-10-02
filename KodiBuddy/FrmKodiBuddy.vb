@@ -682,112 +682,112 @@ Public Class FrmKodiBuddy
         ProcessingStatus = False
     End Sub
 
-    Private Sub BtnMovieDBUpdate_MouseHover(sender As Object, e As EventArgs)
-        If Not ProcessingStatus Then
-            TxtMessageDisplay.Text = "This renames the movie files to match the folders.  folders need to have dates in the name first."
-        End If
-    End Sub
+    'Private Sub BtnMovieDBUpdate_MouseHover(sender As Object, e As EventArgs)
+    '    If Not ProcessingStatus Then
+    '        TxtMessageDisplay.Text = "This renames the movie files to match the folders.  folders need to have dates in the name first."
+    '    End If
+    'End Sub
 
-    Private Sub BtnMovieDBUpdate_Mouseleave(sender As Object, e As EventArgs)
-        If Not ProcessingStatus Then
-            TxtMessageDisplay.Text = ""
-        End If
-    End Sub
+    'Private Sub BtnMovieDBUpdate_Mouseleave(sender As Object, e As EventArgs)
+    '    If Not ProcessingStatus Then
+    '        TxtMessageDisplay.Text = ""
+    '    End If
+    'End Sub
 
     'this renames the movie files to match the folders.  folders need to have dates in the name first.
-    Private Sub BtnMovieDBUpdate_Click(sender As Object, e As EventArgs)
-        Dim DirList As New ArrayList
-        Dim ResultName As String = ""
-        Dim Resultant As String = ""
-        ProcessingStatus = True
-        Try
-            BtnMovieDBUpdate.Text = "Processing"
-            BtnMovieDBUpdate.Enabled = False
-            Me.Refresh()
+    'Private Sub BtnMovieDBUpdate_Click(sender As Object, e As EventArgs)
+    '    Dim DirList As New ArrayList
+    '    Dim ResultName As String = ""
+    '    Dim Resultant As String = ""
+    '    ProcessingStatus = True
+    '    Try
+    '        BtnMovieDBUpdate.Text = "Processing"
+    '        BtnMovieDBUpdate.Enabled = False
+    '        Me.Refresh()
 
-            Dirs = getAllFolders(txtFolderPath.Text)
+    '        Dirs = getAllFolders(txtFolderPath.Text)
 
-            TxtMessageDisplay.Text = Dirs.Count & vbCrLf
-            Me.Refresh()
+    '        TxtMessageDisplay.Text = Dirs.Count & vbCrLf
+    '        Me.Refresh()
 
-            For i As Integer = Dirs.Count - 1 To 0 Step -1
-                Dim MovieName As String = ""
-                Dim movieyear As String = ""
-                Dim Dir As String = Dirs(i)
-                LblCurrentDir.Text = i & Dir & vbCrLf
-                Me.Refresh()
+    '        For i As Integer = Dirs.Count - 1 To 0 Step -1
+    '            Dim MovieName As String = ""
+    '            Dim movieyear As String = ""
+    '            Dim Dir As String = Dirs(i)
+    '            LblCurrentDir.Text = i & Dir & vbCrLf
+    '            Me.Refresh()
 
-                Try
-                    MovieName = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
-                Catch ex As Exception
-                    TxtErrorMessage.Text = "Error at 1" & ex.Message
-                End Try
-                Try
-                    movieyear = Dir.Remove(0, Dir.LastIndexOf("(") + 1).Trim().Remove(4)
-                Catch ex As Exception
-                    TxtErrorMessage.Text = "Error at 2" & ex.Message
-                End Try
+    '            Try
+    '                MovieName = Dir.Remove(0, Dir.LastIndexOf("\") + 1)
+    '            Catch ex As Exception
+    '                TxtErrorMessage.Text = "Error at 1" & ex.Message
+    '            End Try
+    '            Try
+    '                movieyear = Dir.Remove(0, Dir.LastIndexOf("(") + 1).Trim().Remove(4)
+    '            Catch ex As Exception
+    '                TxtErrorMessage.Text = "Error at 2" & ex.Message
+    '            End Try
 
-                Dim pMovieInfo As MovieInfo = Nothing
-                Try
-                    pMovieInfo = getMovieInfo(Dir, movieyear)
-                Catch ex As Exception
-                    TxtErrorMessage.Text = "Error at 6" & ex.Message
-                End Try
+    '            Dim pMovieInfo As MovieInfo = Nothing
+    '            Try
+    '                pMovieInfo = getMovieInfo(Dir, movieyear)
+    '            Catch ex As Exception
+    '                TxtErrorMessage.Text = "Error at 6" & ex.Message
+    '            End Try
 
-                Dim fileEntries As String() = Directory.GetFiles(Dir)
-                If pMovieInfo.Success Then
+    '            Dim fileEntries As String() = Directory.GetFiles(Dir)
+    '            If pMovieInfo.Success Then
 
-                    'Get Files in Folder
-                    ' Process the list of files found in the directory.
-                    Dim fileName As String
-                    For Each fileName In fileEntries
-                        Dim x As FileInfo = New FileInfo(fileName)
-                        Dim tmpFileName As String = ""
-                        If UCase(x.Name.Remove(x.Name.LastIndexOf("."))) <> UCase(MovieName) AndAlso (UCase(x.Extension.ToString()) = UCase(".mp4") Or UCase(x.Extension.ToString()) = UCase(".avi") Or UCase(x.Extension.ToString()) = UCase(".mkv") Or UCase(x.Extension.ToString()) = UCase(".srt") Or UCase(x.Extension.ToString()) = UCase(".idx") Or UCase(x.Extension.ToString()) = UCase(".sub")) Then
-                            If fileName.IndexOf("\") > 0 Then
-                                Dim poststr As String = fileName.Remove(0, fileName.LastIndexOf("\") + 1)
-                                If poststr.IndexOf(".") > 0 Then
-                                    poststr = poststr.Remove(poststr.LastIndexOf("."))
-                                    If poststr.IndexOf(")") > 0 Then
-                                        poststr = poststr.Remove(0, poststr.LastIndexOf(")") + 1)
-                                        If poststr.Length <> 0 Then
-                                            tmpFileName = MovieName & poststr & x.Extension.ToString()
-                                        Else
-                                            tmpFileName = MovieName & x.Extension.ToString()
-                                        End If
-                                    Else
-                                        tmpFileName = MovieName & x.Extension.ToString()
-                                    End If
-                                Else
-                                    tmpFileName = MovieName & x.Extension.ToString()
-                                End If
-                            Else
-                                tmpFileName = MovieName & x.Extension.ToString()
-                            End If
+    '                'Get Files in Folder
+    '                ' Process the list of files found in the directory.
+    '                Dim fileName As String
+    '                For Each fileName In fileEntries
+    '                    Dim x As FileInfo = New FileInfo(fileName)
+    '                    Dim tmpFileName As String = ""
+    '                    If UCase(x.Name.Remove(x.Name.LastIndexOf("."))) <> UCase(MovieName) AndAlso (UCase(x.Extension.ToString()) = UCase(".mp4") Or UCase(x.Extension.ToString()) = UCase(".avi") Or UCase(x.Extension.ToString()) = UCase(".mkv") Or UCase(x.Extension.ToString()) = UCase(".srt") Or UCase(x.Extension.ToString()) = UCase(".idx") Or UCase(x.Extension.ToString()) = UCase(".sub")) Then
+    '                        If fileName.IndexOf("\") > 0 Then
+    '                            Dim poststr As String = fileName.Remove(0, fileName.LastIndexOf("\") + 1)
+    '                            If poststr.IndexOf(".") > 0 Then
+    '                                poststr = poststr.Remove(poststr.LastIndexOf("."))
+    '                                If poststr.IndexOf(")") > 0 Then
+    '                                    poststr = poststr.Remove(0, poststr.LastIndexOf(")") + 1)
+    '                                    If poststr.Length <> 0 Then
+    '                                        tmpFileName = MovieName & poststr & x.Extension.ToString()
+    '                                    Else
+    '                                        tmpFileName = MovieName & x.Extension.ToString()
+    '                                    End If
+    '                                Else
+    '                                    tmpFileName = MovieName & x.Extension.ToString()
+    '                                End If
+    '                            Else
+    '                                tmpFileName = MovieName & x.Extension.ToString()
+    '                            End If
+    '                        Else
+    '                            tmpFileName = MovieName & x.Extension.ToString()
+    '                        End If
 
-                            Try
-                                If fileName.Remove(0, fileName.LastIndexOf("\") + 1) <> tmpFileName Then
-                                    My.Computer.FileSystem.RenameFile(fileName, tmpFileName)
-                                    TxtMessageDisplay.Text = "Changed - " & fileName & " to " & tmpFileName & vbCrLf & TxtMessageDisplay.Text
-                                    Me.Refresh()
-                                End If
+    '                        Try
+    '                            If fileName.Remove(0, fileName.LastIndexOf("\") + 1) <> tmpFileName Then
+    '                                My.Computer.FileSystem.RenameFile(fileName, tmpFileName)
+    '                                TxtMessageDisplay.Text = "Changed - " & fileName & " to " & tmpFileName & vbCrLf & TxtMessageDisplay.Text
+    '                                Me.Refresh()
+    '                            End If
 
-                            Catch ex As Exception
-                                TxtErrorMessage.Text = ex.Message & " - " & MovieName & vbCrLf & TxtErrorMessage.Text
-                                Me.Refresh()
-                            End Try
-                        End If
-                    Next fileName
-                End If
-            Next
-        Catch ex As Exception
-            TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
-        End Try
-        BtnMovieDBUpdate.Text = "The Movie DB Update"
-        BtnMovieDBUpdate.Enabled = True
-        ProcessingStatus = False
-    End Sub
+    '                        Catch ex As Exception
+    '                            TxtErrorMessage.Text = ex.Message & " - " & MovieName & vbCrLf & TxtErrorMessage.Text
+    '                            Me.Refresh()
+    '                        End Try
+    '                    End If
+    '                Next fileName
+    '            End If
+    '        Next
+    '    Catch ex As Exception
+    '        TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
+    '    End Try
+    '    BtnMovieDBUpdate.Text = "The Movie DB Update"
+    '    BtnMovieDBUpdate.Enabled = True
+    '    ProcessingStatus = False
+    'End Sub
 
     Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
         End
