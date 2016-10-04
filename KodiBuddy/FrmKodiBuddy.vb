@@ -2,9 +2,12 @@
 Option Strict On
 
 Imports System.IO
-
+Imports System.Xml
 
 Public Class FrmKodiBuddy
+
+    Public KodiBuddyLibrary As New Collection()
+
     Public Dirs() As String
 
     Private _ProcessingStatus As Boolean = False
@@ -34,22 +37,6 @@ Public Class FrmKodiBuddy
         My.Settings.MovieImportPath = FolderBrowserDialog.SelectedPath
         My.Settings.Save()
     End Sub
-
-    'Private Sub CkBxUseBracket_CheckedChanged(sender As Object, e As EventArgs)
-    '    If CkBxUseParens.Checked And CkBxUseBracket.Checked Then
-    '        CkBxUseParens.Checked = False
-    '        My.Settings.BracketsParens = "1"
-    '        My.Settings.Save()
-    '    End If
-    'End Sub
-
-    'Private Sub CkBxUseParens_CheckedChanged(sender As Object, e As EventArgs)
-    '    If CkBxUseParens.Checked And CkBxUseBracket.Checked Then
-    '        CkBxUseBracket.Checked = False
-    '        My.Settings.BracketsParens = "2"
-    '        My.Settings.Save()
-    '    End If
-    'End Sub
 
     Private Sub txtFolderPath_TextChanged(sender As Object, e As EventArgs) Handles txtFolderPath.TextChanged
         If My.Settings.MoviePath <> txtFolderPath.Text Then
@@ -435,10 +422,10 @@ Public Class FrmKodiBuddy
                                 Me.Refresh()
                             End If
 
-                        Else
-                            errorCount = errorCount + 1
-                            TxtErrorMessage.Text = "Failed to load Movie info for - " & MovieName & vbCrLf & TxtErrorMessage.Text
-                            Me.Refresh()
+                            'Else
+                            '    errorCount = errorCount + 1
+                            '    TxtErrorMessage.Text = "Failed to load Movie info for - " & MovieName & vbCrLf & TxtErrorMessage.Text
+                            '    Me.Refresh()
                         End If
                     Catch ex As Exception
                         errorCount = errorCount + 1
@@ -683,6 +670,15 @@ Public Class FrmKodiBuddy
 
     Private Function getMovieInfo(ByVal pFolderPath As String, ByVal pMovieYear As String) As MovieInfo
         Dim pMovieInfo As New MovieInfo
+        Dim fileEntries As String() = Directory.GetFiles(pFolderPath, "*.kb")
+        If fileEntries.Count = 1 Then
+            pMovieInfo.LoadKodiBuddyFile(fileEntries(0))
+            Return pMovieInfo
+            Exit Function
+        End If
+
+        fileEntries = Directory.GetFiles(pFolderPath)
+
         Dim pMovieName As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace("_", " ")
 
         'Get the position of the end of the year
@@ -760,7 +756,8 @@ Public Class FrmKodiBuddy
                 Dim sOverview As String = Mid(result, result.IndexOf("<p class=""overview"">") + 21, 2000)
                 pMovieInfo.Overview = Mid(sOverview, 1, InStr(sOverview, "<") - 1)
                 pMovieInfo.Success = True
-                'ToDo: write XML data to .kob file so we can retrieve in the future.
+                ' Write XML data to .kob file so we can retrieve in the future.
+                If pMovieInfo.Success AndAlso fileEntries.Count > 0 Then pMovieInfo.CreateKodiBuddyFile(pFolderPath)
             Catch ex As Exception
                 bError = True
                 TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
@@ -774,6 +771,9 @@ Public Class FrmKodiBuddy
 #End Region
 
 End Class
+
+
+
 
 Class MovieInfo
     Private _Success As Boolean
@@ -899,4 +899,73 @@ Class MovieInfo
         End Set
     End Property
 
+    Public Sub CreateKodiBuddyFile(ByRef filepath As String)
+        Dim outputfile As String = filepath & "\" & ShortMovieName & ".kb"
+        Dim XMLDoc As New Xml.XmlDocument()
+
+        Dim docNode As XmlNode = XMLDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
+        XMLDoc.AppendChild(docNode)
+
+        Dim productsNode As XmlNode = XMLDoc.CreateElement("KodiBuddy")
+        XMLDoc.AppendChild(productsNode)
+
+        Dim productNode As XmlNode = XMLDoc.CreateElement("Movie")
+        Dim productAttribute As XmlAttribute = XMLDoc.CreateAttribute("MovieID")
+        productAttribute.Value = MovieID
+        productNode.Attributes.Append(productAttribute)
+        productsNode.AppendChild(productNode)
+
+        Dim MovieNameNode As XmlNode = XMLDoc.CreateElement("MovieName")
+        MovieNameNode.AppendChild(XMLDoc.CreateTextNode(MovieName))
+        productNode.AppendChild(MovieNameNode)
+        Dim MovieIDNode As XmlNode = XMLDoc.CreateElement("MovieID")
+        MovieIDNode.AppendChild(XMLDoc.CreateTextNode(MovieID))
+        productNode.AppendChild(MovieIDNode)
+        Dim SuccessNode As XmlNode = XMLDoc.CreateElement("Success")
+        SuccessNode.AppendChild(XMLDoc.CreateTextNode(CType(Success, String)))
+        productNode.AppendChild(SuccessNode)
+        Dim ReleaseDateNode As XmlNode = XMLDoc.CreateElement("ReleaseDate")
+        ReleaseDateNode.AppendChild(XMLDoc.CreateTextNode(ReleaseDate))
+        productNode.AppendChild(ReleaseDateNode)
+        Dim ReleaseYearNode As XmlNode = XMLDoc.CreateElement("ReleaseYear")
+        ReleaseYearNode.AppendChild(XMLDoc.CreateTextNode(ReleaseYear))
+        productNode.AppendChild(ReleaseYearNode)
+        Dim ReleaseMonthNode As XmlNode = XMLDoc.CreateElement("ReleaseMonth")
+        ReleaseMonthNode.AppendChild(XMLDoc.CreateTextNode(ReleaseMonth))
+        productNode.AppendChild(ReleaseMonthNode)
+        Dim ReleaseDayNode As XmlNode = XMLDoc.CreateElement("ReleaseDay")
+        ReleaseDayNode.AppendChild(XMLDoc.CreateTextNode(ReleaseDay))
+        productNode.AppendChild(ReleaseDayNode)
+        Dim ShortMovieNameNode As XmlNode = XMLDoc.CreateElement("ShortMovieName")
+        ShortMovieNameNode.AppendChild(XMLDoc.CreateTextNode(ShortMovieName))
+        productNode.AppendChild(ShortMovieNameNode)
+        Dim RatingNode As XmlNode = XMLDoc.CreateElement("Rating")
+        RatingNode.AppendChild(XMLDoc.CreateTextNode(Rating))
+        productNode.AppendChild(RatingNode)
+        Dim GenresNode As XmlNode = XMLDoc.CreateElement("Genres")
+        GenresNode.AppendChild(XMLDoc.CreateTextNode(Genres))
+        productNode.AppendChild(GenresNode)
+        Dim OverviewNode As XmlNode = XMLDoc.CreateElement("Overview")
+        OverviewNode.AppendChild(XMLDoc.CreateTextNode(Overview))
+        productNode.AppendChild(OverviewNode)
+
+        XMLDoc.Save(outputfile)
+
+    End Sub
+    Public Sub LoadKodiBuddyFile(ByRef filepath As String)
+
+        Dim XMLDoc As New Xml.XmlDocument()
+        XMLDoc.Load(filepath)
+        MovieName = XMLDoc.GetElementsByTagName("MovieName").Item(0).InnerText
+        MovieID = XMLDoc.GetElementsByTagName("MovieID").Item(0).InnerText
+        Success = CBool(XMLDoc.GetElementsByTagName("Success").Item(0).InnerText)
+        ReleaseDate = XMLDoc.GetElementsByTagName("ReleaseDate").Item(0).InnerText
+        ReleaseYear = XMLDoc.GetElementsByTagName("ReleaseYear").Item(0).InnerText
+        ReleaseMonth = XMLDoc.GetElementsByTagName("ReleaseMonth").Item(0).InnerText
+        ReleaseDay = XMLDoc.GetElementsByTagName("ReleaseDay").Item(0).InnerText
+        ShortMovieName = XMLDoc.GetElementsByTagName("ShortMovieName").Item(0).InnerText
+        Rating = XMLDoc.GetElementsByTagName("Rating").Item(0).InnerText
+        Genres = XMLDoc.GetElementsByTagName("Genres").Item(0).InnerText
+        Overview = XMLDoc.GetElementsByTagName("Overview").Item(0).InnerText
+    End Sub
 End Class
