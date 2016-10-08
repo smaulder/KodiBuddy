@@ -26,6 +26,7 @@ Partial Class FrmKodiBuddy
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabExecute = New System.Windows.Forms.TabPage()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.LblDescription = New System.Windows.Forms.Label()
         Me.LblFolderCounts = New System.Windows.Forms.Label()
         Me.ErrorTabControl = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -53,7 +54,7 @@ Partial Class FrmKodiBuddy
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
         Me.LblFolderCount = New System.Windows.Forms.Label()
-        Me.LblDescription = New System.Windows.Forms.Label()
+        Me.BtnMasterList = New System.Windows.Forms.Button()
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -87,6 +88,7 @@ Partial Class FrmKodiBuddy
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.BtnMasterList)
         Me.Panel2.Controls.Add(Me.LblDescription)
         Me.Panel2.Controls.Add(Me.LblFolderCounts)
         Me.Panel2.Controls.Add(Me.ErrorTabControl)
@@ -99,6 +101,14 @@ Partial Class FrmKodiBuddy
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(769, 279)
         Me.Panel2.TabIndex = 19
+        '
+        'LblDescription
+        '
+        Me.LblDescription.AutoSize = True
+        Me.LblDescription.Location = New System.Drawing.Point(151, 249)
+        Me.LblDescription.Name = "LblDescription"
+        Me.LblDescription.Size = New System.Drawing.Size(0, 13)
+        Me.LblDescription.TabIndex = 28
         '
         'LblFolderCounts
         '
@@ -195,7 +205,7 @@ Partial Class FrmKodiBuddy
         '
         'BtnCancel
         '
-        Me.BtnCancel.Location = New System.Drawing.Point(17, 112)
+        Me.BtnCancel.Location = New System.Drawing.Point(17, 141)
         Me.BtnCancel.Name = "BtnCancel"
         Me.BtnCancel.Size = New System.Drawing.Size(122, 23)
         Me.BtnCancel.TabIndex = 20
@@ -208,7 +218,7 @@ Partial Class FrmKodiBuddy
         Me.TabOptions.Location = New System.Drawing.Point(4, 22)
         Me.TabOptions.Name = "TabOptions"
         Me.TabOptions.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabOptions.Size = New System.Drawing.Size(782, 252)
+        Me.TabOptions.Size = New System.Drawing.Size(782, 292)
         Me.TabOptions.TabIndex = 1
         Me.TabOptions.Text = "Options"
         Me.TabOptions.UseVisualStyleBackColor = True
@@ -363,13 +373,14 @@ Partial Class FrmKodiBuddy
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
-        'LblDescription
+        'BtnMasterList
         '
-        Me.LblDescription.AutoSize = True
-        Me.LblDescription.Location = New System.Drawing.Point(151, 249)
-        Me.LblDescription.Name = "LblDescription"
-        Me.LblDescription.Size = New System.Drawing.Size(0, 13)
-        Me.LblDescription.TabIndex = 28
+        Me.BtnMasterList.Location = New System.Drawing.Point(17, 112)
+        Me.BtnMasterList.Name = "BtnMasterList"
+        Me.BtnMasterList.Size = New System.Drawing.Size(122, 23)
+        Me.BtnMasterList.TabIndex = 29
+        Me.BtnMasterList.Text = "Master List"
+        Me.BtnMasterList.UseVisualStyleBackColor = True
         '
         'FrmKodiBuddy
         '
@@ -426,4 +437,5 @@ Partial Class FrmKodiBuddy
     Friend WithEvents TxtErrorMessage As TextBox
     Friend WithEvents LblFolderCounts As Label
     Friend WithEvents LblDescription As Label
+    Friend WithEvents BtnMasterList As Button
 End Class

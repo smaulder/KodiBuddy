@@ -3,6 +3,8 @@ Option Strict On
 
 Imports System.IO
 Imports System.Xml
+Imports KodiBuddy.Common.Functions
+Imports KodiBuddy.Common.MovieInfo
 
 Public Class FrmKodiBuddy
 
@@ -11,6 +13,16 @@ Public Class FrmKodiBuddy
     Public Dirs() As String
 
     Private _ProcessingStatus As Boolean = False
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
+
     Public Property ProcessingStatus() As Boolean
         Get
             Return _ProcessingStatus
@@ -120,7 +132,7 @@ Public Class FrmKodiBuddy
             BtnVideoImport.Enabled = False
             Me.Refresh()
 
-            Dirs = getAllFolders(TxtImportFolder.Text)
+            Dirs = getAllFolders(TxtImportFolder.Text, TxtErrorMessage)
 
             TxtMessageDisplay.Text = "Starting processing on " & Dirs.Count & " folders to import." & vbCrLf
             Me.Refresh()
@@ -149,7 +161,7 @@ Public Class FrmKodiBuddy
                         shortMovieName = MovieName
                     End If
 
-                    Dim pMovieInfo As MovieInfo = getMovieInfo(Dir, movieyear)
+                    Dim pMovieInfo As Common.MovieInfo = getMovieInfo(Dir, movieyear, TxtErrorMessage)
                     If pMovieInfo.Success Then
 
                         If bNeedYear Then
@@ -322,7 +334,7 @@ Public Class FrmKodiBuddy
             BtnFileReName.Enabled = False
             Me.Refresh()
 
-            Dirs = getAllFolders(txtFolderPath.Text)
+            Dirs = getAllFolders(txtFolderPath.Text, TxtErrorMessage)
 
             TxtMessageDisplay.Text = "Starting processing on " & Dirs.Count & " folders to import." & vbCrLf
             Me.Refresh()
@@ -355,7 +367,7 @@ Public Class FrmKodiBuddy
                             shortMovieName = MovieName
                         End If
 
-                        Dim pMovieInfo As MovieInfo = getMovieInfo(Dir, movieyear)
+                        Dim pMovieInfo As Common.MovieInfo = getMovieInfo(Dir, movieyear, TxtErrorMessage)
                         If pMovieInfo.Success Then
 
                             If bNeedYear Then
@@ -472,7 +484,7 @@ Public Class FrmKodiBuddy
             BtnRemapFolders.Enabled = False
             Me.Refresh()
 
-            Dirs = getAllFolders(txtFolderPath.Text)
+            Dirs = getAllFolders(txtFolderPath.Text, TxtErrorMessage)
 
             LblFolderCounts.Text = "Starting processing on " & Dirs.Count & " folders to ReMap." & vbCrLf
             Me.Refresh()
@@ -518,9 +530,9 @@ Public Class FrmKodiBuddy
                     Catch ex As Exception
                         shortMovieName = MovieName
                     End Try
-                    Dim pMovieInfo As MovieInfo = Nothing
+                    Dim pMovieInfo As Common.MovieInfo = Nothing
                     Try
-                        pMovieInfo = getMovieInfo(Dir, movieyear)
+                        pMovieInfo = getMovieInfo(Dir, movieyear, TxtErrorMessage)
                     Catch ex As Exception
                         TxtErrorMessage.Text = "Error at 6"
                     End Try
@@ -618,354 +630,12 @@ Public Class FrmKodiBuddy
 
 #Region "Common Methods"
 
-    Private Function getAllFolders(ByVal directory As String) As String()
-        'Create object
-        Dim fi As New IO.DirectoryInfo(directory)
-        'Array to store paths
-        Dim path() As String = {}
-        Dim ellipsis As String = ""
-        Try
-            'Loop through subfolders
-            For Each subfolder As IO.DirectoryInfo In fi.GetDirectories()
+    Private Sub BtnMasterList_Click(sender As Object, e As EventArgs) Handles BtnMasterList.Click
 
-                If UCase(subfolder.FullName.Remove(0, subfolder.FullName.LastIndexOf("\") + 1)) <> UCase("$recycle.bin") And
-                    UCase(subfolder.FullName.Remove(0, subfolder.FullName.LastIndexOf("\") + 1)) <> UCase("extrafanart") And
-                    UCase(subfolder.FullName.Remove(0, subfolder.FullName.LastIndexOf("\") + 1)) <> UCase("extrathumbs") And
-                    UCase(subfolder.FullName.Remove(0, subfolder.FullName.LastIndexOf("\") + 1)) <> UCase("subs") And
-                    UCase(subfolder.FullName.Remove(0, subfolder.FullName.LastIndexOf("\") + 1)) <> UCase("subtitles") Then
-
-                    'Add this folders name
-                    Array.Resize(path, path.Length + 1)
-                    path(path.Length - 1) = subfolder.FullName
-                    'Recall function with each subdirectory
-
-                    For Each s As String In getAllFolders(subfolder.FullName)
-                        Array.Resize(path, path.Length + 1)
-                        path(path.Length - 1) = s
-                    Next
-                End If
-            Next
-        Catch ex As Exception
-            TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
-        End Try
-
-        Return path
-    End Function
-
-
-    Private Function addMovieYear(ByVal pFolderPath As String, ByVal pMovieYear As String) As String
-        Dim pMovieInfo As MovieInfo = getMovieInfo(pFolderPath, pMovieYear)
-
-        If IsDate(pMovieInfo.ReleaseDate) Then
-            If CkBxUseParens.Checked = True Then
-                Return pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1) & " (" & pMovieInfo.ReleaseYear & ")"
-            Else
-                Return pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1) & " [" & pMovieInfo.ReleaseYear & "]"
-            End If
-        Else
-            Return pFolderPath
-        End If
-    End Function
-
-
-    Private Function getMovieInfo(ByVal pFolderPath As String, ByVal pMovieYear As String) As MovieInfo
-        Dim pMovieInfo As New MovieInfo
-        Dim fileEntries As String() = Directory.GetFiles(pFolderPath, "*.kb")
-        If fileEntries.Count = 1 Then
-            pMovieInfo.LoadKodiBuddyFile(fileEntries(0))
-            Return pMovieInfo
-            Exit Function
-        End If
-
-        fileEntries = Directory.GetFiles(pFolderPath)
-
-        Dim pMovieName As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace("_", " ")
-
-        'Get the position of the end of the year
-        Dim iPos = pMovieName.LastIndexOf(")") + 1
-
-        'Trim anything after the year
-        If Not pMovieName.Length = iPos AndAlso iPos <> 0 Then
-            pMovieName = pMovieName.Remove(iPos, pMovieName.Length - iPos)
-        End If
-        pMovieInfo.MovieName = pMovieName
-        Dim shortMovieName As String
-        If pMovieName.LastIndexOf("(") > 0 Then
-            shortMovieName = pMovieName.Remove(pMovieName.LastIndexOf("("), pMovieName.LastIndexOf(")") - pMovieName.LastIndexOf("(") + 1).Trim()
-        Else
-            shortMovieName = pMovieName
-        End If
-        pMovieInfo.ShortMovieName = shortMovieName
-
-        Dim dateyear As String = ""
-        Dim webClient As New System.Net.WebClient
-        Dim sDate As String = "1800"
-        Dim bError As Boolean = False
-        Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & shortMovieName.Replace(" ", "+"))
-        Try
-            If pMovieYear <> "" And IsDate(pMovieYear) Then
-                sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
-                If Not IsDate(sDate) Then
-                    sDate = ""
-                End If
-                While sDate = "" OrElse CInt(pMovieYear) <> Year(CDate(sDate))
-                    sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10) '
-                    If Not IsDate(sDate) Then
-                        result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 29)
-                        sDate = ""
-                        If result.IndexOf("<span class=""release_date"">") > 0 Then
-                            'continue on
-                        Else
-                            bError = True
-                            TxtErrorMessage.Text = vbCrLf & "Date Not Found for - " & pMovieName & " Verify that the date on the folder is correct." & TxtErrorMessage.Text & vbCrLf
-                            Exit While
-                        End If
-                    Else
-
-                        If Year(CDate(sDate)) <> CInt(pMovieYear) Then
-                            result = result.Remove(0, result.IndexOf("view_more") + 9)
-                        End If
-                    End If
-
-                End While
-            Else
-                If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)) Then
-                    sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
-                Else
-                    bError = True
-                    pMovieInfo.Success = False
-                End If
-            End If
-        Catch ex As Exception
-            bError = True
-            TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
-        End Try
-        If Not bError Then
-            Try
-                Dim sMovieID As String = Mid(result, result.IndexOf("class=""title result"" href=""/movie/") + 35, 20)
-                pMovieInfo.MovieID = Mid(sMovieID, 1, InStr(sMovieID, Chr(34)) - 1)
-                pMovieInfo.Rating = Mid(result, result.IndexOf("<span class=""vote_average"">") + 28, 3)
-                If IsDate(sDate) Then
-                    pMovieInfo.ReleaseDate = sDate
-                    pMovieInfo.ReleaseYear = CType(DateAndTime.Year(CDate(sDate)), String)
-                    pMovieInfo.ReleaseMonth = CType(DateAndTime.Month(CDate(sDate)), String)
-                    pMovieInfo.ReleaseDay = CType(DateAndTime.Day(CDate(sDate)), String)
-                End If
-                Dim sGenres As String = Mid(result, result.IndexOf("<span class=""genres"">") + 22, 200)
-                pMovieInfo.Genres = Mid(sGenres, 1, InStr(sGenres, "<") - 1)
-                Dim sOverview As String = Mid(result, result.IndexOf("<p class=""overview"">") + 21, 2000)
-                pMovieInfo.Overview = Mid(sOverview, 1, InStr(sOverview, "<") - 1)
-                pMovieInfo.Success = True
-                ' Write XML data to .kob file so we can retrieve in the future.
-                If pMovieInfo.Success AndAlso fileEntries.Count > 0 Then pMovieInfo.CreateKodiBuddyFile(pFolderPath)
-            Catch ex As Exception
-                bError = True
-                TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
-            End Try
-        Else
-            pMovieInfo.Success = False
-        End If
-        getMovieInfo = pMovieInfo
-    End Function
+        Dim box = New FrmMasterList()
+        box.Show()
+    End Sub
 
 #End Region
 
-End Class
-
-
-
-
-Class MovieInfo
-    Private _Success As Boolean
-
-    Public Property Success() As Boolean
-        Get
-            Return _Success
-        End Get
-        Set(ByVal value As Boolean)
-            _Success = value
-        End Set
-    End Property
-
-    Private _ReleaseDate As String
-
-    Public Property ReleaseDate() As String
-        Get
-            Return _ReleaseDate
-        End Get
-        Set(ByVal value As String)
-            _ReleaseDate = value
-        End Set
-    End Property
-
-    Private _ReleaseYear As String
-
-    Public Property ReleaseYear() As String
-        Get
-            Return _ReleaseYear
-        End Get
-        Set(ByVal value As String)
-            _ReleaseYear = value
-        End Set
-    End Property
-
-    Private _ReleaseMonth As String
-
-    Public Property ReleaseMonth() As String
-        Get
-            Return _ReleaseMonth
-        End Get
-        Set(ByVal value As String)
-            _ReleaseMonth = value
-        End Set
-    End Property
-
-    Private _ReleaseDay As String
-
-    Public Property ReleaseDay() As String
-        Get
-            Return _ReleaseDay
-        End Get
-        Set(ByVal value As String)
-            _ReleaseDay = value
-        End Set
-    End Property
-
-    Private _MovieID As String
-
-    Public Property MovieID() As String
-        Get
-            Return _MovieID
-        End Get
-        Set(ByVal value As String)
-            _MovieID = value
-        End Set
-    End Property
-
-    Private _MovieName As String
-
-    Public Property MovieName() As String
-        Get
-            Return _MovieName
-        End Get
-        Set(ByVal value As String)
-            _MovieName = StrConv(value, vbProperCase)
-        End Set
-    End Property
-
-    Private _ShortMovieName As String
-
-    Public Property ShortMovieName() As String
-        Get
-            Return _ShortMovieName
-        End Get
-        Set(ByVal value As String)
-            _ShortMovieName = StrConv(value, vbProperCase)
-        End Set
-    End Property
-
-    Private _Rating As String
-
-    Public Property Rating() As String
-        Get
-            Return _Rating
-        End Get
-        Set(ByVal value As String)
-            _Rating = value
-        End Set
-    End Property
-
-
-    Private _Genres As String
-
-    Public Property Genres() As String
-        Get
-            Return _Genres
-        End Get
-        Set(ByVal value As String)
-            _Genres = value
-        End Set
-    End Property
-
-
-    Private _Overview As String
-
-    Public Property Overview() As String
-        Get
-            Return _Overview
-        End Get
-        Set(ByVal value As String)
-            _Overview = value
-        End Set
-    End Property
-
-    Public Sub CreateKodiBuddyFile(ByRef filepath As String)
-        Dim outputfile As String = filepath & "\" & ShortMovieName & ".kb"
-        Dim XMLDoc As New Xml.XmlDocument()
-
-        Dim docNode As XmlNode = XMLDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
-        XMLDoc.AppendChild(docNode)
-
-        Dim productsNode As XmlNode = XMLDoc.CreateElement("KodiBuddy")
-        XMLDoc.AppendChild(productsNode)
-
-        Dim productNode As XmlNode = XMLDoc.CreateElement("Movie")
-        Dim productAttribute As XmlAttribute = XMLDoc.CreateAttribute("MovieID")
-        productAttribute.Value = MovieID
-        productNode.Attributes.Append(productAttribute)
-        productsNode.AppendChild(productNode)
-
-        Dim MovieNameNode As XmlNode = XMLDoc.CreateElement("MovieName")
-        MovieNameNode.AppendChild(XMLDoc.CreateTextNode(MovieName))
-        productNode.AppendChild(MovieNameNode)
-        Dim MovieIDNode As XmlNode = XMLDoc.CreateElement("MovieID")
-        MovieIDNode.AppendChild(XMLDoc.CreateTextNode(MovieID))
-        productNode.AppendChild(MovieIDNode)
-        Dim SuccessNode As XmlNode = XMLDoc.CreateElement("Success")
-        SuccessNode.AppendChild(XMLDoc.CreateTextNode(CType(Success, String)))
-        productNode.AppendChild(SuccessNode)
-        Dim ReleaseDateNode As XmlNode = XMLDoc.CreateElement("ReleaseDate")
-        ReleaseDateNode.AppendChild(XMLDoc.CreateTextNode(ReleaseDate))
-        productNode.AppendChild(ReleaseDateNode)
-        Dim ReleaseYearNode As XmlNode = XMLDoc.CreateElement("ReleaseYear")
-        ReleaseYearNode.AppendChild(XMLDoc.CreateTextNode(ReleaseYear))
-        productNode.AppendChild(ReleaseYearNode)
-        Dim ReleaseMonthNode As XmlNode = XMLDoc.CreateElement("ReleaseMonth")
-        ReleaseMonthNode.AppendChild(XMLDoc.CreateTextNode(ReleaseMonth))
-        productNode.AppendChild(ReleaseMonthNode)
-        Dim ReleaseDayNode As XmlNode = XMLDoc.CreateElement("ReleaseDay")
-        ReleaseDayNode.AppendChild(XMLDoc.CreateTextNode(ReleaseDay))
-        productNode.AppendChild(ReleaseDayNode)
-        Dim ShortMovieNameNode As XmlNode = XMLDoc.CreateElement("ShortMovieName")
-        ShortMovieNameNode.AppendChild(XMLDoc.CreateTextNode(ShortMovieName))
-        productNode.AppendChild(ShortMovieNameNode)
-        Dim RatingNode As XmlNode = XMLDoc.CreateElement("Rating")
-        RatingNode.AppendChild(XMLDoc.CreateTextNode(Rating))
-        productNode.AppendChild(RatingNode)
-        Dim GenresNode As XmlNode = XMLDoc.CreateElement("Genres")
-        GenresNode.AppendChild(XMLDoc.CreateTextNode(Genres))
-        productNode.AppendChild(GenresNode)
-        Dim OverviewNode As XmlNode = XMLDoc.CreateElement("Overview")
-        OverviewNode.AppendChild(XMLDoc.CreateTextNode(Overview))
-        productNode.AppendChild(OverviewNode)
-
-        XMLDoc.Save(outputfile)
-
-    End Sub
-    Public Sub LoadKodiBuddyFile(ByRef filepath As String)
-
-        Dim XMLDoc As New Xml.XmlDocument()
-        XMLDoc.Load(filepath)
-        MovieName = XMLDoc.GetElementsByTagName("MovieName").Item(0).InnerText
-        MovieID = XMLDoc.GetElementsByTagName("MovieID").Item(0).InnerText
-        Success = CBool(XMLDoc.GetElementsByTagName("Success").Item(0).InnerText)
-        ReleaseDate = XMLDoc.GetElementsByTagName("ReleaseDate").Item(0).InnerText
-        ReleaseYear = XMLDoc.GetElementsByTagName("ReleaseYear").Item(0).InnerText
-        ReleaseMonth = XMLDoc.GetElementsByTagName("ReleaseMonth").Item(0).InnerText
-        ReleaseDay = XMLDoc.GetElementsByTagName("ReleaseDay").Item(0).InnerText
-        ShortMovieName = XMLDoc.GetElementsByTagName("ShortMovieName").Item(0).InnerText
-        Rating = XMLDoc.GetElementsByTagName("Rating").Item(0).InnerText
-        Genres = XMLDoc.GetElementsByTagName("Genres").Item(0).InnerText
-        Overview = XMLDoc.GetElementsByTagName("Overview").Item(0).InnerText
-    End Sub
 End Class
