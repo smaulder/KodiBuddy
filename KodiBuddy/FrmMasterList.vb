@@ -11,11 +11,11 @@ Public Class FrmMasterList
         rootDir = My.Settings.MoviePath
         TreeView1.Nodes.Add(rootDir, rootDir, 1)
         PopulateTreeView(rootDir, TreeView1.Nodes(0))
-        TreeView1.ExpandAll()
+        TreeView1.Nodes(0).Expand()
         Dim ImageList1 As New ImageList
-        Dim i1 As New Icon("..\..\Images\crystal_xml.ico")
+        Dim i1 As New Icon(My.Resources.Resource1.crystal_xml, 32, 32)
         ImageList1.Images.Add(0, i1)
-        Dim i2 As New Icon("..\..\Images\folder.ico")
+        Dim i2 As New Icon(My.Resources.Resource1.folder, 32, 32)
         ImageList1.Images.Add(1, i2)
         TreeView1.ImageList = ImageList1
     End Sub
@@ -23,19 +23,30 @@ Public Class FrmMasterList
     Private Sub PopulateTreeView(ByVal dir As String, ByVal parentNode As TreeNode)
         Dim folder As String = String.Empty
         Try
+            Dim TxtErrorMessage As New TextBox
             Dim folders() As String = IO.Directory.GetDirectories(dir)
             If folders.Length <> 0 Then
                 Dim childNode As TreeNode = Nothing
                 For Each folder In folders
                     Dim MovieName As String = folder.Remove(0, folder.LastIndexOf("\") + 1)
-                    Dim fileEntries As String() = Directory.GetFiles(folder, "*.kb")
-                    If fileEntries.Count = 1 Then
-                        childNode = New TreeNode(MovieName, 0, 0)
-                        parentNode.Nodes.Add(childNode)
-                    Else
-                        childNode = New TreeNode(MovieName, 1, 1)
-                        parentNode.Nodes.Add(childNode)
-                        PopulateTreeView(folder, childNode)
+                    If MovieName <> "$RECYCLE.BIN" AndAlso
+                       MovieName <> "extrafanart" AndAlso
+                       MovieName <> "extrathumbs" Then
+                        Dim fileEntries As String() = Directory.GetFiles(folder, "*.kb")
+                        If fileEntries.Count = 1 Then
+                            childNode = New TreeNode(MovieName, 0, 0)
+                            parentNode.Nodes.Add(childNode)
+                        Else
+                            If IsNumeric(getMovieYear(folder, TxtErrorMessage)) Then
+                                childNode = New TreeNode(MovieName, 0, 0)
+                            Else
+                                childNode = New TreeNode(MovieName, 1, 1)
+                            End If
+                            Common.Functions.getMovieInfo(folder, getMovieYear(folder, TxtErrorMessage), TxtErrorMessage)
+                            parentNode.Nodes.Add(childNode)
+                            PopulateTreeView(folder, childNode)
+                        End If
+                        Me.Refresh()
                     End If
                 Next
             End If
@@ -48,18 +59,15 @@ Public Class FrmMasterList
         Me.Hide()
     End Sub
 
-    Private Sub TreeView1_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView1.AfterSelect
-
-    End Sub
-
     Sub treeView1_NodeMouseClick(ByVal sender As Object,
     ByVal e As TreeNodeMouseClickEventArgs) _
     Handles TreeView1.NodeMouseClick
-
-        Dim box = New FrmMovieDetails()
-        box.DirectoryPath = e.Node.FullPath
-        Me.Hide()
-        box.Show()
-
+        Dim txtMessage As New TextBox
+        If IsNumeric(Common.Functions.getMovieYear(e.Node.FullPath, txtMessage)) Then
+            Dim box = New FrmMovieDetails()
+            box.DirectoryPath = e.Node.FullPath
+            box.ParentWindow = Me
+            box.Show()
+        End If
     End Sub 'treeView1_NodeMouseClick
 End Class

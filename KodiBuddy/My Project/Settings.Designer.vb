@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Movie Testing\output")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Z:\")>  _
         Public Property MoviePath() As String
             Get
                 Return CType(Me("MoviePath"),String)
@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Movie Testing\import")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Z:\Video")>  _
         Public Property MovieImportPath() As String
             Get
                 Return CType(Me("MovieImportPath"),String)

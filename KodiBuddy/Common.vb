@@ -53,6 +53,23 @@ Namespace Common
             End If
         End Function
 
+        Public Shared Function getMovieYear(ByVal pFolderPath As String, ByRef TxtErrorMessage As TextBox) As String
+            Try
+                Dim tempPath As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace("_", " ")
+                Dim iPos = tempPath.LastIndexOf("(") + 1
+                'Get the position of the end of the year
+                Dim iPos2 = tempPath.LastIndexOf(")")
+                tempPath = tempPath.Remove(0, iPos).Remove(iPos2 - iPos)
+                If IsNumeric(tempPath) AndAlso tempPath >= 1900 AndAlso tempPath <= Year(Now()) Then
+                    Return tempPath
+                Else
+                    Return ""
+                End If
+            Catch ex As Exception
+                Return ""
+            End Try
+        End Function
+
 
         Public Shared Function getMovieInfo(ByVal pFolderPath As String, ByVal pMovieYear As String, ByRef TxtErrorMessage As TextBox) As MovieInfo
             Dim pMovieInfo As New MovieInfo

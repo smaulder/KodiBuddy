@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="MoviePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Movie Testing\output</Value>
+      <Value Profile="(Default)">Z:\</Value>
     </Setting>
     <Setting Name="MovieImportPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Movie Testing\import</Value>
+      <Value Profile="(Default)">Z:\Video</Value>
     </Setting>
     <Setting Name="NoOfGenres" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
