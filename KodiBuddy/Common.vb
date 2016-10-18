@@ -43,11 +43,18 @@ Namespace Common
             Dim pMovieInfo As MovieInfo = getMovieInfo(pFolderPath, pMovieYear, TxtErrorMessage)
 
             If IsDate(pMovieInfo.ReleaseDate) Then
-                If CkBxUseParens.Checked = True Then
-                    Return pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1) & " (" & pMovieInfo.ReleaseYear & ")"
-                Else
-                    Return pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1) & " [" & pMovieInfo.ReleaseYear & "]"
-                End If
+                Return pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1) & " (" & pMovieInfo.ReleaseYear & ")"
+            Else
+                Return pFolderPath
+            End If
+        End Function
+
+
+        Public Shared Function addTVYear(ByRef CkBxUseParens As Object, ByVal pFolderPath As String, ByVal pTVName As String, ByVal pTVYear As String, ByRef TxtErrorMessage As TextBox) As String
+            Dim pTVInfo As TVInfo = getTVInfo(pFolderPath, pTVName, pTVYear, TxtErrorMessage)
+
+            If IsDate(pTVInfo.ReleaseDate) Then
+                Return pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1) & " (" & pTVInfo.ReleaseYear & ")"
             Else
                 Return pFolderPath
             End If
@@ -174,6 +181,154 @@ Namespace Common
                 pMovieInfo.Success = False
             End Try
             getMovieInfo = pMovieInfo
+        End Function
+
+        Public Shared Sub getTVEpisodeAndSeason(ByRef pTVName As String, ByRef pEpisode As String, ByRef pSeason As String, ByRef pErrorMessage As String)
+            pErrorMessage = ""
+            pEpisode = ""
+            pSeason = ""
+            Try
+                Dim TvParts() As String = pTVName.Replace(".", " ").Replace("_", " ").Split(CType(" ", Char()))
+                Dim d As Boolean = False
+                Dim e As Boolean = False
+                Dim f As Boolean = False
+                For Each part In TvParts
+                    d = UCase(part) Like ("S##E##")
+                    e = UCase(part) Like ("####")
+                    f = UCase(part) Like ("###")
+                    If d Then
+                        pEpisode = UCase(part)
+                        pTVName = pTVName.Remove(pTVName.LastIndexOf(part)).Replace(".", " ").Replace("_", " ").Trim()
+                        'Get season number from episode
+                        pSeason = pEpisode.Remove(0, 1).Remove(2).TrimStart("0"c)
+                        Exit For
+                    ElseIf e Then
+                        pEpisode = UCase(part)
+                        pEpisode = "S" & Left(pEpisode, 2) & "E" & Right(pEpisode, 2)
+                        pTVName = pTVName.Remove(pTVName.LastIndexOf(part)).Replace(".", " ").Replace("_", " ").Trim()
+                        'Get season number from episode
+                        pSeason = pEpisode.Remove(0, 1).Remove(2).TrimStart("0"c)
+                        Exit For
+                    ElseIf f Then
+                        pEpisode = UCase(part)
+                        pEpisode = "S0" & Left(pEpisode, 1) & "E" & Right(pEpisode, 2)
+                        pTVName = pTVName.Remove(pTVName.LastIndexOf(part)).Replace(".", " ").Replace("_", " ").Trim()
+                        'Get season number from episode
+                        pSeason = pEpisode.Remove(0, 1).Remove(2).TrimStart("0"c)
+                        Exit For
+                    End If
+                Next
+
+            Catch ex As Exception
+                pErrorMessage = ex.Message
+            End Try
+        End Sub
+
+        Public Shared Function getTVInfo(ByVal pFolderPath As String, ByVal pTVName As String, ByVal pTVYear As String, ByRef TxtErrorMessage As TextBox) As TVInfo
+            Dim pTVInfo As New TVInfo
+            Try
+
+                Dim fileEntries As String() = Directory.GetFiles(pFolderPath, "*.kbtv")
+                If fileEntries.Count = 1 Then
+                    pTVInfo.LoadKodiBuddyFile(fileEntries(0))
+                    Return pTVInfo
+                    Exit Function
+                End If
+
+                fileEntries = Directory.GetFiles(pFolderPath)
+
+                Dim pTVName2 As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace("_", " ")
+
+                'Get the position of the end of the year
+                Dim iPos = pTVName2.LastIndexOf(")") + 1
+
+                'Trim anything after the year
+                If Not pTVName2.Length = iPos AndAlso iPos <> 0 Then
+                    pTVName2 = pTVName2.Remove(iPos, pTVName2.Length - iPos)
+                End If
+
+                pTVInfo.TVName = pTVName
+
+                'Dim shortTVName As String
+                'If pTVName2.LastIndexOf("(") > 0 Then
+                '    shortTVName = pTVName2.Remove(pTVName2.LastIndexOf("("), pTVName2.LastIndexOf(")") - pTVName2.LastIndexOf("(") + 1).Trim()
+                'Else
+                '    shortTVName = pTVName2
+                'End If
+                'pTVInfo.ShortTVName = shortTVName
+
+                Dim dateyear As String = ""
+                Dim webClient As New System.Net.WebClient
+                Dim sDate As String = "1800"
+                Dim bError As Boolean = False
+                Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & pTVName.Replace(" ", "+"))
+                Try
+                    If pTVYear <> "" And IsDate(pTVYear) Then
+                        sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                        If Not IsDate(sDate) Then
+                            sDate = ""
+                        End If
+                        While sDate = "" OrElse CInt(pTVYear) <> Year(CDate(sDate))
+                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10) '
+                            If Not IsDate(sDate) Then
+                                result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 29)
+                                sDate = ""
+                                If result.IndexOf("<span class=""release_date"">") > 0 Then
+                                    'continue on
+                                Else
+                                    bError = True
+                                    TxtErrorMessage.Text = vbCrLf & "Date Not Found for - " & pTVName & " Verify that the date on the folder is correct." & TxtErrorMessage.Text & vbCrLf
+                                    Exit While
+                                End If
+                            Else
+
+                                If Year(CDate(sDate)) <> CInt(pTVYear) Then
+                                    result = result.Remove(0, result.IndexOf("view_more") + 9)
+                                End If
+                            End If
+
+                        End While
+                    Else
+                        If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)) Then
+                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                        Else
+                            bError = True
+                            pTVInfo.Success = False
+                        End If
+                    End If
+                Catch ex As Exception
+                    bError = True
+                    TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
+                End Try
+                If Not bError Then
+                    Try
+                        Dim sTVID As String = Mid(result, result.IndexOf("class=""title result"" href=""/tv/") + 32, 20)
+                        pTVInfo.TVID = Mid(sTVID, 1, InStr(sTVID, Chr(34)) - 1)
+                        pTVInfo.Rating = Mid(result, result.IndexOf("<span class=""vote_average"">") + 28, 3)
+                        If IsDate(sDate) Then
+                            pTVInfo.ReleaseDate = sDate
+                            pTVInfo.ReleaseYear = CType(DateAndTime.Year(CDate(sDate)), String)
+                            pTVInfo.ReleaseMonth = CType(DateAndTime.Month(CDate(sDate)), String)
+                            pTVInfo.ReleaseDay = CType(DateAndTime.Day(CDate(sDate)), String)
+                        End If
+                        Dim sGenres As String = Mid(result, result.IndexOf("<span class=""genres"">") + 22, 200)
+                        pTVInfo.Genres = Mid(sGenres, 1, InStr(sGenres, "<") - 1)
+                        Dim sOverview As String = Mid(result, result.IndexOf("<p class=""overview"">") + 21, 2000)
+                        pTVInfo.Overview = Mid(sOverview, 1, InStr(sOverview, "<") - 1)
+                        pTVInfo.Success = True
+                        ' Write XML data to .kob file so we can retrieve in the future.
+                        If pTVInfo.Success AndAlso fileEntries.Count > 0 Then pTVInfo.CreateKodiBuddyFile(pFolderPath)
+                    Catch ex As Exception
+                        bError = True
+                        TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
+                    End Try
+                Else
+                    pTVInfo.Success = False
+                End If
+            Catch ex As Exception
+                pTVInfo.Success = False
+            End Try
+            getTVInfo = pTVInfo
         End Function
 
 
