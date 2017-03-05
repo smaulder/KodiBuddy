@@ -91,7 +91,7 @@ Namespace Common
 
                 fileEntries = Directory.GetFiles(pFolderPath)
 
-                Dim pMovieName As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace("_", " ")
+                Dim pMovieName As String = pFolderPath.Remove(0, pFolderPath.LastIndexOf("\") + 1).Replace("_", " ").Replace(".", " ")
 
                 'Get the position of the end of the year
                 Dim iPos = pMovieName.LastIndexOf(")") + 1
@@ -113,17 +113,17 @@ Namespace Common
                 Dim webClient As New System.Net.WebClient
                 Dim sDate As String = "1800"
                 Dim bError As Boolean = False
-                Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & shortMovieName.Replace(" ", "+"))
+                Dim result As String = webClient.DownloadString("http://www.themoviedb.org/search?query=" & shortMovieName.Replace(" ", "+"))
                 Try
                     If pMovieYear <> "" And IsDate(pMovieYear) Then
-                        sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                        sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 100)
                         If Not IsDate(sDate) Then
                             sDate = ""
                         End If
                         While sDate = "" OrElse CInt(pMovieYear) <> Year(CDate(sDate))
-                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10) '
+                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10) '
                             If Not IsDate(sDate) Then
-                                result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 29)
+                                result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 85)
                                 sDate = ""
                                 If result.IndexOf("<span class=""release_date"">") > 0 Then
                                     'continue on
@@ -141,8 +141,8 @@ Namespace Common
 
                         End While
                     Else
-                        If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)) Then
-                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                        If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10)) Then
+                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10)
                         Else
                             bError = True
                             pMovieInfo.Success = False
@@ -264,14 +264,14 @@ Namespace Common
                 Dim result As String = webClient.DownloadString("https://www.themoviedb.org/search?query=" & pTVName.Replace(" ", "+"))
                 Try
                     If pTVYear <> "" And IsDate(pTVYear) Then
-                        sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                        sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10)
                         If Not IsDate(sDate) Then
                             sDate = ""
                         End If
                         While sDate = "" OrElse CInt(pTVYear) <> Year(CDate(sDate))
-                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10) '
+                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10) '
                             If Not IsDate(sDate) Then
-                                result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 29)
+                                result = result.Remove(0, result.IndexOf("<span class=""release_date"">") + 85)
                                 sDate = ""
                                 If result.IndexOf("<span class=""release_date"">") > 0 Then
                                     'continue on
@@ -289,8 +289,8 @@ Namespace Common
 
                         End While
                     Else
-                        If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)) Then
-                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 29, 10)
+                        If IsDate(Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10)) Then
+                            sDate = Mid(result, result.IndexOf("<span class=""release_date"">") + 85, 10)
                         Else
                             bError = True
                             pTVInfo.Success = False
@@ -331,7 +331,62 @@ Namespace Common
             getTVInfo = pTVInfo
         End Function
 
-
     End Class
 
+    Public Class KodiBuddyData
+        Private _MoviePath As String
+        Public Property MoviePath() As String
+            Get
+                Return _MoviePath
+            End Get
+            Set(ByVal value As String)
+                _MoviePath = value
+            End Set
+        End Property
+        Private _MovieImportPath As String
+        Public Property MovieImportPath() As String
+            Get
+                Return _MovieImportPath
+            End Get
+            Set(ByVal value As String)
+                _MovieImportPath = value
+            End Set
+        End Property
+        Private _NoOfGenres As String
+        Public Property NoOfGenres() As String
+            Get
+                Return _NoOfGenres
+            End Get
+            Set(ByVal value As String)
+                _NoOfGenres = value
+            End Set
+        End Property
+        Private _GenreOrYear As String
+        Public Property GenreOrYear() As String
+            Get
+                Return _GenreOrYear
+            End Get
+            Set(ByVal value As String)
+                _GenreOrYear = value
+            End Set
+        End Property
+        Private _TVPath As String
+        Public Property TVPath() As String
+            Get
+                Return _TVPath
+            End Get
+            Set(ByVal value As String)
+                _TVPath = value
+            End Set
+        End Property
+        Private _TVImportPath As String
+        Public Property TVImportPath() As String
+            Get
+                Return _TVImportPath
+            End Get
+            Set(ByVal value As String)
+                _TVImportPath = value
+            End Set
+        End Property
+    End Class
 End Namespace

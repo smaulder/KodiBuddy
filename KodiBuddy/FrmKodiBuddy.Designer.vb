@@ -74,6 +74,7 @@ Partial Class FrmKodiBuddy
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
         Me.LblFolderCount = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -402,6 +403,7 @@ Partial Class FrmKodiBuddy
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.Button1)
         Me.Panel1.Controls.Add(Me.TxtOptionDescription)
         Me.Panel1.Controls.Add(Me.TxtTVImportFolder)
         Me.Panel1.Controls.Add(Me.BtnSelectImportTVFolder)
@@ -593,6 +595,15 @@ Partial Class FrmKodiBuddy
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(118, 264)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 42
+        Me.Button1.Text = "Save"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'FrmKodiBuddy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -675,4 +686,5 @@ Partial Class FrmKodiBuddy
     Friend WithEvents TxtDescription As TextBox
     Friend WithEvents TxtOptionDescription As TextBox
     Friend WithEvents TxtTVDescription As TextBox
+    Friend WithEvents Button1 As Button
 End Class
