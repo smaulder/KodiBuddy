@@ -55,6 +55,8 @@ Partial Class FrmKodiBuddy
         Me.BtnTVExit = New System.Windows.Forms.Button()
         Me.TabOptions = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.CancelBtn = New System.Windows.Forms.Button()
+        Me.SaveBtn = New System.Windows.Forms.Button()
         Me.TxtOptionDescription = New System.Windows.Forms.TextBox()
         Me.TxtTVImportFolder = New System.Windows.Forms.TextBox()
         Me.BtnSelectImportTVFolder = New System.Windows.Forms.Button()
@@ -74,7 +76,6 @@ Partial Class FrmKodiBuddy
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
         Me.LblFolderCount = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl.SuspendLayout()
         Me.TabExecute.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -403,7 +404,8 @@ Partial Class FrmKodiBuddy
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.Button1)
+        Me.Panel1.Controls.Add(Me.CancelBtn)
+        Me.Panel1.Controls.Add(Me.SaveBtn)
         Me.Panel1.Controls.Add(Me.TxtOptionDescription)
         Me.Panel1.Controls.Add(Me.TxtTVImportFolder)
         Me.Panel1.Controls.Add(Me.BtnSelectImportTVFolder)
@@ -427,6 +429,24 @@ Partial Class FrmKodiBuddy
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(769, 323)
         Me.Panel1.TabIndex = 0
+        '
+        'CancelBtn
+        '
+        Me.CancelBtn.Location = New System.Drawing.Point(222, 263)
+        Me.CancelBtn.Name = "CancelBtn"
+        Me.CancelBtn.Size = New System.Drawing.Size(75, 23)
+        Me.CancelBtn.TabIndex = 43
+        Me.CancelBtn.Text = "Cancel"
+        Me.CancelBtn.UseVisualStyleBackColor = True
+        '
+        'SaveBtn
+        '
+        Me.SaveBtn.Location = New System.Drawing.Point(118, 264)
+        Me.SaveBtn.Name = "SaveBtn"
+        Me.SaveBtn.Size = New System.Drawing.Size(75, 23)
+        Me.SaveBtn.TabIndex = 42
+        Me.SaveBtn.Text = "Save"
+        Me.SaveBtn.UseVisualStyleBackColor = True
         '
         'TxtOptionDescription
         '
@@ -595,15 +615,6 @@ Partial Class FrmKodiBuddy
         Me.LblFolderCount.TabIndex = 24
         Me.LblFolderCount.Text = "Folder Count:"
         '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(118, 264)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 42
-        Me.Button1.Text = "Save"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'FrmKodiBuddy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -686,5 +697,6 @@ Partial Class FrmKodiBuddy
     Friend WithEvents TxtDescription As TextBox
     Friend WithEvents TxtOptionDescription As TextBox
     Friend WithEvents TxtTVDescription As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents SaveBtn As Button
+    Friend WithEvents CancelBtn As Button
 End Class

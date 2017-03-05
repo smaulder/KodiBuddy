@@ -4,11 +4,12 @@ Imports System.IO
 Public Class FrmMasterList
 
     Public Dirs() As String
+    Public KodiSettings As Common.KodiBuddyData = Common.Functions.LoadXML()
 
     Private Sub FrmMasterList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim rootDir As String = String.Empty
 
-        rootDir = My.Settings.MoviePath
+        rootDir = KodiSettings.MoviePath
         TreeView1.Nodes.Add(rootDir, rootDir, 1)
         PopulateTreeView(rootDir, TreeView1.Nodes(0))
         TreeView1.Nodes(0).Expand()

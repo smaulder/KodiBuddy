@@ -40,7 +40,6 @@ Public Class FrmKodiBuddy
         FolderBrowserDialog.ShowDialog()
         txtFolderPath.Text = FolderBrowserDialog.SelectedPath
         KodiSettings.MoviePath = FolderBrowserDialog.SelectedPath
-        SaveXML(KodiSettings)
     End Sub
 
     Private Sub BtnSelectImportFolder_Click(sender As Object, e As EventArgs) Handles BtnSelectImportFolder.Click
@@ -48,33 +47,28 @@ Public Class FrmKodiBuddy
         FolderBrowserDialog.ShowDialog()
         TxtImportFolder.Text = FolderBrowserDialog.SelectedPath
         KodiSettings.MovieImportPath = FolderBrowserDialog.SelectedPath
-        SaveXML(KodiSettings)
     End Sub
 
     Private Sub txtFolderPath_TextChanged(sender As Object, e As EventArgs) Handles txtFolderPath.TextChanged
         If KodiSettings.MoviePath <> txtFolderPath.Text Then
             KodiSettings.MoviePath = txtFolderPath.Text
-            SaveXML(KodiSettings)
         End If
     End Sub
 
     Private Sub TxtImportFolder_TextChanged(sender As Object, e As EventArgs) Handles TxtImportFolder.TextChanged
         If KodiSettings.MovieImportPath = txtFolderPath.Text Then
             KodiSettings.MovieImportPath = txtFolderPath.Text
-            SaveXML(KodiSettings)
         End If
     End Sub
 
     Private Sub CbxGenres_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CbxGenres.SelectedIndexChanged
         KodiSettings.NoOfGenres = CType(CbxGenres.SelectedItem, String)
-        SaveXML(KodiSettings)
     End Sub
 
     Private Sub CbxUseGenres_CheckedChanged(sender As Object, e As EventArgs) Handles CbxUseGenres.CheckedChanged
         If CbxUseGenres.Checked And CbxUseYear.Checked Then
             CbxUseYear.Checked = False
             KodiSettings.GenreOrYear = "1"
-            SaveXML(KodiSettings)
         End If
     End Sub
 
@@ -90,9 +84,7 @@ Public Class FrmKodiBuddy
 #End Region
 
     Private Sub FrmKodiBuddy_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Load settings from settings in app.config 
-        ' KodiSettings = LoadXML()
-
+        'Load settings from settings from XML
         TxtImportFolder.Text = KodiSettings.MovieImportPath
         txtFolderPath.Text = KodiSettings.MoviePath
         TxtTVImportFolder.Text = KodiSettings.TVImportPath
@@ -940,7 +932,6 @@ Public Class FrmKodiBuddy
         FolderBrowserDialog.ShowDialog()
         TxtTVImportFolder.Text = FolderBrowserDialog.SelectedPath
         KodiSettings.TVImportPath = FolderBrowserDialog.SelectedPath
-        SaveXML(KodiSettings)
     End Sub
 
     Private Sub BtnSelectTVFolder_Click(sender As Object, e As EventArgs) Handles BtnSelectTVFolder.Click
@@ -948,20 +939,17 @@ Public Class FrmKodiBuddy
         FolderBrowserDialog.ShowDialog()
         txtTVFolderPath.Text = FolderBrowserDialog.SelectedPath
         KodiSettings.TVPath = FolderBrowserDialog.SelectedPath
-        SaveXML(KodiSettings)
     End Sub
 
     Private Sub txtTVFolderPath_TextChanged(sender As Object, e As EventArgs) Handles txtTVFolderPath.TextChanged
         If KodiSettings.TVPath <> txtTVFolderPath.Text Then
             KodiSettings.TVPath = txtTVFolderPath.Text
-            SaveXML(KodiSettings)
         End If
     End Sub
 
     Private Sub TxtTVImportFolder_TextChanged(sender As Object, e As EventArgs) Handles TxtTVImportFolder.TextChanged
         If KodiSettings.TVImportPath <> TxtTVImportFolder.Text Then
             KodiSettings.TVImportPath = TxtTVImportFolder.Text
-            SaveXML(KodiSettings)
         End If
     End Sub
 
@@ -1006,66 +994,37 @@ Public Class FrmKodiBuddy
 
     End Sub
 
-    Private Sub SaveXML(ByVal KodiSettings As Common.KodiBuddyData)
-        Dim doc As New XmlDocument()
-        Dim docNode As XmlNode = doc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
-        doc.AppendChild(docNode)
+    Private Sub SaveBtn_Click(sender As Object, e As EventArgs) Handles SaveBtn.Click
 
-        Dim KodiBuddyInfo As XmlNode = doc.CreateElement("KodiBuddyInfo")
-        Dim KodiBuddyAttribute As XmlAttribute = doc.CreateAttribute("MoviePath")
-        KodiBuddyAttribute.Value = KodiSettings.MoviePath
-        KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
-
-        KodiBuddyAttribute = doc.CreateAttribute("MovieImportPath")
-        KodiBuddyAttribute.Value = KodiSettings.MovieImportPath
-        KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
-
-        KodiBuddyAttribute = doc.CreateAttribute("NoOfGenres")
-        KodiBuddyAttribute.Value = KodiSettings.NoOfGenres
-        KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
-
-        KodiBuddyAttribute = doc.CreateAttribute("GenreOrYear")
-        KodiBuddyAttribute.Value = KodiSettings.GenreOrYear
-        KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
-
-        KodiBuddyAttribute = doc.CreateAttribute("TVPath")
-        KodiBuddyAttribute.Value = KodiSettings.TVPath
-        KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
-
-        KodiBuddyAttribute = doc.CreateAttribute("TVImportPath")
-        KodiBuddyAttribute.Value = KodiSettings.TVImportPath
-        KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
-
-        doc.AppendChild(KodiBuddyInfo)
-        If (Not System.IO.Directory.Exists(Application.StartupPath)) Then
-            System.IO.Directory.CreateDirectory(Application.StartupPath)
+        KodiSettings.MovieImportPath = TxtImportFolder.Text
+        KodiSettings.MoviePath = txtFolderPath.Text
+        KodiSettings.TVImportPath = TxtTVImportFolder.Text
+        KodiSettings.TVPath = txtTVFolderPath.Text
+        KodiSettings.NoOfGenres = CbxGenres.SelectedItem.ToString()
+        If CbxUseYear.Checked = True Then
+            KodiSettings.GenreOrYear = "2"
+        Else
+            KodiSettings.GenreOrYear = "1"
         End If
-
-        doc.Save(Application.StartupPath & "\KodiBuddyInfo.xml")
-
-    End Sub
-    Private Function LoadXML() As Common.KodiBuddyData
-        Dim output As New Common.KodiBuddyData()
-        Dim doc As New XmlDocument()
-
-        doc.Load(Application.StartupPath & "\KodiBuddyInfo.xml")
-
-        Dim root As XmlElement = doc.DocumentElement
-
-        output.MoviePath = root.Attributes("MoviePath").Value
-        output.MovieImportPath = root.Attributes("MovieImportPath").Value
-        output.NoOfGenres = root.Attributes("NoOfGenres").Value
-        output.TVImportPath = root.Attributes("TVImportPath").Value
-        output.GenreOrYear = root.Attributes("GenreOrYear").Value
-        output.TVPath = root.Attributes("TVPath").Value
-
-        Return output
-    End Function
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-
         SaveXML(KodiSettings)
+    End Sub
 
+    Private Sub CancelBtn_Click(sender As Object, e As EventArgs) Handles CancelBtn.Click
+        KodiSettings = LoadXML()
+        TxtImportFolder.Text = KodiSettings.MovieImportPath
+        txtFolderPath.Text = KodiSettings.MoviePath
+        TxtTVImportFolder.Text = KodiSettings.TVImportPath
+        txtTVFolderPath.Text = KodiSettings.TVPath
+        CbxGenres.Items.Add("1")
+        CbxGenres.Items.Add("2")
+        CbxGenres.Items.Add("3")
+        CbxGenres.Items.Add("4")
+        CbxGenres.SelectedItem = KodiSettings.NoOfGenres
+        If KodiSettings.GenreOrYear = "2" Then
+            CbxUseYear.Checked = True
+        Else
+            CbxUseGenres.Checked = True
+        End If
     End Sub
 
 #End Region

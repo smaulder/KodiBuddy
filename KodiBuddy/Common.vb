@@ -4,6 +4,62 @@ Imports System.Xml
 Namespace Common
 
     Public Class Functions
+
+        Public Shared Sub SaveXML(ByVal KodiSettings As Common.KodiBuddyData)
+            Dim doc As New XmlDocument()
+            Dim docNode As XmlNode = doc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
+            doc.AppendChild(docNode)
+
+            Dim KodiBuddyInfo As XmlNode = doc.CreateElement("KodiBuddyInfo")
+            Dim KodiBuddyAttribute As XmlAttribute = doc.CreateAttribute("MoviePath")
+            KodiBuddyAttribute.Value = KodiSettings.MoviePath
+            KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
+
+            KodiBuddyAttribute = doc.CreateAttribute("MovieImportPath")
+            KodiBuddyAttribute.Value = KodiSettings.MovieImportPath
+            KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
+
+            KodiBuddyAttribute = doc.CreateAttribute("NoOfGenres")
+            KodiBuddyAttribute.Value = KodiSettings.NoOfGenres
+            KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
+
+            KodiBuddyAttribute = doc.CreateAttribute("GenreOrYear")
+            KodiBuddyAttribute.Value = KodiSettings.GenreOrYear
+            KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
+
+            KodiBuddyAttribute = doc.CreateAttribute("TVPath")
+            KodiBuddyAttribute.Value = KodiSettings.TVPath
+            KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
+
+            KodiBuddyAttribute = doc.CreateAttribute("TVImportPath")
+            KodiBuddyAttribute.Value = KodiSettings.TVImportPath
+            KodiBuddyInfo.Attributes.Append(KodiBuddyAttribute)
+
+            doc.AppendChild(KodiBuddyInfo)
+            If (Not System.IO.Directory.Exists(Application.StartupPath)) Then
+                System.IO.Directory.CreateDirectory(Application.StartupPath)
+            End If
+
+            doc.Save(Application.StartupPath & "\KodiBuddyInfo.xml")
+
+        End Sub
+        Public Shared Function LoadXML() As Common.KodiBuddyData
+            Dim output As New Common.KodiBuddyData()
+            Dim doc As New XmlDocument()
+
+            doc.Load(Application.StartupPath & "\KodiBuddyInfo.xml")
+
+            Dim root As XmlElement = doc.DocumentElement
+
+            output.MoviePath = root.Attributes("MoviePath").Value
+            output.MovieImportPath = root.Attributes("MovieImportPath").Value
+            output.NoOfGenres = root.Attributes("NoOfGenres").Value
+            output.TVImportPath = root.Attributes("TVImportPath").Value
+            output.GenreOrYear = root.Attributes("GenreOrYear").Value
+            output.TVPath = root.Attributes("TVPath").Value
+
+            Return output
+        End Function
         Public Shared Function getAllFolders(ByVal directory As String, ByRef TxtErrorMessage As TextBox) As String()
             'Create object
             Dim fi As New IO.DirectoryInfo(directory)
@@ -32,7 +88,11 @@ Namespace Common
                     End If
                 Next
             Catch ex As Exception
-                TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
+                If InStr(ex.Message, "Could not find a part of the path") > 0 Then
+                    TxtErrorMessage.Text = "No files found to process."
+                Else
+                    TxtErrorMessage.Text = ex.Message & vbCrLf & TxtErrorMessage.Text
+                End If
             End Try
 
             Return path
