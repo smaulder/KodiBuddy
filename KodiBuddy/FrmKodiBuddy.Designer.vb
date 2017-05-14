@@ -39,28 +39,11 @@ Partial Class FrmKodiBuddy
         Me.BtnMovieFileReName = New System.Windows.Forms.Button()
         Me.BtnVideoImport = New System.Windows.Forms.Button()
         Me.BtnCancel = New System.Windows.Forms.Button()
-        Me.TabTV = New System.Windows.Forms.TabPage()
-        Me.TxtTVDescription = New System.Windows.Forms.TextBox()
-        Me.BtnTVMasterList = New System.Windows.Forms.Button()
-        Me.LblTVFolderCounts = New System.Windows.Forms.Label()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.TxtTVProcessed = New System.Windows.Forms.TextBox()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.TxtTVError = New System.Windows.Forms.TextBox()
-        Me.LblTVCurrentDir = New System.Windows.Forms.Label()
-        Me.BtnTVReMap = New System.Windows.Forms.Button()
-        Me.BtnTvReName = New System.Windows.Forms.Button()
-        Me.BtnTVImport = New System.Windows.Forms.Button()
-        Me.BtnTVExit = New System.Windows.Forms.Button()
         Me.TabOptions = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.CancelBtn = New System.Windows.Forms.Button()
         Me.SaveBtn = New System.Windows.Forms.Button()
         Me.TxtOptionDescription = New System.Windows.Forms.TextBox()
-        Me.TxtTVImportFolder = New System.Windows.Forms.TextBox()
-        Me.BtnSelectImportTVFolder = New System.Windows.Forms.Button()
-        Me.LblTVImportFolder = New System.Windows.Forms.Label()
         Me.txtTVFolderPath = New System.Windows.Forms.TextBox()
         Me.BtnSelectTVFolder = New System.Windows.Forms.Button()
         Me.LblTVOutputFolder = New System.Windows.Forms.Label()
@@ -71,7 +54,7 @@ Partial Class FrmKodiBuddy
         Me.TxtImportFolder = New System.Windows.Forms.TextBox()
         Me.BtnSelectImportFolder = New System.Windows.Forms.Button()
         Me.LblImportFolder = New System.Windows.Forms.Label()
-        Me.txtFolderPath = New System.Windows.Forms.TextBox()
+        Me.txtMovieFolderPath = New System.Windows.Forms.TextBox()
         Me.BtnSelectFolder = New System.Windows.Forms.Button()
         Me.LblRecordCount = New System.Windows.Forms.Label()
         Me.LblMovieFolder = New System.Windows.Forms.Label()
@@ -82,10 +65,6 @@ Partial Class FrmKodiBuddy
         Me.ErrorTabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
-        Me.TabTV.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
-        Me.TabPage4.SuspendLayout()
         Me.TabOptions.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -93,7 +72,6 @@ Partial Class FrmKodiBuddy
         'TabControl
         '
         Me.TabControl.Controls.Add(Me.TabExecute)
-        Me.TabControl.Controls.Add(Me.TabTV)
         Me.TabControl.Controls.Add(Me.TabOptions)
         Me.TabControl.Location = New System.Drawing.Point(12, 13)
         Me.TabControl.Name = "TabControl"
@@ -109,7 +87,7 @@ Partial Class FrmKodiBuddy
         Me.TabExecute.Padding = New System.Windows.Forms.Padding(3)
         Me.TabExecute.Size = New System.Drawing.Size(782, 336)
         Me.TabExecute.TabIndex = 0
-        Me.TabExecute.Text = "Movies"
+        Me.TabExecute.Text = "KodiBuddy"
         Me.TabExecute.UseVisualStyleBackColor = True
         '
         'Panel2
@@ -250,147 +228,6 @@ Partial Class FrmKodiBuddy
         Me.BtnCancel.Text = "Exit"
         Me.BtnCancel.UseVisualStyleBackColor = True
         '
-        'TabTV
-        '
-        Me.TabTV.Controls.Add(Me.TxtTVDescription)
-        Me.TabTV.Controls.Add(Me.BtnTVMasterList)
-        Me.TabTV.Controls.Add(Me.LblTVFolderCounts)
-        Me.TabTV.Controls.Add(Me.TabControl1)
-        Me.TabTV.Controls.Add(Me.LblTVCurrentDir)
-        Me.TabTV.Controls.Add(Me.BtnTVReMap)
-        Me.TabTV.Controls.Add(Me.BtnTvReName)
-        Me.TabTV.Controls.Add(Me.BtnTVImport)
-        Me.TabTV.Controls.Add(Me.BtnTVExit)
-        Me.TabTV.Location = New System.Drawing.Point(4, 22)
-        Me.TabTV.Name = "TabTV"
-        Me.TabTV.Size = New System.Drawing.Size(782, 336)
-        Me.TabTV.TabIndex = 2
-        Me.TabTV.Text = "TV"
-        Me.TabTV.UseVisualStyleBackColor = True
-        '
-        'TxtTVDescription
-        '
-        Me.TxtTVDescription.BackColor = System.Drawing.Color.White
-        Me.TxtTVDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TxtTVDescription.Cursor = System.Windows.Forms.Cursors.No
-        Me.TxtTVDescription.Enabled = False
-        Me.TxtTVDescription.Location = New System.Drawing.Point(152, 252)
-        Me.TxtTVDescription.Multiline = True
-        Me.TxtTVDescription.Name = "TxtTVDescription"
-        Me.TxtTVDescription.Size = New System.Drawing.Size(619, 69)
-        Me.TxtTVDescription.TabIndex = 42
-        '
-        'BtnTVMasterList
-        '
-        Me.BtnTVMasterList.Location = New System.Drawing.Point(22, 114)
-        Me.BtnTVMasterList.Name = "BtnTVMasterList"
-        Me.BtnTVMasterList.Size = New System.Drawing.Size(122, 23)
-        Me.BtnTVMasterList.TabIndex = 38
-        Me.BtnTVMasterList.Text = "Master List"
-        Me.BtnTVMasterList.UseVisualStyleBackColor = True
-        '
-        'LblTVFolderCounts
-        '
-        Me.LblTVFolderCounts.AutoSize = True
-        Me.LblTVFolderCounts.Location = New System.Drawing.Point(154, 218)
-        Me.LblTVFolderCounts.Name = "LblTVFolderCounts"
-        Me.LblTVFolderCounts.Size = New System.Drawing.Size(0, 13)
-        Me.LblTVFolderCounts.TabIndex = 36
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Controls.Add(Me.TabPage4)
-        Me.TabControl1.Location = New System.Drawing.Point(152, 5)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(619, 210)
-        Me.TabControl1.TabIndex = 35
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.TxtTVProcessed)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(611, 184)
-        Me.TabPage3.TabIndex = 0
-        Me.TabPage3.Text = "Processed"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'TxtTVProcessed
-        '
-        Me.TxtTVProcessed.Location = New System.Drawing.Point(1, 3)
-        Me.TxtTVProcessed.Multiline = True
-        Me.TxtTVProcessed.Name = "TxtTVProcessed"
-        Me.TxtTVProcessed.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TxtTVProcessed.Size = New System.Drawing.Size(607, 178)
-        Me.TxtTVProcessed.TabIndex = 23
-        '
-        'TabPage4
-        '
-        Me.TabPage4.Controls.Add(Me.TxtTVError)
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(611, 184)
-        Me.TabPage4.TabIndex = 1
-        Me.TabPage4.Text = "Errors"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'TxtTVError
-        '
-        Me.TxtTVError.Location = New System.Drawing.Point(2, 2)
-        Me.TxtTVError.Multiline = True
-        Me.TxtTVError.Name = "TxtTVError"
-        Me.TxtTVError.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TxtTVError.Size = New System.Drawing.Size(607, 175)
-        Me.TxtTVError.TabIndex = 23
-        '
-        'LblTVCurrentDir
-        '
-        Me.LblTVCurrentDir.AutoSize = True
-        Me.LblTVCurrentDir.Location = New System.Drawing.Point(161, 216)
-        Me.LblTVCurrentDir.Name = "LblTVCurrentDir"
-        Me.LblTVCurrentDir.Size = New System.Drawing.Size(0, 13)
-        Me.LblTVCurrentDir.TabIndex = 34
-        '
-        'BtnTVReMap
-        '
-        Me.BtnTVReMap.Location = New System.Drawing.Point(22, 56)
-        Me.BtnTVReMap.Name = "BtnTVReMap"
-        Me.BtnTVReMap.Size = New System.Drawing.Size(122, 23)
-        Me.BtnTVReMap.TabIndex = 33
-        Me.BtnTVReMap.Text = "ReMap Folders"
-        Me.BtnTVReMap.UseVisualStyleBackColor = True
-        '
-        'BtnTvReName
-        '
-        Me.BtnTvReName.Location = New System.Drawing.Point(22, 85)
-        Me.BtnTvReName.Name = "BtnTvReName"
-        Me.BtnTvReName.Size = New System.Drawing.Size(122, 23)
-        Me.BtnTvReName.TabIndex = 32
-        Me.BtnTvReName.Text = "FileReName"
-        Me.BtnTvReName.UseVisualStyleBackColor = True
-        '
-        'BtnTVImport
-        '
-        Me.BtnTVImport.Location = New System.Drawing.Point(22, 27)
-        Me.BtnTVImport.Name = "BtnTVImport"
-        Me.BtnTVImport.Size = New System.Drawing.Size(122, 23)
-        Me.BtnTVImport.TabIndex = 31
-        Me.BtnTVImport.Text = "Video Import"
-        Me.BtnTVImport.UseVisualStyleBackColor = True
-        '
-        'BtnTVExit
-        '
-        Me.BtnTVExit.Location = New System.Drawing.Point(22, 143)
-        Me.BtnTVExit.Name = "BtnTVExit"
-        Me.BtnTVExit.Size = New System.Drawing.Size(122, 23)
-        Me.BtnTVExit.TabIndex = 30
-        Me.BtnTVExit.Text = "Exit"
-        Me.BtnTVExit.UseVisualStyleBackColor = True
-        '
         'TabOptions
         '
         Me.TabOptions.Controls.Add(Me.Panel1)
@@ -407,9 +244,6 @@ Partial Class FrmKodiBuddy
         Me.Panel1.Controls.Add(Me.CancelBtn)
         Me.Panel1.Controls.Add(Me.SaveBtn)
         Me.Panel1.Controls.Add(Me.TxtOptionDescription)
-        Me.Panel1.Controls.Add(Me.TxtTVImportFolder)
-        Me.Panel1.Controls.Add(Me.BtnSelectImportTVFolder)
-        Me.Panel1.Controls.Add(Me.LblTVImportFolder)
         Me.Panel1.Controls.Add(Me.txtTVFolderPath)
         Me.Panel1.Controls.Add(Me.BtnSelectTVFolder)
         Me.Panel1.Controls.Add(Me.LblTVOutputFolder)
@@ -420,7 +254,7 @@ Partial Class FrmKodiBuddy
         Me.Panel1.Controls.Add(Me.TxtImportFolder)
         Me.Panel1.Controls.Add(Me.BtnSelectImportFolder)
         Me.Panel1.Controls.Add(Me.LblImportFolder)
-        Me.Panel1.Controls.Add(Me.txtFolderPath)
+        Me.Panel1.Controls.Add(Me.txtMovieFolderPath)
         Me.Panel1.Controls.Add(Me.BtnSelectFolder)
         Me.Panel1.Controls.Add(Me.LblRecordCount)
         Me.Panel1.Controls.Add(Me.LblMovieFolder)
@@ -432,7 +266,7 @@ Partial Class FrmKodiBuddy
         '
         'CancelBtn
         '
-        Me.CancelBtn.Location = New System.Drawing.Point(222, 263)
+        Me.CancelBtn.Location = New System.Drawing.Point(223, 218)
         Me.CancelBtn.Name = "CancelBtn"
         Me.CancelBtn.Size = New System.Drawing.Size(75, 23)
         Me.CancelBtn.TabIndex = 43
@@ -441,7 +275,7 @@ Partial Class FrmKodiBuddy
         '
         'SaveBtn
         '
-        Me.SaveBtn.Location = New System.Drawing.Point(118, 264)
+        Me.SaveBtn.Location = New System.Drawing.Point(119, 219)
         Me.SaveBtn.Name = "SaveBtn"
         Me.SaveBtn.Size = New System.Drawing.Size(75, 23)
         Me.SaveBtn.TabIndex = 42
@@ -454,36 +288,11 @@ Partial Class FrmKodiBuddy
         Me.TxtOptionDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TxtOptionDescription.Cursor = System.Windows.Forms.Cursors.No
         Me.TxtOptionDescription.Enabled = False
-        Me.TxtOptionDescription.Location = New System.Drawing.Point(118, 251)
+        Me.TxtOptionDescription.Location = New System.Drawing.Point(119, 206)
         Me.TxtOptionDescription.Multiline = True
         Me.TxtOptionDescription.Name = "TxtOptionDescription"
         Me.TxtOptionDescription.Size = New System.Drawing.Size(635, 69)
         Me.TxtOptionDescription.TabIndex = 41
-        '
-        'TxtTVImportFolder
-        '
-        Me.TxtTVImportFolder.Location = New System.Drawing.Point(118, 133)
-        Me.TxtTVImportFolder.Name = "TxtTVImportFolder"
-        Me.TxtTVImportFolder.Size = New System.Drawing.Size(314, 20)
-        Me.TxtTVImportFolder.TabIndex = 39
-        '
-        'BtnSelectImportTVFolder
-        '
-        Me.BtnSelectImportTVFolder.Location = New System.Drawing.Point(435, 133)
-        Me.BtnSelectImportTVFolder.Name = "BtnSelectImportTVFolder"
-        Me.BtnSelectImportTVFolder.Size = New System.Drawing.Size(21, 23)
-        Me.BtnSelectImportTVFolder.TabIndex = 38
-        Me.BtnSelectImportTVFolder.Text = "..."
-        Me.BtnSelectImportTVFolder.UseVisualStyleBackColor = True
-        '
-        'LblTVImportFolder
-        '
-        Me.LblTVImportFolder.AutoSize = True
-        Me.LblTVImportFolder.Location = New System.Drawing.Point(6, 136)
-        Me.LblTVImportFolder.Name = "LblTVImportFolder"
-        Me.LblTVImportFolder.Size = New System.Drawing.Size(88, 13)
-        Me.LblTVImportFolder.TabIndex = 40
-        Me.LblTVImportFolder.Text = "TV Import Folder:"
         '
         'txtTVFolderPath
         '
@@ -513,7 +322,7 @@ Partial Class FrmKodiBuddy
         'CbxUseYear
         '
         Me.CbxUseYear.AutoSize = True
-        Me.CbxUseYear.Location = New System.Drawing.Point(9, 238)
+        Me.CbxUseYear.Location = New System.Drawing.Point(10, 193)
         Me.CbxUseYear.Name = "CbxUseYear"
         Me.CbxUseYear.Size = New System.Drawing.Size(70, 17)
         Me.CbxUseYear.TabIndex = 34
@@ -523,7 +332,7 @@ Partial Class FrmKodiBuddy
         'CbxUseGenres
         '
         Me.CbxUseGenres.AutoSize = True
-        Me.CbxUseGenres.Location = New System.Drawing.Point(10, 190)
+        Me.CbxUseGenres.Location = New System.Drawing.Point(11, 145)
         Me.CbxUseGenres.Name = "CbxUseGenres"
         Me.CbxUseGenres.Size = New System.Drawing.Size(82, 17)
         Me.CbxUseGenres.TabIndex = 33
@@ -534,7 +343,7 @@ Partial Class FrmKodiBuddy
         '
         Me.CbxGenres.AutoCompleteCustomSource.AddRange(New String() {"1", "2", "3", "4"})
         Me.CbxGenres.FormattingEnabled = True
-        Me.CbxGenres.Location = New System.Drawing.Point(158, 207)
+        Me.CbxGenres.Location = New System.Drawing.Point(159, 162)
         Me.CbxGenres.Name = "CbxGenres"
         Me.CbxGenres.Size = New System.Drawing.Size(121, 21)
         Me.CbxGenres.TabIndex = 32
@@ -542,7 +351,7 @@ Partial Class FrmKodiBuddy
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(7, 210)
+        Me.Label1.Location = New System.Drawing.Point(8, 165)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(128, 13)
         Me.Label1.TabIndex = 31
@@ -550,14 +359,14 @@ Partial Class FrmKodiBuddy
         '
         'TxtImportFolder
         '
-        Me.TxtImportFolder.Location = New System.Drawing.Point(118, 49)
+        Me.TxtImportFolder.Location = New System.Drawing.Point(118, 13)
         Me.TxtImportFolder.Name = "TxtImportFolder"
         Me.TxtImportFolder.Size = New System.Drawing.Size(314, 20)
         Me.TxtImportFolder.TabIndex = 29
         '
         'BtnSelectImportFolder
         '
-        Me.BtnSelectImportFolder.Location = New System.Drawing.Point(435, 49)
+        Me.BtnSelectImportFolder.Location = New System.Drawing.Point(435, 13)
         Me.BtnSelectImportFolder.Name = "BtnSelectImportFolder"
         Me.BtnSelectImportFolder.Size = New System.Drawing.Size(21, 23)
         Me.BtnSelectImportFolder.TabIndex = 28
@@ -567,22 +376,22 @@ Partial Class FrmKodiBuddy
         'LblImportFolder
         '
         Me.LblImportFolder.AutoSize = True
-        Me.LblImportFolder.Location = New System.Drawing.Point(6, 52)
+        Me.LblImportFolder.Location = New System.Drawing.Point(6, 16)
         Me.LblImportFolder.Name = "LblImportFolder"
-        Me.LblImportFolder.Size = New System.Drawing.Size(103, 13)
+        Me.LblImportFolder.Size = New System.Drawing.Size(71, 13)
         Me.LblImportFolder.TabIndex = 30
-        Me.LblImportFolder.Text = "Movie Import Folder:"
+        Me.LblImportFolder.Text = "Import Folder:"
         '
-        'txtFolderPath
+        'txtMovieFolderPath
         '
-        Me.txtFolderPath.Location = New System.Drawing.Point(118, 9)
-        Me.txtFolderPath.Name = "txtFolderPath"
-        Me.txtFolderPath.Size = New System.Drawing.Size(314, 20)
-        Me.txtFolderPath.TabIndex = 22
+        Me.txtMovieFolderPath.Location = New System.Drawing.Point(118, 51)
+        Me.txtMovieFolderPath.Name = "txtMovieFolderPath"
+        Me.txtMovieFolderPath.Size = New System.Drawing.Size(314, 20)
+        Me.txtMovieFolderPath.TabIndex = 22
         '
         'BtnSelectFolder
         '
-        Me.BtnSelectFolder.Location = New System.Drawing.Point(435, 9)
+        Me.BtnSelectFolder.Location = New System.Drawing.Point(435, 51)
         Me.BtnSelectFolder.Name = "BtnSelectFolder"
         Me.BtnSelectFolder.Size = New System.Drawing.Size(21, 23)
         Me.BtnSelectFolder.TabIndex = 21
@@ -592,7 +401,7 @@ Partial Class FrmKodiBuddy
         'LblRecordCount
         '
         Me.LblRecordCount.AutoSize = True
-        Me.LblRecordCount.Location = New System.Drawing.Point(82, 152)
+        Me.LblRecordCount.Location = New System.Drawing.Point(83, 107)
         Me.LblRecordCount.Name = "LblRecordCount"
         Me.LblRecordCount.Size = New System.Drawing.Size(0, 13)
         Me.LblRecordCount.TabIndex = 25
@@ -600,7 +409,7 @@ Partial Class FrmKodiBuddy
         'LblMovieFolder
         '
         Me.LblMovieFolder.AutoSize = True
-        Me.LblMovieFolder.Location = New System.Drawing.Point(6, 12)
+        Me.LblMovieFolder.Location = New System.Drawing.Point(6, 54)
         Me.LblMovieFolder.Name = "LblMovieFolder"
         Me.LblMovieFolder.Size = New System.Drawing.Size(106, 13)
         Me.LblMovieFolder.TabIndex = 23
@@ -609,7 +418,7 @@ Partial Class FrmKodiBuddy
         'LblFolderCount
         '
         Me.LblFolderCount.AutoSize = True
-        Me.LblFolderCount.Location = New System.Drawing.Point(6, 168)
+        Me.LblFolderCount.Location = New System.Drawing.Point(7, 123)
         Me.LblFolderCount.Name = "LblFolderCount"
         Me.LblFolderCount.Size = New System.Drawing.Size(70, 13)
         Me.LblFolderCount.TabIndex = 24
@@ -632,13 +441,6 @@ Partial Class FrmKodiBuddy
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        Me.TabTV.ResumeLayout(False)
-        Me.TabTV.PerformLayout()
-        Me.TabControl1.ResumeLayout(False)
-        Me.TabPage3.ResumeLayout(False)
-        Me.TabPage3.PerformLayout()
-        Me.TabPage4.ResumeLayout(False)
-        Me.TabPage4.PerformLayout()
         Me.TabOptions.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
@@ -656,7 +458,7 @@ Partial Class FrmKodiBuddy
     Friend WithEvents TxtImportFolder As TextBox
     Friend WithEvents BtnSelectImportFolder As Button
     Friend WithEvents LblImportFolder As Label
-    Friend WithEvents txtFolderPath As TextBox
+    Friend WithEvents txtMovieFolderPath As TextBox
     Friend WithEvents BtnSelectFolder As Button
     Friend WithEvents LblRecordCount As Label
     Friend WithEvents LblMovieFolder As Label
@@ -675,28 +477,11 @@ Partial Class FrmKodiBuddy
     Friend WithEvents TxtErrorMessage As TextBox
     Friend WithEvents LblFolderCounts As Label
     Friend WithEvents BtnMasterList As Button
-    Friend WithEvents TabTV As TabPage
-    Friend WithEvents BtnTVMasterList As Button
-    Friend WithEvents LblTVFolderCounts As Label
-    Friend WithEvents TabControl1 As TabControl
-    Friend WithEvents TabPage3 As TabPage
-    Friend WithEvents TxtTVProcessed As TextBox
-    Friend WithEvents TabPage4 As TabPage
-    Friend WithEvents TxtTVError As TextBox
-    Friend WithEvents LblTVCurrentDir As Label
-    Friend WithEvents BtnTVReMap As Button
-    Friend WithEvents BtnTvReName As Button
-    Friend WithEvents BtnTVImport As Button
-    Friend WithEvents BtnTVExit As Button
-    Friend WithEvents TxtTVImportFolder As TextBox
-    Friend WithEvents BtnSelectImportTVFolder As Button
-    Friend WithEvents LblTVImportFolder As Label
     Friend WithEvents txtTVFolderPath As TextBox
     Friend WithEvents BtnSelectTVFolder As Button
     Friend WithEvents LblTVOutputFolder As Label
     Friend WithEvents TxtDescription As TextBox
     Friend WithEvents TxtOptionDescription As TextBox
-    Friend WithEvents TxtTVDescription As TextBox
     Friend WithEvents SaveBtn As Button
     Friend WithEvents CancelBtn As Button
 End Class

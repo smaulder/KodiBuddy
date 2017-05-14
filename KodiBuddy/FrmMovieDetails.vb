@@ -26,11 +26,11 @@ Public Class FrmMovieDetails
         Dim movieyear As String = ""
         Dim TxtErrorMessage As New TextBox
 
-        Dim pMovieInfo As Common.MovieInfo = getMovieInfo(DirectoryPath, movieyear, TxtErrorMessage)
+        Dim pMovieInfo As Common.Info = getMovieInfo(2, DirectoryPath, movieyear, TxtErrorMessage)
         If pMovieInfo.Success Then
 
-            MovieNameLbl.Text = pMovieInfo.MovieName
-            MovieIDLbl.Text = pMovieInfo.MovieID
+            MovieNameLbl.Text = pMovieInfo.Name
+            MovieIDLbl.Text = pMovieInfo.ID
             YearLbl.Text = pMovieInfo.ReleaseYear
             OverviewTxt.Text = pMovieInfo.Overview.Replace("&hellip;", "...")
 

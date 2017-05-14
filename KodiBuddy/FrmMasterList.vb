@@ -9,7 +9,7 @@ Public Class FrmMasterList
     Private Sub FrmMasterList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim rootDir As String = String.Empty
 
-        rootDir = KodiSettings.MoviePath
+        rootDir = KodiSettings.MovieOutPutPath
         TreeView1.Nodes.Add(rootDir, rootDir, 1)
         PopulateTreeView(rootDir, TreeView1.Nodes(0))
         TreeView1.Nodes(0).Expand()
@@ -43,7 +43,7 @@ Public Class FrmMasterList
                             Else
                                 childNode = New TreeNode(MovieName, 1, 1)
                             End If
-                            Common.Functions.getMovieInfo(folder, getMovieYear(folder, TxtErrorMessage), TxtErrorMessage)
+                            Common.Functions.getMovieInfo(2, folder, getMovieYear(folder, TxtErrorMessage), TxtErrorMessage)
                             parentNode.Nodes.Add(childNode)
                             PopulateTreeView(folder, childNode)
                         End If
